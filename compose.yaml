@@ -1,0 +1,70 @@
+services:
+# TODO DOCKER IGNORE
+# TODO - move to backend dockerfile to migrate automatically on launch, also add ENV vars to db/config/config.json
+  db:
+    image: mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB}
+    networks:
+      default:
+        ipv4_address: 172.28.0.1
+    volumes:
+        - ${MYSQL_DIR}:/var/lib/mysql
+  backend:
+    build: 
+      context: ./backend
+      args:
+        BUILD_ARG: ${BUILD_ARG}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      default:
+        ipv4_address: 172.28.0.2
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      TOKEN_SECRET: ${TOKEN_SECRET}
+      PATH_TO_CERT: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_CERT}
+      PATH_TO_KEY: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_KEY}
+      VERIFY_EMAIL: ${VERIFY_EMAIL}
+      IMAGE_BUCKET: ${IMAGE_BUCKET}
+      STORAGE_CLOUD_PROJECT: ${STORAGE_CLOUD_PROJECT}
+      MAILGUN_KEY: ${MAILGUN_KEY}
+      MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
+      HOST_DOMAIN: ${HOST_DOMAIN}
+      GOOGLE_APPLICATION_CREDENTIALS: ${MOUNTED_GCLOUD_CREDS_DIR}/${GCLOUD_CREDS_FILE}
+    volumes:
+      - ${LOCAL_CERT_DIR}:${MOUNTED_BACKEND_CERT_DIR}
+      - ${LOCAL_GCLOUD_CREDS_DIR}:${MOUNTED_GCLOUD_CREDS_DIR}
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        BUILD_ARG: ${BUILD_ARG}
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - db
+      - backend
+    networks:
+      default:
+        ipv4_address: 172.28.0.3
+    volumes:
+      - ${LOCAL_CERT_DIR}:${MOUNTED_FRONTEND_CERT_DIR}
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          ip_range: 172.28.5.0/24
+          gateway: 172.28.5.254
+          aux_addresses:
+            host1: 172.28.1.5
+            host2: 172.28.1.6
+            host3: 172.28.1.7
