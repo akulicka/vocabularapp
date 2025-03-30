@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Login from '../Pages/Login'
 import Register from "../Pages/Register";
 import Lists from '../Pages/Lists'
+import Dictionary from "../Pages/Dictionary";
 
 import { Verify, VerifyPrompt } from "../Pages/VerifyEmail";
 
@@ -14,8 +15,9 @@ function Routes ({user})  {
         <Box width='80%' alignItems={"center"} height="100vh" flexGrow={1} alignSelf='center'>
             {user ?
                 <RouterRoutes>
-                    <Route path ="/" element={<Lists/>}/>{/* TODO */}
-                    <Route path ="/:listId" element={() => <>list</> }/>
+                    <Route path ="/" element={<Lists/>}/>
+                    <Route path ="/dictionary" element={<Dictionary/> }/>
+                    <Route path ="/:listId" element={ <>list</> }/>
                 </RouterRoutes>:
                 <RouterRoutes>
                     <Route path ="/" element={<Login/>}/>
