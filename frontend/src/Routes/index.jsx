@@ -15,9 +15,7 @@ function Routes ({user})  {
         <Box width='80%' alignItems={"center"} height="100vh" flexGrow={1} alignSelf='center'>
             {user ?
                 <RouterRoutes>
-                    <Route path ="/" element={<Lists/>}/>
-                    <Route path ="/dictionary" element={<Dictionary/> }/>
-                    <Route path ="/:listId" element={ <>list</> }/>
+                    <Route path ="/" element={<Dictionary/>}/>
                 </RouterRoutes>:
                 <RouterRoutes>
                     <Route path ="/" element={<Login/>}/>

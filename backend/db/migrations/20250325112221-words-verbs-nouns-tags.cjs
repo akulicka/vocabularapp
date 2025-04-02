@@ -10,6 +10,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       tagName: {
+        unique: true,
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
@@ -19,6 +21,16 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      createdBy: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        references: {
+          model: {
+            tableName: 'users',
+          },
+          key: 'userId',
+        },
       }
     });
     await queryInterface.createTable('words', {

@@ -10,155 +10,136 @@ import { useNavigate } from "react-router";
 import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from "../../Enum/word.jsx";
 import Select from "@mui/material/Select";
 
+import IconButton from "@mui/material/IconButton";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import MenuItem from "@mui/material/MenuItem";
+import Dialog from "../../Components/Dialog/index.jsx";
+import {WordChip} from "../../Components/Chip";
+import WordFormDialog from "../../Components/WordForm/index.jsx";
 import map from 'lodash/map'
+import filter from 'lodash/filter'
+import Card  from "@mui/material/Card";
+import TagList from "../../Components/TagList/index.jsx";
+import WordList from "../../Components/WordList/index.jsx";
+import Add from '@mui/icons-material/Add'
+import Edit from '@mui/icons-material/Edit'
 
+import Grid2 from "@mui/material/Grid2";
+import Divider from "@mui/material/Divider";
 
-const INITIAL_NOUN_PROPS = {
-    nounType : TYPES_OF_NOUN.DEFINITE_NOUN,
-    nounGender : GENDERS.MALE,
-    nounBrokenPlural: ""
-}
-const INITIAL_VERB_PROPS = {
-    verbIrregularity : IRREGULARITIES_OF_VERB.REGULAR,
-    verbForm : FORMS_OF_VERB.I,
-    verbTense: TENSES_OF_VERB.PAST
-}
-// todo: root, img
-const INITIAL_WORD_PROPS = {
-    wordEnglish : "",
-    wordArabic: "",
-    wordSpeechPart : PARTS_OF_SPEECH.NOUN,
-}
-
-function NounForm({nounProps, setNounProps}) {
-    
-    return (
-        <Stack fullwidth spacing={1}>
-            <Stack fullwidth spacing={1} direction='row'>
-            <Select id='nounType' fullWidth value={nounProps.nounType} onChange={(e) => setNounProps({...nounProps, nounType: e.target.value})}>
-                {map(TYPES_OF_NOUN, (type) => <MenuItem value={type} > {type.toLowerCase().replace('_', ' ')} </MenuItem> )}
-            </Select>
-            <Box width='25%'>
-                <RadioGroup id='nounGender' value={nounProps.nounGender} onChange={(e) => setNounProps({...nounProps, nounGender: e.target.value})}>
-                    <Stack direction={'row'} >
-                        <Radio value={GENDERS.MALE}/>
-                        <Typography alignContent={'center'} alignItems={'center'}> Male </Typography>
-                    </Stack>
-                    <Stack direction={'row'} >
-                        <Radio value={GENDERS.FEMALE}/>
-                        <Typography alignContent={'center'} alignItems={'center'}> Female </Typography>
-                    </Stack>
-                </RadioGroup>
-            </Box>
-            </Stack>
-            <TextField id='nounBrokenPlural' fullWidth placeholder="Broken Plural" value={nounProps.nounBrokenPlural} onChange={(e) => setNounProps({...nounProps, nounBrokenPlural: e.target.value})} />
-        </Stack>
-    )
-}
-
-function VerbForm({verbProps, setVerbProps}) {
-    return (
-        <Stack fullwidth spacing={1} direction='row'>
-            <Select id='verbIrregularity' fullWidth value={verbProps.verbIrregularity} onChange={(e) => setVerbProps({...verbProps, verbIrregularity: e.target.value})}>
-                {map(IRREGULARITIES_OF_VERB, (irregularity) => <MenuItem value={irregularity} > {irregularity.toLowerCase()} </MenuItem> )}
-            </Select>
-            <Select id='verbForm' fullWidth value={verbProps.verbForm} onChange={(e) => setVerbProps({...verbProps, verbForm: e.target.value})}>
-                {map(FORMS_OF_VERB, (form) => <MenuItem value={form} > {form} </MenuItem> )}
-            </Select>
-            <Box width='25%'>
-                <RadioGroup id='verbTense' value={verbProps.verbTense} onChange={(e) => setVerbProps({...verbProps, verbTense: e.target.value})}>
-                    <Stack direction={'row'} >
-                        <Radio value={TENSES_OF_VERB.PAST}/>
-                        <Typography alignContent={'center'} alignItems={'center'}> Past </Typography>
-                    </Stack>
-                    <Stack  direction={'row'}  >
-                        <Radio value={TENSES_OF_VERB.PRESENT}/>
-                        <Typography alignContent={'center'}> Present </Typography>
-                    </Stack>
-                </RadioGroup>
-            </Box>
-        </Stack>
-    )
-}
 
 function Dictionary() {
-    const [nounProps, setNounProps] = useState(INITIAL_NOUN_PROPS)
-    const [verbProps, setVerbProps] = useState(INITIAL_VERB_PROPS)
-    const [wordProps, setWordProps] = useState(INITIAL_WORD_PROPS)
-    const navigate = useNavigate();
-
-    const submit = useCallback(async() => {
+    const [isEditMode, setIsEditmode] = useState(false)
+    const [isFormOpen, setIsFormOpen] = useState(false)
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [wordBeingEdited, setWordBeingEdited] = useState()
+    const [words, setWords] = useState([])        
+    
+    //refresh words - TODO - paginate
+    const getWords = async() => {
         try{
-            let props;
-            switch (wordProps.wordSpeechPart){
-                case PARTS_OF_SPEECH.NOUN:
-                    props = {...wordProps, nounProps}
-                    break;
-                case PARTS_OF_SPEECH.VERB:
-                    props = {...wordProps, verbProps}
-                    break;
-                default:
-                    props = {...wordProps}
-            }
-            console.log('submit props', props)
-            const result = await request.post('/words', props)
-            console.log(result)
-            success('successfully added word: ', wordProps.wordEnglish)
-
+            console.log('getwords')
+            const results = await request.get('/words')
+            setWords(results?.data || [])
+        }catch(err){
+            console.log('error getting words: ', err.message)
+            error('error getting words: ', err.message)
         }
-        catch(err){
-            error('error posting word: ', err.message)
-        }
-    }, [nounProps, verbProps, wordProps])
-
-    const changeSpeechPart = (wordSpeechPart) => {
-        switch (wordSpeechPart){
-            case PARTS_OF_SPEECH.NOUN:
-                setVerbProps(INITIAL_VERB_PROPS)
-                break
-            case PARTS_OF_SPEECH.VERB:
-                setNounProps(INITIAL_NOUN_PROPS)
-                break
-            default:
-                setNounProps(INITIAL_NOUN_PROPS)
-                setVerbProps(INITIAL_VERB_PROPS)
-        }
-        setWordProps({...wordProps, wordSpeechPart})
     }
 
-    useEffect(() => console.log('wordProps', wordProps), [wordProps])
-    useEffect(() => console.log('nounProps', nounProps), [nounProps])
-    useEffect(() => console.log('verbProps', verbProps), [verbProps])
+    useEffect(() => { 
+        const initialGet = async() => await getWords()
+        initialGet()
+    } , [])
+
+    //called from wordformdialog on successful add/edit with payload of added/edited word from API
+    const updateWords = useCallback((newWord) => {
+        if (wordBeingEdited) {
+            if(wordBeingEdited.wordId !== newWord.wordId){
+                console.log('error updating wordlist:  wordbeingedited id does not match returned id')
+            }else{
+                const filteredWords = filter(words, (word) => word.wordId !== newWord.wordId)
+                if(filteredWords.length === words.length){
+                    console.log('error updating wordlist:  returned id not found in word list')
+                }else{
+                    setWords([...filteredWords, newWord])
+                }
+            }
+        }
+        else {
+            setWords([...words, newWord])
+        }
+
+    }, [words, wordBeingEdited])
+
+    const deleteWord = useCallback(async() => {
+        try{
+            const results = await request.delete(`/words?wordId=${wordBeingEdited.wordId}`)
+            const filteredWords = filter(words, (word) => word.wordId !== wordBeingEdited.wordId)
+            if(filteredWords.length === words.length) console.log('error updating wordlist:  returned id not found in word list')
+            else setWords(filteredWords)
+            success(`Successfully deleted ${wordBeingEdited.english}`)
+            setIsDeleteOpen(false)
+        }catch(err){
+            error(`Error Deleting ${wordBeingEdited.english}: ${err.message}`)
+        }
+    }, [words, wordBeingEdited])
 
     return (
-        <Stack width='100%' spacing={1} flexGrow={1}>
+        <>
             <Typography textAlign={'center'} variant={"h1"}>Dictionary</Typography>
-            <Typography textAlign={'left'} variant={"h6"}>New Word:</Typography>
-            <Stack spacing={1} width='100%' flexGrow={'inherit'}  direction={'row'}>
-                <TextField fullWidth placeholder="English" id='wordEnglish' value={wordProps.wordEnglish} onChange={(e) => setWordProps({...wordProps, wordEnglish: e.target.value})} /> 
-                <TextField fullWidth placeholder="Arabic" id='wordArabic'  value={wordProps.wordArabic} onChange={(e) => setWordProps({...wordProps, wordArabic: e.target.value})} /> 
-            </Stack>
-            <Select value={wordProps.wordSpeechPart} id='wordSpeechPart' onChange={(e) => changeSpeechPart(e.target.value)}>
-                {map(PARTS_OF_SPEECH, (part) => <MenuItem value={part} > {part.toLowerCase()} </MenuItem> )}
-            </Select>
-            {wordProps.wordSpeechPart === PARTS_OF_SPEECH.NOUN && <NounForm nounProps={nounProps} setNounProps={setNounProps}/>}
-            {wordProps.wordSpeechPart === PARTS_OF_SPEECH.VERB && <VerbForm verbProps={verbProps} setVerbProps={setVerbProps}/>}
-            <Stack spacing={1} width='100%' direction={'row'}>
-                <Button fullWidth variant={'contained'} onClick={submit}> 
-                    <Typography  variant={"h6"}>
-                        Submit 
-                    </Typography>
-                </Button>
-                <Button fullWidth variant={'contained'} onClick={() => navigate('/')}>
-                    <Typography variant={"h6"}>
-                        back
-                    </Typography>
-                </Button>
-            </Stack>
-        </Stack>
+            <Card sx={{minHeight:'200px', padding:'3px'}}>
+                <Stack>
+                    <Typography textAlign={'center'} variant={"h6"}>Words</Typography>
+                    <Divider/>
+                    <Stack direction="row" >
+                        <Grid2 spacing={1} container flexGrow={1}>
+                            {map(words, (word) =>
+                                <Grid2 key={word.wordId}>
+                                    <WordChip 
+                                        editMode={isEditMode} 
+                                        onEdit={() => {
+                                            setWordBeingEdited(word)
+                                            setIsFormOpen(true)
+                                        }}
+                                        onDelete={() => {
+                                            setWordBeingEdited(word)
+                                            setIsDeleteOpen(true)
+                                        }}
+                                        key={word.wordId}
+                                        word={word}
+                                    />
+                                </Grid2>
+                            )}
+                        </Grid2>                
+                        <Stack>
+                            <IconButton onClick={() => { 
+                                    setWordBeingEdited()
+                                    setIsFormOpen(true)
+                            }}>
+                                <Add />
+                            </IconButton>
+                            <IconButton onClick={() => setIsEditmode(!isEditMode)}>
+                                <Edit />
+                            </IconButton>
+                        </Stack>
+                    </Stack>
+                </Stack>
+            </Card>
+            {isFormOpen && <WordFormDialog 
+                word={wordBeingEdited} 
+                open={isFormOpen}
+                onClose={() => setIsFormOpen(false)}
+                updateWords={updateWords}
+            />}
+            <Dialog 
+                title={`Delete Word ${wordBeingEdited?.english} ?`} 
+                open={isDeleteOpen}
+                onSubmit={deleteWord}
+                onClose={() => setIsDeleteOpen(false)}
+            />
+        </>
     )
 }
 export default Dictionary

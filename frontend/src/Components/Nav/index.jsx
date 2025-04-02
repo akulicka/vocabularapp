@@ -85,7 +85,7 @@ function AppBar ({ logout, user, ...props}) {
                                 <input {...getInputProps()} />
                                 {pic ? <ImgPreview pic={pic}/> : <AccountCircle />}
                             </IconButton> 
-                            <Button color={'secondary'} variant="h3" onClick={() => logout()}> Logout </Button>
+                            <Button color={'secondary'} variant="h3" onClick={logout}> Logout </Button>
                         </> : <></>
                     }
                     </Box>
