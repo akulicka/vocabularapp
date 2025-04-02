@@ -1,8 +1,9 @@
 import {Router} from "express";
-import { signtoken } from "../../util/cookie.js";
 import { v4 as uuidv4 } from "uuid";
-import db from '../../../db/models/index.cjs';
 import argon2 from 'argon2'
+
+import { signtoken } from "../../util/cookie.js";
+import db from '../../../db/models/index.cjs';
 
 const authorize_user = async(email, password) => {
     const user = await db.users.findOne({where: {email}})

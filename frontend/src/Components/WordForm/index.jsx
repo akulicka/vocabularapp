@@ -1,20 +1,18 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
-import request from '../../Api/request';
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField"
-import {success, error} from '../../Util/notify.jsx'
-import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from "../../Enum/word.jsx";
-import Select from "@mui/material/Select";
-
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import MenuItem from "@mui/material/MenuItem";
 import map from 'lodash/map'
-import Dialog from "../../Components/Dialog/index.jsx";
+import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
+import Stack from '@mui/material/Stack'
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography";
 
+import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from "../../Enum/word.jsx";
+import { success, error } from '../../Util/notify.jsx'
+import Dialog from "../../Components/Dialog/index.jsx";
+import request from '../../Api/request';
 import TagList from "../TagList/index.jsx";
 
 function NounForm({nounProps, setNounProps}) {
@@ -84,7 +82,6 @@ function WordForm({wordProps, setWordProps, changeSpeechPart}) {
 }
 
 function WordFormDialog({word, updateWords, open, onClose}){
-    console.log(word)
     const INITIAL_NOUN_PROPS = useMemo(() => { return {
         nounType : word?.noun?.nounType || TYPES_OF_NOUN.DEFINITE_NOUN,
         nounGender : word?.noun?.gender || GENDERS.MALE,
@@ -151,16 +148,15 @@ function WordFormDialog({word, updateWords, open, onClose}){
     },[nounProps, verbProps, wordProps, tags])
 
     const submit = useCallback(async() => {
-        console.log('submitProps', submitProps)
         try{
             const result = word ? await request.put('/words', {...submitProps, wordId: word.wordId}) : await request.post('/words', submitProps)
-            console.log(result.data)
-            success(`successfully ${word ? "edited" : "added"} word: `, wordProps.wordEnglish)
+            // console.log(submitProps.wordEnglish)
+            success(`successfully ${word ? "edited" : "added"} word: ${submitProps.wordEnglish}`)
             updateWords(result.data)
             onClose()
         }
         catch(err){
-            error(`error ${word ? "editing" : "adding"} word: `, err.message)
+            error(`error ${word ? "editing" : "adding"} word ${submitProps.wordEnglish}: ${err.message}`)
         }
     }, [submitProps])
 

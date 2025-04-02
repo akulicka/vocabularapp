@@ -1,9 +1,10 @@
 import {Router} from "express";
 import { v4 as uuidv4 } from "uuid";
-import { verifycookie } from "../../util/cookie.js";
-import { PARTS_OF_SPEECH } from "../../enum/word.js";
-import db from '../../../db/models/index.cjs';
 import map from 'lodash/map.js'
+
+import { PARTS_OF_SPEECH } from "../../enum/word.js";
+import { verifycookie } from "../../util/cookie.js";
+import db from '../../../db/models/index.cjs';
 // import multer from 'multer';
 
 // const upload = multer()
@@ -248,7 +249,7 @@ word_router.delete("/tag", [verifycookie], async(req, res) => {
         const {tagId} = req.query
         const tag = await db.tags.findOne({where : {tagId}})
         if(!tag) throw new Error('tag does not exist') 
-        const tagwords = db.tagwords.findAll({where : {tagId}})
+        const tagwords = await db.tagwords.findAll({where : {tagId}})
         await Promise.all(map(tagwords, async(tagword) => await tagword.destroy({transaction})))
         await tag.destroy({transaction})
         await transaction.commit()

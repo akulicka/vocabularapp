@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react";
-import { Link,useNavigate } from "react-router";
-import {TextField, Button} from "@mui/material"
-import Request from '../../Api/request';
+import { Link, useNavigate } from "react-router";
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+
 import { error } from "../../Util/notify";
+import Request from '../../Api/request';
 
 function Register() {
     const [form, setForm] = useState({ username: '', email: '', password: '', repeatpassword: ''})

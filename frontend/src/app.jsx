@@ -1,16 +1,15 @@
-import Routes from './Routes'
-import AppBar from "./Components/Nav";
-import Stack from "@mui/material/Stack";
-import Request from './Api/request';
-import {useNavigate} from "react-router";
+
 import { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify'
+import { useNavigate } from "react-router";
+import { useCookies } from 'react-cookie'
 import { CssBaseline } from '@mui/material';
-import {ToastContainer} from 'react-toastify'
-import Box  from '@mui/material/Box';
-import isEmpty from 'lodash/isEmpty'
+import Stack from "@mui/material/Stack";
+
+import {error} from './Util/notify'
+import AppBar from "./Components/Nav"; 
 import request from './Api/request';
-import {useCookies} from 'react-cookie'
-import {error} from './Util/notify' 
+import Routes from './Routes'
 
 
 function App(){
@@ -19,7 +18,7 @@ function App(){
     const navigate = useNavigate() 
     const [cookies] = useCookies()
     useEffect(() => {
-        Request.interceptors.response.use(
+        request.interceptors.response.use(
             function (response) {return response},
             function (err){
                 if(err.status === 403) {
@@ -60,7 +59,7 @@ function App(){
         navigate(`/`)
     } 
 
-return(/*pass setauth*/
+return(
         <Stack spacing={2} flexGrow={1}>
             <CssBaseline/>
             <AppBar logout={logout} user={user} />

@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
+import {useDropzone} from 'react-dropzone'
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
 import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import map from 'lodash/map'
 import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+
 import request from '../../Api/request'
 
-import {useDropzone} from 'react-dropzone'
 
 // TODO:
 /* 
@@ -36,13 +36,11 @@ function PreviewList({files}){
 function DropZone () {
 
     const [files, setFiles] = useState([])
-
     const onSubmit = async() => {
         try{
-            const response = await request.postForm('lists/files', {
+            const response = await request.postForm('user/files', {
                 'files[]': files
             }, {timeout: 5000});
-            console.log(response)
         }
         catch(err){
             console.log(err.message)
@@ -50,7 +48,7 @@ function DropZone () {
     }
 
     const onDrop = useCallback(acceptedFiles => {
-        console.log(acceptedFiles)
+        
         const newFiles = [...files, ...acceptedFiles]
         setFiles(newFiles)
       }, [files])
