@@ -1,10 +1,12 @@
 import Add from '@mui/icons-material/Add'
+import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid2'
 import map from 'lodash/map'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import Dialog from '../../Components/Dialog'
 import DropZone from '../../Components/DropZone'
@@ -18,6 +20,7 @@ const test_listData = [
 ]
 
 function Lists () {
+    const navigate = useNavigate()
     const [lists, setLists] = useState([{}])
     const [isOpen, setIsOpen] = useState(false)
     const [listName, setListName] = useState("")
@@ -100,6 +103,7 @@ function Lists () {
                         <Add/>
                     </Fab>
                 </Stack>
+                <Button onClick={() => navigate('/dictionary')} >Dictionary</Button>
                 <DropZone />
             </Stack>
             <Dialog open={isOpen} onSubmit={createList} onClose={() => setIsOpen(false)} > 

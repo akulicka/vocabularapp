@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class List extends Model {
+  class TagWord extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,23 +16,31 @@ module.exports = (sequelize, DataTypes) => {
       // models.User.hasMany(List)
     }
   }
-  List.init({
-      listId: {
-          type: DataTypes.STRING,
-          primaryKey: true
+  TagWord.init(
+    {
+      wordId:{
+        primaryKey: true,
+        allowNull: false,
+        type: DataTypes.STRING,
+        references: {
+            model: sequelize.models.Word,
+            key: 'wordId'
+        }
       },
-      userId: {
-          type: DataTypes.STRING,
-          references: {
-            model: sequelize.models.User,
-            key: 'userId'
-          }
+      tagId: {
+        primaryKey: true,
+        allowNull: false,
+        type: DataTypes.STRING,
+        references: {
+            model: sequelize.models.Tag,
+            key: 'tagId'
+        }
       },
-      listName: DataTypes.STRING,
     }, 
     {
       sequelize,
-      modelName: 'lists',
+      timestamps: false,
+      modelName: 'tagwords',
   });
-  return List;
+  return TagWord;
 };

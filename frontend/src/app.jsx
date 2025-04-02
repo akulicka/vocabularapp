@@ -21,10 +21,13 @@ function App(){
     useEffect(() => {
         Request.interceptors.response.use(
             function (response) {return response},
-            function(err){
+            function (err){
                 if(err.status === 403) {
-                    error(`Error: ${err.message}`)
+                    error('Session Expired')
                     logout()
+                }else{
+                    const reason = err.response?.data || err.message
+                    return Promise.reject(new Error(reason));
                 }
             }
         )
