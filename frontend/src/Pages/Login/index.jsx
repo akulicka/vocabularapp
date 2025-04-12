@@ -19,7 +19,7 @@ function Login() {
     const submit = useCallback(async() => {
         try{
             const body = JSON.stringify(form)
-            const verify_response = await Request.post('verify',body)
+            const verify_response = await Request.post('verify',body, {timeout: 10000})
             if (!verify_response?.data || !verify_response.data.userId){
                 throw new Error('user could not be verified')
             }
