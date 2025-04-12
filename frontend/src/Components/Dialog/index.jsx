@@ -1,8 +1,8 @@
-import MUIDialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button'
+import MUIDialog from '@mui/material/Dialog';
 
 function Dialog({onSubmit, title='Alert', submitLabel='OK', ...props}){
     return (

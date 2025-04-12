@@ -1,6 +1,6 @@
 import FormData from "form-data"; // form-data v4.0.1
-import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
 import MailComposer from 'nodemailer/lib/mail-composer/index.js';
+import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
 
 // TODO: test after paying - currently can only send email to approved users (lol)
 async function sendMessage({user, token_id}) {

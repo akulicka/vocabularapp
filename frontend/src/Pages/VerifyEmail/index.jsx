@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import {useEffect, useState} from 'react'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+
 import request from '../../Api/request'
-import { Button, Typography } from '@mui/material'
-import {success, error} from '../../Util/notify.jsx'
+import {error} from '../../Util/notify.jsx'
 
 export function VerifyPrompt() {
     const {userId} = useParams()

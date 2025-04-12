@@ -1,27 +1,26 @@
 import { useState, useEffect, useCallback } from "react";
-import MUIList from "@mui/material/List";
-import ListItem from '../ListItem'
-import Dialog from '../Dialog'
-import Stack from '@mui/material/Stack'
-import map from 'lodash/map'
-import Card from "@mui/material/Card";
-import { IconButton, Typography } from "@mui/material";
-import Divider from "@mui/material/Divider";
-import EditIcon from '@mui/icons-material/Edit';
-import {TagChip} from "../Chip"
-import Box from '@mui/material/Box'
-import Button from "@mui/material/Button";
 import Add from '@mui/icons-material/Add'
-import Edit from '@mui/icons-material/Edit'
+import Box from '@mui/material/Box'
 import Cancel from '@mui/icons-material/Cancel'
-import TextField from '@mui/material/TextField'
-import Grid2 from "@mui/material/Grid2";
-import request from "../../Api/request";
-import without from 'lodash/without'
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import Edit from '@mui/icons-material/Edit'
 import filter from 'lodash/filter'
+import Grid2 from "@mui/material/Grid2";
+import IconButton from "@mui/material/IconButton";
 import indexOf from 'lodash/indexOf'
-import { success, error } from "../../Util/notify";
+import map from 'lodash/map'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from "@mui/material/Typography";
+import without from 'lodash/without'
 
+import { success, error } from "../../Util/notify";
+import { TagChip } from "../Chip"
+import Dialog from '../Dialog'
+import request from "../../Api/request";
+
+// TODO - limit to 5 tags
 function TagList({selectedTags, setSelectedTags}){
     const [tagName, setTagName] = useState()
     const [tagBeingEdited, setTagBeingEdited] = useState()
@@ -54,22 +53,18 @@ function TagList({selectedTags, setSelectedTags}){
 
     const submitDeleteTag = async() => {
         try{
-            const result = await request.delete(`words/tag?tagId=${tagBeingEdited.tagId}`)
-            console.log(result)
-            
+            const result = await request.delete(`words/tag?tagId=${tagBeingEdited.tagId}`)            
             setTags([...filter(tags, (tag) => tag.tagId != tagBeingEdited.tagId)])
             setSelectedTags([...filter(selectedTags, (selectedTags) => selectedTags.tagId != tagBeingEdited.tagId)])
             success(`successfully deleted tag: ${tagBeingEdited.tagName}`)
             setIsDeleteOpen(false)
         }catch(err){
-            console.log('err', err, err.message)
             error(`error deleting tag: ${err.message}`)
         }}
 
 
     const getTags = async() => {
         try{
-            console.log('gettags')
             const results = await request.get('words/tags')
             setTags(results?.data || [])
         }catch(err){
@@ -78,23 +73,17 @@ function TagList({selectedTags, setSelectedTags}){
     }
 
     const toggleSelectedTag = useCallback((tagId) => {
-        console.log(tagId)
         const filtered = without(selectedTags, tagId)
         const add = filtered.length === selectedTags.length
         setSelectedTags(filtered.length === selectedTags.length ?  [...selectedTags, tagId] : filtered)
         return add
     }, [selectedTags])
 
-    useEffect(() => console.log('selectedTags',selectedTags), [selectedTags])
-
     useEffect(() => { 
         const initialGet = async() => await getTags()
         initialGet()
     } , [])
 
-    useEffect(() => console.log(tags), [tags])
-
-// todo - multiselect tags
     return (
         <>
             <Stack width='100%' spacing={1} flexGrow={1}>
@@ -112,7 +101,7 @@ function TagList({selectedTags, setSelectedTags}){
                         </Stack>
                         <Divider />
                         <Stack direction="row" >
-                            <Box fixed minHeight={'180px'} maxHeight={'180px'} sx={{overflowY:'scroll'}}>
+                            <Box minHeight={'180px'} maxHeight={'180px'} sx={{overflowY:'scroll'}}>
                                 <Grid2 container spacing={1} flexGrow={1}>
                                     {map(tags, (tag) =>
                                         <Grid2 key={tag.tagId} wrap={'wrap'}>

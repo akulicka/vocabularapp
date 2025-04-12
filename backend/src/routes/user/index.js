@@ -1,9 +1,10 @@
 import {Router} from "express";
 import { v4 as uuidv4 } from "uuid";
-import { verifycookie } from "../../util/cookie.js";
-import { upload_file, download_file } from "../../helpers/storage.js";
-import db from '../../../db/models/index.cjs';
 import multer from 'multer';
+
+import { upload_file, download_file } from "../../helpers/storage.js";
+import { verifycookie } from "../../util/cookie.js";
+import db from '../../../db/models/index.cjs';
 
 const upload = multer()
 const user_router = Router()
@@ -52,6 +53,23 @@ user_router.post("/img", [verifycookie, upload.single('avatar')], async(req, res
   }catch(err){
     console.log('err', err.message)
     res.sendStatus(500)
+  }
+});
+
+user_router.post("/files", [verifycookie, upload.array('files[]')], async(req, res) => {
+  try{
+      const files = req.body
+      console.log('files', files, req.files)
+      if(!req.files.isEmpty){
+      const promises = req.files.map((file) => upload_file(file))
+      const results = await Promise.all(promises)
+      console.log(results)
+      }
+      console.log('done')
+      res.sendStatus(200)
+  }catch(err){
+      console.log('err', err.message)
+      res.sendStatus(500)
   }
 });
 

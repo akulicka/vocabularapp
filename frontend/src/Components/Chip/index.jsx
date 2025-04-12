@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { makeStyles } from "@mui/styles";
 import Edit from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton' 
 import MUIChip from "@mui/material/Chip"
-import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   chipRoot: {
@@ -45,9 +45,7 @@ export function TagChip({tag, editMode, toggleSelectedTag, isSelected, ...chipPr
     return <Chip 
         {...chipProps} 
         editMode={editMode}
-        clickable={!editMode}
-        onClick={() => {
-            if(editMode) return
+        onClick={editMode ? undefined : () => {
             const added = toggleSelectedTag(tag.tagId)
             setSelected(added)
         }}

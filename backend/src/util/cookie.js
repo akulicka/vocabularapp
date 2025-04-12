@@ -1,10 +1,11 @@
-import db from '../../db/models/index.cjs';
 import jwt from 'jsonwebtoken'
 import { validate } from "uuid";
 
+import db from '../../db/models/index.cjs';
+
 const secretkey = process.env.TOKEN_SECRET
 
-export const signtoken = (userId) => jwt.sign({userId}, secretkey, { expiresIn: "30m" })
+export const signtoken = (userId) => jwt.sign({userId}, secretkey, { expiresIn: "60m" })
 
 export const verifycookie = async(req, res, next) => {
     try{

@@ -1,11 +1,13 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router";
-import Request from '../../Api/request';
-import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
 import Typography from "@mui/material/Typography";
-import {TextField, Button} from "@mui/material"
-import {success, error} from '../../Util/notify.jsx'
+
+import {error} from '../../Util/notify.jsx'
+import Request from '../../Api/request';
+
 function Login() {
     const [form, setForm] = useState({ email: '', password: ''})
     const navigate = useNavigate()
@@ -17,7 +19,7 @@ function Login() {
     const submit = useCallback(async() => {
         try{
             const body = JSON.stringify(form)
-            const verify_response = await Request.post('verify',body)
+            const verify_response = await Request.post('verify',body, {timeout: 10000})
             if (!verify_response?.data || !verify_response.data.userId){
                 throw new Error('user could not be verified')
             }

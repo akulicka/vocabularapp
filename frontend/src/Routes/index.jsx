@@ -1,12 +1,11 @@
 import {Routes as RouterRoutes, Route} from "react-router";
 import Box from "@mui/material/Box";
 
+import Dictionary from "../Pages/Dictionary";
 import Login from '../Pages/Login'
 import Register from "../Pages/Register";
-import Lists from '../Pages/Lists'
-import Dictionary from "../Pages/Dictionary";
-
 import { Verify, VerifyPrompt } from "../Pages/VerifyEmail";
+
 
 /*TODO - Lazy loading, api progress indicator */
 

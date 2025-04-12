@@ -1,9 +1,10 @@
 import express from "express";
-import cors from "cors";
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
+import cors from "cors";
 import fs from 'fs';
 import https from 'https';
-import cookieParser from 'cookie-parser'
+
 import {setRoutes} from './routes/index.js'
 
 const options = {

@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import MUIAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Button  from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import AccountCircle from '@mui/icons-material/AccountCircle'
-import Menu from '@mui/icons-material/Menu'
-import request from "../../Api/request";
-import {useDropzone} from 'react-dropzone'
 import { Buffer } from "buffer";
+import { useDropzone } from 'react-dropzone'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button  from "@mui/material/Button";
+import Menu from '@mui/icons-material/Menu'
+import MUIAppBar from "@mui/material/AppBar";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import {error, success} from '../../Util/notify'
+import request from "../../Api/request";
 
 function ImgPreview({pic}) {
     const url = URL.createObjectURL(pic)
@@ -54,7 +54,7 @@ function AppBar ({ logout, user, ...props}) {
             }
         }
         catch(err){
-            console.log(err.message)
+            error(`Error retrieving profile pic: ${err.message}`)
         }
     }
 

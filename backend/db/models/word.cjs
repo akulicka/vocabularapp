@@ -10,10 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // List.belongsTo(models.User)
-      // List.hasMany(models.ListItem)
-      // models.ListItem.belongsTo(List)
-      // models.User.hasMany(List)
+      Word.hasOne(models.nouns,{
+        foreignKey: {
+          name: 'wordId',
+          allowNull: false
+        }
+      })
+      Word.hasOne(models.verbs,{
+        foreignKey: {
+          name: 'wordId',
+          allowNull: false
+        }
+      })
+
+      Word.belongsToMany(models.tags,{
+        through : models.tagwords,
+        foreignKey: 'wordId'
+      })
     }
   }
   Word.init({
@@ -40,9 +53,9 @@ module.exports = (sequelize, DataTypes) => {
             references: {
             model: sequelize.models.User,
             key: 'userId'
-            }
+          }
         },
-    }, 
+      }, 
     {
       sequelize,
       modelName: 'words',
