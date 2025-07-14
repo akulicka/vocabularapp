@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Buffer } from "buffer";
 import { useDropzone } from 'react-dropzone'
+import { useNavigate } from "react-router";
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -11,6 +12,9 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import MUIMenu from '@mui/material/Menu'
+import MUIMenuList from '@mui/material/MenuList'
+import MUIMenuItem from '@mui/material/MenuItem'
 
 import {error, success} from '../../Util/notify'
 import request from "../../Api/request";
@@ -27,11 +31,18 @@ function ImgPreview({pic}) {
 }
 
 function AppBar ({ logout, user, ...props}) {
+
     const [file, setFile] = useState()
     const [pic, setPic] = useState()
+    const [open, setOpen] = useState(false)
+    const [anchor, setAnchor] = useState()
+
+    const navigate = useNavigate()     
     const onDrop = useCallback(acceptedFile => {
         setFile(acceptedFile)
     }, [])
+    const {getRootProps, getInputProps} = useDropzone({onDrop})
+
 
     useEffect(() => {
         const submitFile = async () => await onSubmit()
@@ -70,26 +81,45 @@ function AppBar ({ logout, user, ...props}) {
             error(err.message)
         }
     }
-    const {getRootProps, getInputProps} = useDropzone({onDrop})
     return (
         <MUIAppBar position="sticky" color={'success'} >
             <Toolbar > 
                 <Stack flexGrow={1} spacing={3} direction={'row'} >
                     {props.children}
-                    <IconButton><Menu/></IconButton>
+                    <Box width='50px'>
+                    {user &&
+                        <IconButton onClick={(e) => {
+                            setAnchor(e.currentTarget)
+                            setOpen(true)
+                        }}>
+                            <Menu/>
+                        </IconButton> 
+                    }
+                    </Box>
                     <Typography  textAlign={"left"} flexGrow={1} variant="h4" >Welcome</Typography>
                     <Box>
-                    {user ? 
+                    {user &&
                         <>
                             <IconButton {...getRootProps()}>
                                 <input {...getInputProps()} />
                                 {pic ? <ImgPreview pic={pic}/> : <AccountCircle />}
                             </IconButton> 
                             <Button color={'secondary'} variant="h3" onClick={logout}> Logout </Button>
-                        </> : <></>
+                        </>
                     }
                     </Box>
                 </Stack>
+                <MUIMenu 
+                    open={open}
+                    anchorEl={anchor}
+                    onClose={() => {
+                        setOpen(false)
+                        setAnchor()
+                    }}
+                >
+                    <MUIMenuItem onClick={() => navigate('/')}>Dictionary</MUIMenuItem>
+                    <MUIMenuItem onClick={() => navigate('/quiz')}> Quiz </MUIMenuItem>
+                </MUIMenu>
             </Toolbar>
         </MUIAppBar>
     )

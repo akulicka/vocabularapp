@@ -1,7 +1,7 @@
 import Axios from 'axios';
 // const http = import.meta.env.DEV ? 'http' : 'https'
 const request = Axios.create({
-    baseURL: `https://${import.meta.env.VITE_URL}:3000/`,
+    baseURL: `http://${import.meta.env.VITE_URL}:3000/`,
     timeout: 1000,
     withCredentials: true,
     headers: {"Content-Type" : "application/json"}

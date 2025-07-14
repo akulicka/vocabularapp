@@ -22,6 +22,7 @@ import request from "../../Api/request";
 
 // TODO - limit to 5 tags
 function TagList({selectedTags, setSelectedTags}){
+    
     const [tagName, setTagName] = useState()
     const [tagBeingEdited, setTagBeingEdited] = useState()
     const [tags, setTags] = useState([])
@@ -30,7 +31,6 @@ function TagList({selectedTags, setSelectedTags}){
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isEditMode, setIsEditmode]  = useState(false)
     
-
     const submitTag = async() => {
         try{
             const result = await request.post('words/tag', {tagName})

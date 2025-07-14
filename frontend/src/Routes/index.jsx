@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 
 import Dictionary from "../Pages/Dictionary";
 import Login from '../Pages/Login'
+import Quiz from '../Pages/Quiz'
 import Register from "../Pages/Register";
 import { Verify, VerifyPrompt } from "../Pages/VerifyEmail";
 
@@ -15,6 +16,7 @@ function Routes ({user})  {
             {user ?
                 <RouterRoutes>
                     <Route path ="/" element={<Dictionary/>}/>
+                    <Route path ="/quiz" element={<Quiz/>}/>
                 </RouterRoutes>:
                 <RouterRoutes>
                     <Route path ="/" element={<Login/>}/>
