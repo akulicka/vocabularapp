@@ -1,6 +1,6 @@
-#!/bin/sh
-# echo abcdefg
-# . "$(dirname "$0")/_/husky.sh"
+!/bin/sh
+echo abcdefg
+. "$(dirname "$0")/_/husky.sh"
 echo abc
 npx lint-staged
 
