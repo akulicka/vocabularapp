@@ -4,5 +4,4 @@ echo abcdefg
 echo abc
 npx lint-staged
 
-
 exit 1
