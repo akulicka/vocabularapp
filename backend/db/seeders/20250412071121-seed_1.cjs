@@ -1,6963 +1,6984 @@
-'use strict';
+'use strict'
 
 /** @type {import      {'sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert      {'People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
-    const transaction = await queryInterface.sequelize.transaction()
-    try{    
-      await queryInterface.bulkInsert('users',
-      [
-        {
-          "username" : "system",
-          "userId" : "00000000-0000-0000-0000-000000000000",
-          "email" : "system@admin.com",
-          "password" : "$argon2id$v=19$m=65536,t=3,p=4$qHC4lw+Rp8VX+j2S52UFkQ$dha7aS5pIi3c922NX/LRQBxLK89tCqLC6iJqDn6oZf0",
-          "createdAt" : "1900-04-11 06:33:54",
-          "updatedAt" : "1900-04-11 06:33:54",
-          "verified" : 0,
-          "profile_image" : null
-        }
-      ], {transaction})
-      
-      await queryInterface.bulkInsert('words', [{
-          "wordId" : "034ebfcd-66b8-4bab-861b-10c8857d2870",
-          "english" : "small",
-          "arabic" : "صَغير",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:59:04",
-          "updatedAt" : "1900-04-11 09:59:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "03cc7a61-363d-4c38-b22e-186727de28a7",
-          "english" : "fear",
-          "arabic" : "خوف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:51:07",
-          "updatedAt" : "1900-04-11 14:51:07",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "040d215f-b9b9-477b-bf5a-b4265ad09e7d",
-          "english" : "marriage",
-          "arabic" : "زَواج",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:22:15",
-          "updatedAt" : "1900-04-11 14:22:15",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "063e9cd3-6bf8-4a94-a4cc-89a94b0a02f7",
-          "english" : "closed",
-          "arabic" : "مُغْلاق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:48:21",
-          "updatedAt" : "1900-04-11 09:48:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "0647b68a-3ef9-4f41-8d0f-5d2b3014cb4b",
-          "english" : "until",
-          "arabic" : "حَتّى",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:49:06",
-          "updatedAt" : "1900-04-11 13:49:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "065c6a47-6b0e-4fdf-807a-6493cdee477c",
-          "english" : "after",
-          "arabic" : "بَعْد",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:38:31",
-          "updatedAt" : "1900-04-11 13:38:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "06b22024-b2b7-4134-afb6-dc6c8696a143",
-          "english" : "tomorrow",
-          "arabic" : "غَدَاً",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:40:32",
-          "updatedAt" : "1900-04-11 13:40:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "06d776d9-1994-44c7-8d11-398e4fda70f1",
-          "english" : "to be disgusted",
-          "arabic" : "إشْمَأزّ",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:59:04",
-          "updatedAt" : "1900-04-11 14:59:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "09b8dbaf-fc24-4323-9a2b-3da8bf5df08c",
-          "english" : "alert/awake",
-          "arabic" : "فائِق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:11:00",
-          "updatedAt" : "1900-04-11 15:11:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "0ab97c50-d714-4fe7-b1dd-13b585475924",
-          "english" : "black",
-          "arabic" : "أسْوَد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:08:59",
-          "updatedAt" : "1900-04-11 08:08:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a",
-          "english" : "optimistic",
-          "arabic" : "مُتَفَائِل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:07:32",
-          "updatedAt" : "1900-04-11 15:07:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "0ea1047d-09fd-49ec-8b11-33a94ead99fd",
-          "english" : "dog",
-          "arabic" : "كَلْب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:58:35",
-          "updatedAt" : "1900-04-11 08:58:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035",
-          "english" : "snow",
-          "arabic" : "ثَلْج",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:24:31",
-          "updatedAt" : "1900-04-11 09:24:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "11205f97-462e-4268-83bc-fcb4ff202cdd",
-          "english" : "brake",
-          "arabic" : "فَرامِل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:31:00",
-          "updatedAt" : "1900-04-11 10:31:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "11c4288f-cab1-4689-b80f-a2c09a9efbab",
-          "english" : "to honk",
-          "arabic" : "زَمَّر",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:27:28",
-          "updatedAt" : "1900-04-11 10:27:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "12c09880-2ab7-4268-89ff-df038017318c",
-          "english" : "orphan",
-          "arabic" : "يَتيم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:16:19",
-          "updatedAt" : "1900-04-11 14:16:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "136b2c08-97df-49a4-8dbb-1711de65da54",
-          "english" : "tall/long",
-          "arabic" : "طَويل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:00:41",
-          "updatedAt" : "1900-04-11 10:00:41",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "137b6f99-1115-45f7-8e29-9a305a3da372",
-          "english" : "time (quantity)",
-          "arabic" : "وَقْت",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:54:49",
-          "updatedAt" : "1900-04-11 13:54:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "13d24d32-00ef-44e6-ae0e-d4b9c607ae6e",
-          "english" : "paternal aunt",
-          "arabic" : "عَمَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:02:36",
-          "updatedAt" : "1900-04-11 14:02:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "english" : "desk",
-          "arabic" : "مَكْتَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:02:13",
-          "updatedAt" : "1900-04-11 07:02:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1687c717-255f-454f-8c56-74b0143be8af",
-          "english" : "tire",
-          "arabic" : "إطار",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:13:14",
-          "updatedAt" : "1900-04-11 10:13:14",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "16c8726b-b0e9-4251-a183-c96291fb0d51",
-          "english" : "cabinet",
-          "arabic" : "خِزانَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:18:23",
-          "updatedAt" : "1900-04-11 07:18:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "171507d6-a823-4fa8-8dec-1a687b9fa185",
-          "english" : "to fly",
-          "arabic" : "طار",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:36:46",
-          "updatedAt" : "1900-04-11 10:36:46",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1726cc26-9deb-4e52-949f-989ea37126cf",
-          "english" : "branch",
-          "arabic" : "فَرْع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:33:22",
-          "updatedAt" : "1900-04-11 09:33:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1770cca3-a044-4fc7-91ee-393090e1a71d",
-          "english" : "turn",
-          "arabic" : "لَفَّ",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:13:57",
-          "updatedAt" : "1900-04-11 10:13:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "18c56fa3-1791-4328-b3ed-39ff3047f6e4",
-          "english" : "fish",
-          "arabic" : "سَمَكَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:56:02",
-          "updatedAt" : "1900-04-11 08:56:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "19a15323-6c16-41e4-b9af-999bdfb21d21",
-          "english" : "bus",
-          "arabic" : "حافِلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:12:19",
-          "updatedAt" : "1900-04-11 10:12:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1a414893-c3ad-40eb-852c-9c6b0fcd44ca",
-          "english" : "fridge",
-          "arabic" : "ثَلَّاجَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:09:56",
-          "updatedAt" : "1900-04-11 07:09:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1b237643-69d7-4e66-b160-efe7e2f646bd",
-          "english" : "mother",
-          "arabic" : "أُم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:59:13",
-          "updatedAt" : "1900-04-11 13:59:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1b60d467-420c-4d45-bbea-05a16f485491",
-          "english" : "to get angry",
-          "arabic" : "غَضِب",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:50:06",
-          "updatedAt" : "1900-04-11 14:50:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1c0b17c7-f298-4981-a060-8d3ad7e56686",
-          "english" : "driver",
-          "arabic" : "سائِق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:05:01",
-          "updatedAt" : "1900-04-11 10:05:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1c617059-58c5-42ef-8a4b-ccf05de9a703",
-          "english" : "yellow",
-          "arabic" : "أصْفَر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:10:30",
-          "updatedAt" : "1900-04-11 08:10:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1cbe8cd9-0078-4fb8-8aa3-b55cbee97f0d",
-          "english" : "early",
-          "arabic" : "مُبَكِّر",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:52:07",
-          "updatedAt" : "1900-04-11 13:52:07",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1ce7751b-5676-4ec7-873f-0f5735172744",
-          "english" : "camel",
-          "arabic" : "جَمَل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:53:52",
-          "updatedAt" : "1900-04-11 08:53:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1ec8feb4-3afe-4816-84f7-40f0c46f04fc",
-          "english" : "grass",
-          "arabic" : "عُشْب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:34:58",
-          "updatedAt" : "1900-04-11 09:34:58",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "1fba7688-9d90-446a-92c8-4597d4deb4a4",
-          "english" : "river",
-          "arabic" : "نَهر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:41:37",
-          "updatedAt" : "1900-04-11 09:41:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "20e9606f-0d12-4f7d-8c29-8facc0b3e94a",
-          "english" : "airport",
-          "arabic" : "مَطار",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:39:18",
-          "updatedAt" : "1900-04-11 10:39:18",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "210e36d3-de61-41c8-98de-33b7d4a18fe4",
-          "english" : "to get tired",
-          "arabic" : "تَعِب",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:53:57",
-          "updatedAt" : "1900-04-11 14:53:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2115796b-efdd-483c-a48d-b5af35325c4d",
-          "english" : "garden",
-          "arabic" : "حَديقَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:35:28",
-          "updatedAt" : "1900-04-11 08:35:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "21191b66-2556-4392-a5f7-e61c928914ed",
-          "english" : "in front",
-          "arabic" : "أمامَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:18:49",
-          "updatedAt" : "1900-04-11 13:18:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "223f8ac4-48a9-426e-a632-119a27a1a75f",
-          "english" : "chicken",
-          "arabic" : "دَجاجَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:43:11",
-          "updatedAt" : "1900-04-11 08:43:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "22e9caac-31cf-475b-aee6-cebb219b3c05",
-          "english" : "train",
-          "arabic" : "قِطار",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:26:35",
-          "updatedAt" : "1900-04-11 10:26:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "253f507b-9028-46f5-b1a8-0f8b143ee1e3",
-          "english" : "car",
-          "arabic" : "سَيَّارَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:05:56",
-          "updatedAt" : "1900-04-11 10:05:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "273004ce-4cd8-406e-850e-c7c4c63be4b9",
-          "english" : "above",
-          "arabic" : "فَوْقَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:17:33",
-          "updatedAt" : "1900-04-11 13:17:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2799fa6c-c0ea-47f2-9348-03246fb8d7d3",
-          "english" : "tour",
-          "arabic" : "جَوْلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:32:36",
-          "updatedAt" : "1900-04-11 10:32:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "29345438-b5fe-43cc-8f66-d52667aa0bc3",
-          "english" : "frog",
-          "arabic" : "ضِفْدَعَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:02:08",
-          "updatedAt" : "1900-04-11 09:02:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "29b44140-487b-4edb-b82d-dd3885d4ed47",
-          "english" : "building",
-          "arabic" : "عِمارَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:22:33",
-          "updatedAt" : "1900-04-11 08:22:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "29ee343a-9a52-4d5b-93dc-f1e7fb45415f",
-          "english" : "sign",
-          "arabic" : "يافِطَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:30:33",
-          "updatedAt" : "1900-04-11 08:30:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2aaf5dcb-91b9-4a47-93ba-6613151a9888",
-          "english" : "fat",
-          "arabic" : "سَمين",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:54:27",
-          "updatedAt" : "1900-04-11 09:54:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2b7196a8-9d25-4f2c-9064-925f215c2e3a",
-          "english" : "washing machine",
-          "arabic" : "غَسالَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:14:56",
-          "updatedAt" : "1900-04-11 07:14:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2bb36c27-3b7c-4b06-b40c-af0776d7ae34",
-          "english" : "stupid",
-          "arabic" : "غَبي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:02:48",
-          "updatedAt" : "1900-04-11 15:02:48",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "2ce0edde-6970-4b7e-9900-dcc3d15311f2",
-          "english" : "motorbike",
-          "arabic" : "دَرَّاجَة ناريَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:11:32",
-          "updatedAt" : "1900-04-11 10:11:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3030a34d-4e8b-45e3-bf20-4d9016f6f669",
-          "english" : "sun",
-          "arabic" : "شَمْس",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:43:22",
-          "updatedAt" : "1900-04-11 09:43:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "304bd89e-d06a-4411-ae91-cc476073d4b8",
-          "english" : "bad",
-          "arabic" : "سَيِئ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:02:04",
-          "updatedAt" : "1900-04-11 10:02:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "30e43f5b-5c65-401f-a305-960291ce1dab",
-          "english" : "teenager/adolescent",
-          "arabic" : "مُراهِق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:09:57",
-          "updatedAt" : "1900-04-11 14:09:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "30ef2f3c-5890-4706-9b97-1df39aa397b4",
-          "english" : "restaurant",
-          "arabic" : "مَطْعَم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:40:13",
-          "updatedAt" : "1900-04-11 08:40:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "315099d3-456c-4d9c-b176-9c4991fb49e5",
-          "english" : "fence",
-          "arabic" : "سور",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:24:59",
-          "updatedAt" : "1900-04-11 08:24:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "32dfe16c-3cd9-4de2-85cc-ae4b016ba23a",
-          "english" : "worried",
-          "arabic" : "قَلْق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:46:42",
-          "updatedAt" : "1900-04-11 14:46:42",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "33a838d8-1190-4eee-9f62-ec144fc8b7a0",
-          "english" : "before",
-          "arabic" : "قَبْل",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:38:04",
-          "updatedAt" : "1900-04-11 13:38:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "343fc002-6316-4b6f-9b06-cc2504a82afb",
-          "english" : "tree",
-          "arabic" : "شَجَرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:16:57",
-          "updatedAt" : "1900-04-11 15:16:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "391dd70d-dd84-4017-b437-9a2bc37401fd",
-          "english" : "red",
-          "arabic" : "أحْمَر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:07:27",
-          "updatedAt" : "1900-04-11 08:07:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3a298ec1-700b-4ad8-a9c9-0877d33e7e71",
-          "english" : "lock",
-          "arabic" : "قُفْل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:51:40",
-          "updatedAt" : "1900-04-11 06:51:40",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3b0df218-addd-4906-84a4-591188a604df",
-          "english" : "comfortable/relaxed",
-          "arabic" : "مُرْتاح",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:44:04",
-          "updatedAt" : "1900-04-11 14:44:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3d860b5b-4a29-43d6-8f16-8c0d78c45474",
-          "english" : "to be proud",
-          "arabic" : "إفْتَجَر",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:39:15",
-          "updatedAt" : "1900-04-11 14:39:15",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3eb214fa-87b6-47d5-8169-6379a046988f",
-          "english" : "conceited",
-          "arabic" : "مُغْرور",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:00:49",
-          "updatedAt" : "1900-04-11 15:00:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "3fae5472-1f4e-43dc-aaba-194be61e52e0",
-          "english" : "horizon",
-          "arabic" : "أُفُق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:39:58",
-          "updatedAt" : "1900-04-11 09:39:58",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4012c35a-d4c8-40c9-a11f-26630968351a",
-          "english" : "calendar",
-          "arabic" : "تَقْويم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:46:04",
-          "updatedAt" : "1900-04-11 13:46:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "40d3b0db-a214-4560-93d0-551d7e555160",
-          "english" : "bike",
-          "arabic" : "دَرّاجَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:08:38",
-          "updatedAt" : "1900-04-11 10:08:38",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4116ffff-48bf-4016-845f-9087905dfac0",
-          "english" : "star",
-          "arabic" : "نَجْمَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:53:43",
-          "updatedAt" : "1900-04-11 07:53:43",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "42681408-974d-458b-ac07-2f120c6c92f0",
-          "english" : "hardworking",
-          "arabic" : "مُجْتَهِد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:09:58",
-          "updatedAt" : "1900-04-11 15:09:58",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4274303b-5c4b-4cee-8a48-238e7e08002f",
-          "english" : "to relax",
-          "arabic" : "إستَراح",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:45:47",
-          "updatedAt" : "1900-04-11 14:45:47",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4377fce9-699b-44ab-bbc0-536d45483a2f",
-          "english" : "bench",
-          "arabic" : "مَقْعَد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:36:12",
-          "updatedAt" : "1900-04-11 08:36:12",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "447b93ef-32b3-4e71-a606-c25d494b1e07",
-          "english" : "left",
-          "arabic" : "يَسار",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:27:47",
-          "updatedAt" : "1900-04-11 13:27:47",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "463a843e-9e7f-435a-bea1-80bcfd954fef",
-          "english" : "church",
-          "arabic" : "كَنيس",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:34:26",
-          "updatedAt" : "1900-04-11 08:34:26",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "484df8d3-33e3-41aa-84f7-875d2614c0b4",
-          "english" : "second",
-          "arabic" : "ثانية",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:45:16",
-          "updatedAt" : "1900-04-11 13:45:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "48cfe691-d3b9-4d25-b3a5-e95a19f260b4",
-          "english" : "notebook",
-          "arabic" : "دَفْتَر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:43:32",
-          "updatedAt" : "1900-04-11 06:43:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "48e3d241-c0e3-4fd4-88e9-6f4dc12b1697",
-          "english" : "square",
-          "arabic" : "مُرَبَّع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:51:15",
-          "updatedAt" : "1900-04-11 07:51:15",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "49bca8a4-123f-4ed2-88d9-f5326ab58742",
-          "english" : "to visit",
-          "arabic" : "زار",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:31:43",
-          "updatedAt" : "1900-04-11 10:31:43",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "49f5c1be-28fa-4f12-8096-c2782dc0afe0",
-          "english" : "lion",
-          "arabic" : "أسَد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:51:01",
-          "updatedAt" : "1900-04-11 08:51:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4a2f9a59-a236-4b3c-816d-4b4ea1e8be97",
-          "english" : "kid",
-          "arabic" : "عَيِّل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:09:02",
-          "updatedAt" : "1900-04-11 14:09:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4c5fb3c9-1405-4089-8440-f4f635a422fa",
-          "english" : "age",
-          "arabic" : "عُمْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:06:30",
-          "updatedAt" : "1900-04-11 14:06:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4c7b0dba-317c-46f5-ae58-1926f3193d07",
-          "english" : "with",
-          "arabic" : "مَعَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:22:01",
-          "updatedAt" : "1900-04-11 13:22:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4d2b12ba-1c41-40b4-85c7-0e1b7e38779b",
-          "english" : "new",
-          "arabic" : "جَديد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:50:29",
-          "updatedAt" : "1900-04-11 09:50:29",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4d995422-e779-4203-8079-3270535b8a61",
-          "english" : "yesterday",
-          "arabic" : "أمْس",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:40:00",
-          "updatedAt" : "1900-04-11 13:40:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4e0faaa6-99e3-4284-9684-36ffe7982aab",
-          "english" : "purple",
-          "arabic" : "بِنَفْسَجي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:14:52",
-          "updatedAt" : "1900-04-11 08:14:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4e13a13e-c063-4866-85ed-2b5b645454e4",
-          "english" : "below",
-          "arabic" : "تَحْتَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:18:11",
-          "updatedAt" : "1900-04-11 13:18:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "4f92482a-5076-4c07-8cab-24fb9910992c",
-          "english" : "north",
-          "arabic" : "شَمال",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:24:32",
-          "updatedAt" : "1900-04-11 13:24:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "503be869-3da2-4f2e-b180-cb9ea17e9152",
-          "english" : "pyramid",
-          "arabic" : "هَرَم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:56:16",
-          "updatedAt" : "1900-04-11 07:56:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "51949c1a-5525-4dfb-99ba-c4774e50b5c3",
-          "english" : "hate",
-          "arabic" : "كَراهِيَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:32:53",
-          "updatedAt" : "1900-04-11 14:32:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "52d36228-28ee-424b-a948-4935ad33a743",
-          "english" : "fiancée",
-          "arabic" : "خَطيبَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:21:35",
-          "updatedAt" : "1900-04-11 14:21:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "534a468e-fd82-403b-b208-eeae398e0140",
-          "english" : "pride",
-          "arabic" : "فَخْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:36:33",
-          "updatedAt" : "1900-04-11 14:36:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "540b9cf8-a8d0-48e6-a310-90151e56d103",
-          "english" : "clock/watch/hour",
-          "arabic" : "ساعَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:39:50",
-          "updatedAt" : "1900-04-11 13:43:25",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "54ae995e-e7af-42fe-b855-3fccece38deb",
-          "english" : "giraffe",
-          "arabic" : "زَرافَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:59:10",
-          "updatedAt" : "1900-04-11 08:59:10",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "55879be3-c5c1-4a02-8516-b42083f30701",
-          "english" : "behind",
-          "arabic" : "وَرَاءَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:19:37",
-          "updatedAt" : "1900-04-11 13:19:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "57965431-b271-4a0d-9839-1487e9a01a21",
-          "english" : "baby",
-          "arabic" : "طِفْل رَضيع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:08:14",
-          "updatedAt" : "1900-04-11 14:08:14",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "596db8b7-e6f9-4bee-a526-cbf307c3d83d",
-          "english" : "telephone",
-          "arabic" : "هاتِف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:57:34",
-          "updatedAt" : "1900-04-11 06:57:34",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd",
-          "english" : "sphere",
-          "arabic" : "كُرَويّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:03:28",
-          "updatedAt" : "1900-04-11 08:03:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5c477c4f-c9ba-4ca8-866c-3fb4a4d14539",
-          "english" : "orange",
-          "arabic" : "بِرْتُقالي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:13:28",
-          "updatedAt" : "1900-04-11 08:13:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5d3e6b3e-cbae-4892-8a69-913c8419e6c3",
-          "english" : "triangle",
-          "arabic" : "مُثَلَّث",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:44:08",
-          "updatedAt" : "1900-04-11 07:44:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5d8ea683-d5be-40f1-aa74-bc7c9bba767b",
-          "english" : "cube",
-          "arabic" : "مُكَعََّب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:57:18",
-          "updatedAt" : "1900-04-11 07:57:18",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5e8140dd-49f4-4fbf-9043-47a368b86623",
-          "english" : "soil",
-          "arabic" : "تُرْبَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:36:50",
-          "updatedAt" : "1900-04-11 09:36:50",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "5fa17200-6791-4e2b-b6fe-bee878e04ae8",
-          "english" : "in",
-          "arabic" : "في",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:16:03",
-          "updatedAt" : "1900-04-11 13:16:03",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6027ad46-bfc3-4550-b7fd-fda0552d0c2f",
-          "english" : "lake",
-          "arabic" : "بُحَيْرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:31:33",
-          "updatedAt" : "1900-04-11 09:31:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6156e0f1-e9b2-444c-a949-1e10c8342a43",
-          "english" : "flower",
-          "arabic" : "زَهْرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:27:37",
-          "updatedAt" : "1900-04-11 09:27:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "62a53212-6329-4c95-a41b-c19cc97df746",
-          "english" : "next to",
-          "arabic" : "بِجانِب",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:23:11",
-          "updatedAt" : "1900-04-11 13:23:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6517ed6a-570f-4c75-bd41-95a539058254",
-          "english" : "to feel",
-          "arabic" : "شَعَرَ",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:29:05",
-          "updatedAt" : "1900-04-11 14:29:05",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "656d9236-0799-4d95-a9cc-a16cfd3f4e09",
-          "english" : "time (concept)",
-          "arabic" : "الزَمان",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:54:03",
-          "updatedAt" : "1900-04-11 13:54:03",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6632a42b-47a9-4bb0-97d0-a973cef2444a",
-          "english" : "key",
-          "arabic" : "مِفْتاح",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:58:31",
-          "updatedAt" : "1900-04-11 06:58:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "66ffca0c-20c9-4fe3-9124-a60b3fc429d1",
-          "english" : "wedding",
-          "arabic" : "زِفاف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:23:23",
-          "updatedAt" : "1900-04-11 14:23:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "685348d2-1c8c-485b-84e5-dc0513866568",
-          "english" : "house",
-          "arabic" : "بَيْت",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:13:36",
-          "updatedAt" : "1900-04-11 07:13:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "693fc269-e789-4afd-9d68-6dbbc155363d",
-          "english" : "fiancé",
-          "arabic" : "خَطيب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:20:44",
-          "updatedAt" : "1900-04-11 14:20:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6973bb6d-8c49-4b0f-86d1-d0d1c352c87f",
-          "english" : "owl",
-          "arabic" : "بومَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:47:00",
-          "updatedAt" : "1900-04-11 08:47:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "69d078b5-c3da-41db-af32-8e964e44ad0e",
-          "english" : "father",
-          "arabic" : "أَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:58:44",
-          "updatedAt" : "1900-04-11 13:58:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6a10458a-798d-4569-84ec-d194b50a60c5",
-          "english" : "apartment",
-          "arabic" : "شَقَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:23:22",
-          "updatedAt" : "1900-04-11 08:23:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6a493386-a63a-46b3-ab02-6b840d4d50dc",
-          "english" : "book",
-          "arabic" : "كِتاب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:41:28",
-          "updatedAt" : "1900-04-11 06:41:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6b5edc10-a313-454e-83a6-7ad4cd585811",
-          "english" : "prism",
-          "arabic" : "مَوْشور",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:00:30",
-          "updatedAt" : "1900-04-11 08:00:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6dae0799-bb4f-4cad-a4c8-26e86dbfe8d8",
-          "english" : "open",
-          "arabic" : "مُفْتوح",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:47:37",
-          "updatedAt" : "1900-04-11 09:47:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6e977338-0418-4e72-a0ad-702e6f0ad566",
-          "english" : "day",
-          "arabic" : "يَوْم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:31:30",
-          "updatedAt" : "1900-04-11 13:31:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6ed214e5-8901-44e5-b444-ef7b95e1d699",
-          "english" : "stapler",
-          "arabic" : "دَبَّاسَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:07:16",
-          "updatedAt" : "1900-04-11 07:07:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6f1eb8be-7508-4e26-8249-af9d7ce31009",
-          "english" : "car accident",
-          "arabic" : "حادِثَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:28:41",
-          "updatedAt" : "1900-04-11 10:28:41",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6f4422e2-2920-42cf-9a28-28d7d45e5170",
-          "english" : "world",
-          "arabic" : "كَوْكَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:42:49",
-          "updatedAt" : "1900-04-11 09:42:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "6fff215f-690d-4b6b-af7a-5fc31ed80743",
-          "english" : "shop",
-          "arabic" : "مَحَلّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:36:55",
-          "updatedAt" : "1900-04-11 08:36:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "english" : "door",
-          "arabic" : "باب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:07:55",
-          "updatedAt" : "1900-04-11 07:07:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "711bda32-64e4-4943-97fb-d4802abe7a52",
-          "english" : "fire",
-          "arabic" : "نار",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:37:44",
-          "updatedAt" : "1900-04-11 09:37:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "713eb408-e3a7-4726-a26f-bde5bde295f2",
-          "english" : "straight",
-          "arabic" : "مُسْتَقيم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:58:16",
-          "updatedAt" : "1900-04-11 09:58:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "71bab061-44a4-4aea-b048-f1b9145b0684",
-          "english" : "cruel",
-          "arabic" : "قاسٍ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:04:33",
-          "updatedAt" : "1900-04-11 15:04:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "72f418e3-fdb9-4483-b9d1-58be7ea58d27",
-          "english" : "table",
-          "arabic" : "طاوِلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:12:46",
-          "updatedAt" : "1900-04-11 07:12:46",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "73c11afe-8e57-4ff3-a4fe-400256d65fc8",
-          "english" : "street",
-          "arabic" : "شارِع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:20:19",
-          "updatedAt" : "1900-04-11 08:20:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d",
-          "english" : "to take off",
-          "arabic" : " أقْلَع",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:34:45",
-          "updatedAt" : "1900-04-11 10:35:20",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "76e9aba4-be7c-4c8d-8a0e-1dfc55917463",
-          "english" : "love",
-          "arabic" : "حُبّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:31:48",
-          "updatedAt" : "1900-04-11 14:31:48",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "78bc6cd1-4ab0-47df-8b9a-001a1ce44f28",
-          "english" : "bridge",
-          "arabic" : "جِسْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:24:10",
-          "updatedAt" : "1900-04-11 08:24:10",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7a0f6917-147e-44f6-9c0c-0d9c7e6543e3",
-          "english" : "radio",
-          "arabic" : "مِذْياع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:19:23",
-          "updatedAt" : "1900-04-11 07:19:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7ae111c6-9f47-4bfe-94f6-20a584e29850",
-          "english" : "chez",
-          "arabic" : "عِنْدَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:24:00",
-          "updatedAt" : "1900-04-11 13:24:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7c2de9f0-37b1-4adc-aa8e-61ccecbec278",
-          "english" : "late",
-          "arabic" : "مُتَأَخِّر",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:52:44",
-          "updatedAt" : "1900-04-11 13:52:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7d258a88-0018-4ff8-9224-bbfaeaad788e",
-          "english" : "far",
-          "arabic" : "بَعيد",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:28:36",
-          "updatedAt" : "1900-04-11 13:28:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7daa078a-681d-4856-8c2f-90dd43501f69",
-          "english" : "south",
-          "arabic" : "جَنوب",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:25:08",
-          "updatedAt" : "1900-04-11 13:25:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7eb03048-8b0e-41a4-a1b6-178304d08bab",
-          "english" : "brown",
-          "arabic" : "بُنّي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:12:04",
-          "updatedAt" : "1900-04-11 08:12:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7ef608fd-3419-4408-a22e-b5495556de91",
-          "english" : "line",
-          "arabic" : "خَطّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:05:43",
-          "updatedAt" : "1900-04-11 08:05:43",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2",
-          "english" : "helicopter",
-          "arabic" : "مَرْوَحِيَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:33:36",
-          "updatedAt" : "1900-04-11 10:33:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8022bc27-2689-4912-984c-5971026c59a5",
-          "english" : "engaged",
-          "arabic" : "مَخْطوب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:19:53",
-          "updatedAt" : "1900-04-11 14:19:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8126426f-93a3-486f-a346-9acbfac1daf2",
-          "english" : "tortoise",
-          "arabic" : "سُلَحْفاة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:53:25",
-          "updatedAt" : "1900-04-11 08:53:25",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "821e23d9-09d4-43df-8bd0-383e20607010",
-          "english" : "west",
-          "arabic" : "غَرْب",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:26:19",
-          "updatedAt" : "1900-04-11 13:26:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "83e775b2-1c58-4cbc-8a8a-0b4d837b91a0",
-          "english" : "rabbit",
-          "arabic" : "أرْنَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:57:58",
-          "updatedAt" : "1900-04-11 08:57:58",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "849859cd-48db-4e57-9824-d9443264f795",
-          "english" : "single",
-          "arabic" : "أَعزَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:22:51",
-          "updatedAt" : "1900-04-11 14:22:51",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "84cd8e1a-e403-48b1-8a6a-9daf47e2721e",
-          "english" : "right",
-          "arabic" : "يَمين",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:26:49",
-          "updatedAt" : "1900-04-11 13:26:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "84e12f6b-270f-4f6c-a928-eaa406990446",
-          "english" : "dawn",
-          "arabic" : "فَجْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:32:25",
-          "updatedAt" : "1900-04-11 13:32:25",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "84ee077c-eedf-4009-b12e-108349ee1ff3",
-          "english" : "afraid",
-          "arabic" : "خائِف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:51:36",
-          "updatedAt" : "1900-04-11 14:51:36",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "853bda7a-b6d7-448a-8105-a208b725c986",
-          "english" : "green",
-          "arabic" : "أخْضَر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:11:02",
-          "updatedAt" : "1900-04-11 08:11:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "86fcddad-7ea3-4d19-8600-95b6cc085974",
-          "english" : "monkey",
-          "arabic" : "قِرْد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:45:46",
-          "updatedAt" : "1900-04-11 08:45:46",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "874ac774-1f4f-49e4-84c9-69786e2f1c0a",
-          "english" : "curved",
-          "arabic" : "مُنْحَنٍ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:57:24",
-          "updatedAt" : "1900-04-11 09:57:24",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "878f9b1e-e11b-452a-90de-b2ae626434e2",
-          "english" : "cowardly",
-          "arabic" : "جَبان",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:14:25",
-          "updatedAt" : "1900-04-11 15:14:25",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "88c79156-7fca-42b8-b7f4-0477db149824",
-          "english" : "paternal uncle",
-          "arabic" : "عَمّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:01:57",
-          "updatedAt" : "1900-04-11 14:01:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "88d904c7-0763-48a7-bf79-395b1d388ed4",
-          "english" : "east",
-          "arabic" : "شَرْق",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:25:44",
-          "updatedAt" : "1900-04-11 13:25:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "89125544-bb12-4708-80ad-07c6b51de477",
-          "english" : "truck",
-          "arabic" : "شاحِنَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:07:26",
-          "updatedAt" : "1900-04-11 10:07:26",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "89285848-7757-4678-9530-50b5492963cc",
-          "english" : "bee",
-          "arabic" : "نَحلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:56:31",
-          "updatedAt" : "1900-04-11 08:56:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8956bb01-01d4-4bf6-b00c-713768973ef2",
-          "english" : "bush",
-          "arabic" : "دَغَل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:40:48",
-          "updatedAt" : "1900-04-11 09:40:48",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "89788a3f-be76-4c0c-9fbd-e65c419eeea6",
-          "english" : "heavy",
-          "arabic" : "ثَقيل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:46:03",
-          "updatedAt" : "1900-04-11 09:46:03",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8a49e100-b10d-4175-b8d3-d38e1032d97e",
-          "english" : "sad",
-          "arabic" : "حَزين",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:35:06",
-          "updatedAt" : "1900-04-11 14:35:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8a74aa20-4ad3-4d26-9759-b9d42ed4a29c",
-          "english" : "humble",
-          "arabic" : "مُتَواضِع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:00:16",
-          "updatedAt" : "1900-04-11 15:00:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8b390b19-eca7-483c-9c89-a92598b94a15",
-          "english" : "content/satisfied",
-          "arabic" : "راضي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:40:21",
-          "updatedAt" : "1900-04-11 14:40:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8e786b12-cade-4150-9a19-801d3a11a659",
-          "english" : "near",
-          "arabic" : "قَريب",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:29:09",
-          "updatedAt" : "1900-04-11 13:29:09",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "8f102c9b-66ba-4ef2-bef4-0c0ea22411c2",
-          "english" : "pen",
-          "arabic" : "قَلَم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:44:25",
-          "updatedAt" : "1900-04-11 06:44:25",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "908cbd4f-a963-4e84-8611-2225baaf6143",
-          "english" : "ruler",
-          "arabic" : "مِسْطَرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:00:29",
-          "updatedAt" : "1900-04-11 07:00:29",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "909fb154-9782-4f50-a285-ba60eca86960",
-          "english" : "crescent",
-          "arabic" : "هِلال",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:54:32",
-          "updatedAt" : "1900-04-11 07:54:32",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9247a4e8-96ba-44ce-8fd6-a99c6e803710",
-          "english" : "pessimistic",
-          "arabic" : "مُتَشائِم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:08:18",
-          "updatedAt" : "1900-04-11 15:08:18",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "947336e0-a136-461a-951f-f970f8001a5e",
-          "english" : "earth",
-          "arabic" : "أرْض",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:38:13",
-          "updatedAt" : "1900-04-11 09:38:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "956fb730-281e-49ae-863c-ed55b030a1b7",
-          "english" : "pencil sharpener",
-          "arabic" : "بَرَّايَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:48:43",
-          "updatedAt" : "1900-04-11 06:48:43",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "95a014a4-f9c8-4801-8e6c-104f12282d9b",
-          "english" : "low",
-          "arabic" : "مُنْخَفِض",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:55:45",
-          "updatedAt" : "1900-04-11 09:55:45",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "95ad7467-8e22-4627-9635-7a7daafb6eea",
-          "english" : "minute",
-          "arabic" : "دَقيقَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:44:23",
-          "updatedAt" : "1900-04-11 13:44:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "97c2105c-285d-4e2c-a64e-d9efc1b0e503",
-          "english" : "relative",
-          "arabic" : "قَريب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:12:40",
-          "updatedAt" : "1900-04-11 14:12:40",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "97c594ab-18a0-4c1d-91cd-f2170132c3c5",
-          "english" : "child",
-          "arabic" : "طِفْل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:07:11",
-          "updatedAt" : "1900-04-11 14:07:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "99742a3b-19f5-4398-b2a3-4102de7452a4",
-          "english" : "candle",
-          "arabic" : "شَمْعَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:17:23",
-          "updatedAt" : "1900-04-11 07:17:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "999a354e-44c6-444e-8161-29d456e50629",
-          "english" : "bed",
-          "arabic" : "سَرير",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:15:55",
-          "updatedAt" : "1900-04-11 07:15:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9",
-          "english" : "dust",
-          "arabic" : "تُراب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:35:55",
-          "updatedAt" : "1900-04-11 09:35:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "99df8ae9-1fe4-4216-8d2a-59ba06ef4073",
-          "english" : "sleepy",
-          "arabic" : "نَعْسان",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:11:53",
-          "updatedAt" : "1900-04-11 15:11:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9a3ced4f-f57f-4d5e-b89d-d258e4125b63",
-          "english" : "tunnel",
-          "arabic" : "نَفَق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:38:40",
-          "updatedAt" : "1900-04-11 08:38:40",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e",
-          "english" : "hospital",
-          "arabic" : "مُستَشْفى",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:32:27",
-          "updatedAt" : "1900-04-11 08:32:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4",
-          "english" : "night",
-          "arabic" : "لَيْلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:36:38",
-          "updatedAt" : "1900-04-11 13:36:38",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34",
-          "english" : "pothole",
-          "arabic" : "مَطَبّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:31:21",
-          "updatedAt" : "1900-04-11 08:31:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9cc9d170-614e-4740-a067-9ece44937d58",
-          "english" : "sister",
-          "arabic" : "أُخت",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:01:06",
-          "updatedAt" : "1900-04-11 14:01:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22",
-          "english" : "to be cruel",
-          "arabic" : "قَسا",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:06:02",
-          "updatedAt" : "1900-04-11 15:06:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9dad3613-40ed-4ef2-a338-9bc032386826",
-          "english" : "cone",
-          "arabic" : "مَخْروط",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:59:51",
-          "updatedAt" : "1900-04-11 07:59:51",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9deb1efe-45f1-47d9-8925-5825acdb4e0a",
-          "english" : "city",
-          "arabic" : "مَدينَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:19:12",
-          "updatedAt" : "1900-04-11 08:19:12",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3",
-          "english" : "feeling",
-          "arabic" : "شَعْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:29:59",
-          "updatedAt" : "1900-04-11 14:29:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "english" : "chair",
-          "arabic" : "كُرْسيّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:03:22",
-          "updatedAt" : "1900-04-11 07:03:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a0f01e4e-30ce-4cb2-ba16-9b214d385b60",
-          "english" : "adult",
-          "arabic" : "بالِغ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:11:33",
-          "updatedAt" : "1900-04-11 14:11:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a1f43165-8de6-4c11-a1ca-2fc17343df71",
-          "english" : "family",
-          "arabic" : "عائِلة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:13:31",
-          "updatedAt" : "1900-04-11 14:13:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a2a0d36f-8fc5-4c29-8100-167bc17fc29b",
-          "english" : "narrow",
-          "arabic" : "ضَيِّق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:52:17",
-          "updatedAt" : "1900-04-11 09:52:17",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a4a16e3d-bb70-4028-ab7a-040a986186c3",
-          "english" : "ostrich",
-          "arabic" : "نَعامَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:46:27",
-          "updatedAt" : "1900-04-11 08:46:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a5c0589e-7cbd-48c4-b4c7-8ccfff88f06e",
-          "english" : "good",
-          "arabic" : "جَيِد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:01:17",
-          "updatedAt" : "1900-04-11 10:01:17",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a5ce2c6b-8c64-42eb-b218-2308c6b39aeb",
-          "english" : "proud",
-          "arabic" : "فَخور",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:37:09",
-          "updatedAt" : "1900-04-11 14:37:09",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a6d1c34f-faed-4d79-99a0-afd965111f59",
-          "english" : "car horn",
-          "arabic" : "بوق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:28:00",
-          "updatedAt" : "1900-04-11 10:28:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a752647e-367e-439d-bfd0-f65fa5cf97e6",
-          "english" : "grey",
-          "arabic" : "رَمادي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:15:52",
-          "updatedAt" : "1900-04-11 08:15:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a8da7e0d-16a6-4151-856c-821fff07ce29",
-          "english" : "white",
-          "arabic" : "أبْيَض",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:10:02",
-          "updatedAt" : "1900-04-11 08:10:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "a9354f39-b321-4ae1-875d-d9fad1eaec8e",
-          "english" : "lazy",
-          "arabic" : "كُسول",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:09:08",
-          "updatedAt" : "1900-04-11 15:09:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "aa197ce3-6b74-4e8e-9260-6d774a316c3c",
-          "english" : "road",
-          "arabic" : "طَريق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:21:37",
-          "updatedAt" : "1900-04-11 08:21:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "aa34756d-0fd6-4c82-9f52-c20b28550b95",
-          "english" : "worm",
-          "arabic" : "دودَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:48:23",
-          "updatedAt" : "1900-04-11 08:48:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "aa9843c0-f064-47ec-abc9-6f925957ceca",
-          "english" : "engagement",
-          "arabic" : "خُطوبَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:18:53",
-          "updatedAt" : "1900-04-11 14:18:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "aaae2a1e-43ec-46c6-a159-6a80641e0d6c",
-          "english" : "bear",
-          "arabic" : "ّدُب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:49:19",
-          "updatedAt" : "1900-04-11 08:49:42",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "aac78064-0566-420b-bf6d-34ca928a068b",
-          "english" : "person",
-          "arabic" : "شَخْص",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:15:14",
-          "updatedAt" : "1900-04-11 14:15:14",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ab549112-dc36-447f-a8e6-3503d32c7c04",
-          "english" : "leaf/petal",
-          "arabic" : "وَرَق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:32:26",
-          "updatedAt" : "1900-04-11 09:32:26",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ac464aa8-9da1-433a-986c-a667d87eedb0",
-          "english" : "maternal aunt",
-          "arabic" : "خالة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:03:50",
-          "updatedAt" : "1900-04-11 14:03:50",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5",
-          "english" : "emotion",
-          "arabic" : "عاطِف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:30:42",
-          "updatedAt" : "1900-04-11 14:30:42",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ad544105-8044-4af9-82c8-f7c24fea1acf",
-          "english" : "curious",
-          "arabic" : "فُضولي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:12:45",
-          "updatedAt" : "1900-04-11 15:12:45",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ade415d5-5b63-45b2-b35f-b2fcfc3bf034",
-          "english" : "oval",
-          "arabic" : "بَيْضاوي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:59:06",
-          "updatedAt" : "1900-04-11 07:59:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "adf1a776-6968-4d93-bad2-5fd238b77a28",
-          "english" : "wife",
-          "arabic" : "زَوْجَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:24:27",
-          "updatedAt" : "1900-04-11 14:24:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ae3b8a2f-0e8a-4595-b848-d07e2a125c32",
-          "english" : "box",
-          "arabic" : "صُنْدوق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:56:31",
-          "updatedAt" : "1900-04-11 06:56:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b0134767-3886-44eb-a6bb-ff8ad27ae4b0",
-          "english" : "root",
-          "arabic" : "جَذْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:34:19",
-          "updatedAt" : "1900-04-11 09:34:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b13b8e30-b258-490b-b898-0ec4e2f0975b",
-          "english" : "mud",
-          "arabic" : "طين",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:29:10",
-          "updatedAt" : "1900-04-11 09:29:10",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669",
-          "english" : "drive",
-          "arabic" : "قاد",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:04:00",
-          "updatedAt" : "1900-04-11 10:04:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b2e0cdf5-1999-4f4c-84e8-c14d7692357e",
-          "english" : "husband",
-          "arabic" : "زَوْج",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:23:54",
-          "updatedAt" : "1900-04-11 14:23:54",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f",
-          "english" : "blue",
-          "arabic" : "أزْرَق",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:08:19",
-          "updatedAt" : "1900-04-11 08:08:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b540b891-fdfb-4876-9a04-9a6161708217",
-          "english" : "woman",
-          "arabic" : "إمْرَأَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:58:00",
-          "updatedAt" : "1900-04-11 13:58:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b5b24bab-e9e2-42ef-a0cc-4335aae6031d",
-          "english" : "bank",
-          "arabic" : "بَنْك",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:27:51",
-          "updatedAt" : "1900-04-11 08:27:51",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b730c36d-0e42-49b0-93f5-fd9449a6ea4c",
-          "english" : "high",
-          "arabic" : "مُرْتَفِع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:56:35",
-          "updatedAt" : "1900-04-11 09:56:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b7508ffe-caf9-4e5b-a615-9dc7c0891e8b",
-          "english" : "tired",
-          "arabic" : "مُتْعَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:53:18",
-          "updatedAt" : "1900-04-11 14:53:18",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b7797b9f-557c-4dab-81a0-acf54496404e",
-          "english" : "eraser",
-          "arabic" : "مِمْحاة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:50:08",
-          "updatedAt" : "1900-04-11 06:50:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "b8213afd-6a2b-47bd-a9c5-797c94d1ee00",
-          "english" : "happy",
-          "arabic" : "سَعيد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:33:57",
-          "updatedAt" : "1900-04-11 14:33:57",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "babdc233-a6bf-4cd1-936a-ef1524e37417",
-          "english" : "evening",
-          "arabic" : "مَساء",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:34:50",
-          "updatedAt" : "1900-04-11 13:34:50",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "bb04fcc5-38d4-402a-8ca4-c59570c35184",
-          "english" : "snake",
-          "arabic" : "ثُعْبان",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:00:00",
-          "updatedAt" : "1900-04-11 09:00:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "bbf3e801-c13c-4e01-aa0a-3221f431d60e",
-          "english" : "wood",
-          "arabic" : "خَشَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:28:30",
-          "updatedAt" : "1900-04-11 09:28:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "bcaf1632-3659-4689-8a22-66328ca38a6a",
-          "english" : "rectangle",
-          "arabic" : "مُسْتَطيل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:38:46",
-          "updatedAt" : "1900-04-11 07:38:46",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "bcf75b90-7658-499b-9cc2-0bbb6c709a55",
-          "english" : "horse",
-          "arabic" : "حِصان",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:50:33",
-          "updatedAt" : "1900-04-11 08:50:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "be9bf59b-7e45-4e14-bc26-3ee808e93093",
-          "english" : "circle",
-          "arabic" : "دائِرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:50:19",
-          "updatedAt" : "1900-04-11 07:50:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "bf28faf0-6ed2-4b50-803a-2fac586dac0a",
-          "english" : "then",
-          "arabic" : "ثُمَّ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:47:21",
-          "updatedAt" : "1900-04-11 13:47:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c05240b1-8ee7-4f9b-8a50-57423965c858",
-          "english" : "later",
-          "arabic" : "لَحِقاً",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:50:21",
-          "updatedAt" : "1900-04-11 13:50:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c1d1ee0e-7a53-45a0-904b-2be41fae5573",
-          "english" : "brave",
-          "arabic" : "شُجاع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:13:44",
-          "updatedAt" : "1900-04-11 15:13:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c22d2595-83da-4458-abb9-2650d46ebd8d",
-          "english" : "slow",
-          "arabic" : "بَطيء",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:49:52",
-          "updatedAt" : "1900-04-11 09:49:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c2c59a22-22bc-4108-8dad-0dfb905eb538",
-          "english" : "insane",
-          "arabic" : "مَجْنون",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:16:01",
-          "updatedAt" : "1900-04-11 15:16:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c3b0e6fe-b2b4-4767-9653-769184a572fd",
-          "english" : "minor",
-          "arabic" : "قاصِر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:10:48",
-          "updatedAt" : "1900-04-11 14:10:48",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c44f37ae-b704-416b-b226-5fc0f724b051",
-          "english" : "to be content",
-          "arabic" : "رَضِى",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:42:46",
-          "updatedAt" : "1900-04-11 14:42:46",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c4df9ed3-feec-4ae1-a213-cceea535fa70",
-          "english" : "to land",
-          "arabic" : "هَنَط",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:36:13",
-          "updatedAt" : "1900-04-11 10:36:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c5095105-6acb-4dc8-8c9b-63e8210080de",
-          "english" : "sofa",
-          "arabic" : "أريكَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:04:59",
-          "updatedAt" : "1900-04-11 07:04:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c536cc40-86e1-4140-a6bd-a35723d259cb",
-          "english" : "week",
-          "arabic" : "أُسْبوع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:42:04",
-          "updatedAt" : "1900-04-11 13:42:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c7659573-c91f-461a-918b-bc98027c56d0",
-          "english" : "wide",
-          "arabic" : "واسِع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:53:03",
-          "updatedAt" : "1900-04-11 09:53:03",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c823bb72-e35d-43d7-86cb-9f9e1393bd58",
-          "english" : "grandfather",
-          "arabic" : "جَدّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:04:21",
-          "updatedAt" : "1900-04-11 14:04:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c85cf0e1-a3ab-4940-b99c-9d053f55645b",
-          "english" : "brother",
-          "arabic" : "أج",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:00:22",
-          "updatedAt" : "1900-04-11 14:00:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e",
-          "english" : "window (alt)",
-          "arabic" : "نافْذَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:21:27",
-          "updatedAt" : "1900-04-11 07:21:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "c8d82f53-7405-4786-923f-de795a208df5",
-          "english" : "morning",
-          "arabic" : "صَباح",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:33:27",
-          "updatedAt" : "1900-04-11 13:33:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "cc9b3a08-efac-468f-9c8f-d3584b959223",
-          "english" : "smart",
-          "arabic" : "ذَكي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:02:09",
-          "updatedAt" : "1900-04-11 15:02:09",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e",
-          "english" : "taxi",
-          "arabic" : "تَكْسي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:09:21",
-          "updatedAt" : "1900-04-11 10:09:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "cfe25952-0d43-4edf-844d-942325a77dcc",
-          "english" : "sensible/sane",
-          "arabic" : "عاقِل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:15:27",
-          "updatedAt" : "1900-04-11 15:15:27",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "cfe2fde2-9828-4e68-80cd-65becb6f17a6",
-          "english" : "maternal uncle",
-          "arabic" : "خال",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:03:16",
-          "updatedAt" : "1900-04-11 14:03:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3",
-          "english" : "plant",
-          "arabic" : "نَبات",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:29:53",
-          "updatedAt" : "1900-04-11 09:29:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d1cbe8e8-7354-4ad0-be5a-c51c9f79ec69",
-          "english" : "angry",
-          "arabic" : "غاضِب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:49:21",
-          "updatedAt" : "1900-04-11 14:49:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d25988e1-7e0d-4651-9890-be833459138d",
-          "english" : "window",
-          "arabic" : "شُبَّاك",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:20:29",
-          "updatedAt" : "1900-04-11 07:20:29",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d2d014ab-5f4d-4cd5-bf7d-a164417f4b26",
-          "english" : "clothes iron",
-          "arabic" : "مِكْواة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:53:12",
-          "updatedAt" : "1900-04-11 06:53:12",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d3018d62-0c26-4b56-9eb4-027f41eef927",
-          "english" : "graveyard",
-          "arabic" : "مَقْبَرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:33:38",
-          "updatedAt" : "1900-04-11 08:33:38",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d3b7505a-d879-4c03-b8a6-3cc98a8b0ffe",
-          "english" : "rhombus",
-          "arabic" : "مُعَيَّن",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:55:37",
-          "updatedAt" : "1900-04-11 07:55:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d49d6d72-138b-4b06-9901-f8b6e1747c90",
-          "english" : "ant",
-          "arabic" : "نَمْلَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:51:55",
-          "updatedAt" : "1900-04-11 08:51:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d6f6abeb-d458-4ef6-a194-cc1fdf136c28",
-          "english" : "light",
-          "arabic" : "خَفيف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:45:26",
-          "updatedAt" : "1900-04-11 09:45:26",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d72cbef3-32f4-466a-98ff-8a9fbb8acdd4",
-          "english" : "year",
-          "arabic" : "سَنَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:41:17",
-          "updatedAt" : "1900-04-11 13:41:17",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d73f0d17-991f-4037-a435-7d14f2db8012",
-          "english" : "sidewalk",
-          "arabic" : "رَصيف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:28:29",
-          "updatedAt" : "1900-04-11 08:28:29",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d8cfbc2c-62ba-4c55-829e-0d0d02156e83",
-          "english" : "around",
-          "arabic" : "حَوْلَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:21:15",
-          "updatedAt" : "1900-04-11 13:21:15",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "d9272b1d-a0c1-4413-be33-45711e022ac3",
-          "english" : "computer",
-          "arabic" : "حاسوب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:45:49",
-          "updatedAt" : "1900-04-11 06:45:49",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "dae0a8b5-1575-44ac-8981-9f8c6849dfea",
-          "english" : "cylinder",
-          "arabic" : "أُسْطُوَانَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:02:37",
-          "updatedAt" : "1900-04-11 08:02:37",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a",
-          "english" : "sky",
-          "arabic" : "سَماء",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:39:10",
-          "updatedAt" : "1900-04-11 09:39:10",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "dc1671e5-1322-44b3-b721-be926a925042",
-          "english" : "scissors",
-          "arabic" : "مِقَصّ",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:51:03",
-          "updatedAt" : "1900-04-11 07:00:51",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ddaf5e67-1885-4f74-acc0-1d0bc82b2bbd",
-          "english" : "thin",
-          "arabic" : "نَحيف",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:53:59",
-          "updatedAt" : "1900-04-11 09:53:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e07cdc9e-3e21-497b-a5c0-232e37c93d60",
-          "english" : "cloud",
-          "arabic" : "غَيْمَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:25:52",
-          "updatedAt" : "1900-04-11 09:25:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e0aaf42a-d8cf-4c34-8ba0-3a17a447c539",
-          "english" : "to crash land",
-          "arabic" : "تَحَطَّم",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:37:50",
-          "updatedAt" : "1900-04-11 10:37:50",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e1ad2b1e-83f6-427d-a299-378a3e101abc",
-          "english" : "to crash",
-          "arabic" : "صادَم",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:29:58",
-          "updatedAt" : "1900-04-11 10:29:58",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e21b59f3-4447-49b7-a901-e3f9f06277c6",
-          "english" : "hexagon",
-          "arabic" : "مُسَدَّس",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:58:15",
-          "updatedAt" : "1900-04-11 07:58:15",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e402aaa4-b953-4ef5-8cab-f96d5bee2c86",
-          "english" : "elephant",
-          "arabic" : "فيل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:54:20",
-          "updatedAt" : "1900-04-11 08:54:20",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e5249b51-300a-4a31-a6c9-c31cafb76c4a",
-          "english" : "on",
-          "arabic" : "عَلى",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:15:11",
-          "updatedAt" : "1900-04-11 13:15:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e5af34fb-ca55-4364-ae3d-6e2d5b414629",
-          "english" : "cruelty",
-          "arabic" : "قَسْوَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 15:05:19",
-          "updatedAt" : "1900-04-11 15:05:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e6375e5c-9811-4bad-b81d-86d33f4a5edd",
-          "english" : "old",
-          "arabic" : "قَديم",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:50:48",
-          "updatedAt" : "1900-04-11 09:50:48",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a",
-          "english" : "sewer drain",
-          "arabic" : "بَلاعَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:29:35",
-          "updatedAt" : "1900-04-11 08:29:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e7f90f2a-a594-4966-aacd-82cac9b4aef3",
-          "english" : "twin",
-          "arabic" : "تُؤَام",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:17:22",
-          "updatedAt" : "1900-04-11 14:17:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "e89449d4-0353-451e-8c17-ed2b56ea3138",
-          "english" : "airplane",
-          "arabic" : "طائِرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:38:38",
-          "updatedAt" : "1900-04-11 10:38:38",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "eab244cb-6521-4327-8419-43bc60b9b7c1",
-          "english" : "fast",
-          "arabic" : "سَريع",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:49:08",
-          "updatedAt" : "1900-04-11 09:49:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "eb1fc4de-b70c-4ff6-8464-c9cd2277cd1f",
-          "english" : "now",
-          "arabic" : "ألآن",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:48:02",
-          "updatedAt" : "1900-04-11 13:48:02",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ec1311eb-3f69-4845-9bda-a123d23c4737",
-          "english" : "time (countable)",
-          "arabic" : "مَرَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:55:28",
-          "updatedAt" : "1900-04-11 13:55:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ed09dda0-9a70-498e-bd14-37e5e71fe14b",
-          "english" : "anger",
-          "arabic" : "غَضَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:48:44",
-          "updatedAt" : "1900-04-11 14:48:44",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254",
-          "english" : "bag",
-          "arabic" : "حَقيبَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 06:55:29",
-          "updatedAt" : "1900-04-11 06:55:29",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ed695217-5fb7-4e1e-863f-85404514b32d",
-          "english" : "between",
-          "arabic" : "بَيْنَ",
-          "root" : null,
-          "partOfSpeech" : "PARTICLE",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:20:35",
-          "updatedAt" : "1900-04-11 13:20:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ed82a8b1-5a14-4ae8-94fd-33afaf1d8654",
-          "english" : "downtown",
-          "arabic" : "وُسْط اللبَلَد",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:27:13",
-          "updatedAt" : "1900-04-11 08:27:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ee5e5bce-83fb-4670-acab-642ba1c441ee",
-          "english" : "noon",
-          "arabic" : "ظُهْر",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:34:13",
-          "updatedAt" : "1900-04-11 13:34:13",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd",
-          "english" : "pink",
-          "arabic" : "وَرْدي",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:16:52",
-          "updatedAt" : "1900-04-11 08:16:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f0544b6c-5dce-4d3f-98be-3d4bef79b294",
-          "english" : "grandmother",
-          "arabic" : "جَدّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:04:53",
-          "updatedAt" : "1900-04-11 14:04:53",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f088d7d1-0832-46e9-84a3-71a74af6afe6",
-          "english" : "to worry",
-          "arabic" : "قَلِق",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:47:16",
-          "updatedAt" : "1900-04-11 14:47:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f0be5c30-52fa-428f-970d-a885f259cf16",
-          "english" : "heart",
-          "arabic" : "قَلْب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:52:47",
-          "updatedAt" : "1900-04-11 07:52:47",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f16811f3-acda-4a1b-a21e-a81ee7e6fb4b",
-          "english" : "alley",
-          "arabic" : "حارَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:39:19",
-          "updatedAt" : "1900-04-11 08:39:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f1f94348-b2b2-4bdd-be85-32f10757593d",
-          "english" : "butterfly",
-          "arabic" : "فَراشَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:57:16",
-          "updatedAt" : "1900-04-11 08:57:16",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f4d91028-a529-4955-a8b1-829439bca52e",
-          "english" : "big",
-          "arabic" : "كَبير",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:59:31",
-          "updatedAt" : "1900-04-11 09:59:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "f76de48c-114f-46ac-8798-cc35095e2077",
-          "english" : "man",
-          "arabic" : "رَجُل",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 13:57:08",
-          "updatedAt" : "1900-04-11 13:57:08",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fa2999ad-bd9c-4c7c-8103-123b22db12bd",
-          "english" : "short",
-          "arabic" : "قَصير",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:00:12",
-          "updatedAt" : "1900-04-11 10:00:12",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "faf94e4d-1bff-4d96-aa00-acd333da031d",
-          "english" : "spiral",
-          "arabic" : "لَوْلَب",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:04:56",
-          "updatedAt" : "1900-04-11 08:04:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fc27f5dd-b6a0-4217-8903-15c916656860",
-          "english" : "cat",
-          "arabic" : "قِطَّة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:45:01",
-          "updatedAt" : "1900-04-11 08:45:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fd28b036-7290-4049-a610-b3762111e2ed",
-          "english" : "to park",
-          "arabic" : "وَقَف",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 10:14:41",
-          "updatedAt" : "1900-04-11 10:14:41",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fd389c22-b5d9-481b-8577-9c6ee9699342",
-          "english" : "to fear",
-          "arabic" : "خاف",
-          "root" : null,
-          "partOfSpeech" : "VERB",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:52:06",
-          "updatedAt" : "1900-04-11 14:52:06",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fdb61374-dce9-4d9f-ad69-5de2b8254aff",
-          "english" : "crocodile",
-          "arabic" : "تِمْساح",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 08:44:11",
-          "updatedAt" : "1900-04-11 08:44:11",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fe07129c-b278-47f1-addc-cba34bc2262f",
-          "english" : "disgusted",
-          "arabic" : "مُشْمَئِز",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 14:54:42",
-          "updatedAt" : "1900-04-11 14:54:42",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "fe8844b8-1179-4867-a61d-bcd899c4c3cd",
-          "english" : "blackboard",
-          "arabic" : "سَبُّورَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 07:11:04",
-          "updatedAt" : "1900-04-11 07:11:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "wordId" : "feb4d38d-32e0-4590-9a67-df4ba285faaa",
-          "english" : "rock",
-          "arabic" : "صَخْرَة",
-          "root" : null,
-          "partOfSpeech" : "NOUN",
-          "img" : null,
-          "createdAt" : "1900-04-11 09:26:33",
-          "updatedAt" : "1900-04-11 09:26:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        }
-      ], {transaction})
-      
-      await queryInterface.bulkInsert('tags', [
-        {
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314",
-          "tagName" : "plant",
-          "createdAt" : "1900-04-11 09:27:34",
-          "updatedAt" : "1900-04-11 09:27:34",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee",
-          "tagName" : "mammal",
-          "createdAt" : "1900-04-11 08:41:45",
-          "updatedAt" : "1900-04-11 08:41:45",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "0e82d2d1-089d-4c58-991d-991cf498e680",
-          "tagName" : "container",
-          "createdAt" : "1900-04-11 06:54:04",
-          "updatedAt" : "1900-04-11 06:54:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927",
-          "tagName" : "furniture",
-          "createdAt" : "1900-04-11 07:04:51",
-          "updatedAt" : "1900-04-11 07:04:51",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "1ceec3bd-42d2-4793-9505-b62e9f3dd7cb",
-          "tagName" : "bird",
-          "createdAt" : "1900-04-11 08:42:10",
-          "updatedAt" : "1900-04-11 08:42:10",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd",
-          "tagName" : "animal",
-          "createdAt" : "1900-04-11 08:41:31",
-          "updatedAt" : "1900-04-11 08:41:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "33409a8e-8f60-4365-98b5-17071a2c8b3b",
-          "tagName" : "anatomy",
-          "createdAt" : "1900-04-11 07:52:35",
-          "updatedAt" : "1900-04-11 07:52:35",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988",
-          "tagName" : "nature",
-          "createdAt" : "1900-04-11 09:24:00",
-          "updatedAt" : "1900-04-11 09:24:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "47485bd8-07e6-44e3-8499-ab6ee1d089ae",
-          "tagName" : "astronomy",
-          "createdAt" : "1900-04-11 07:53:04",
-          "updatedAt" : "1900-04-11 07:53:04",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539",
-          "tagName" : "time",
-          "createdAt" : "1900-04-11 06:36:07",
-          "updatedAt" : "1900-04-11 06:36:07",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e",
-          "tagName" : "transportation",
-          "createdAt" : "1900-04-11 10:03:52",
-          "updatedAt" : "1900-04-11 10:03:52",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4",
-          "tagName" : "position",
-          "createdAt" : "1900-04-11 13:16:00",
-          "updatedAt" : "1900-04-11 13:16:00",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "6319dcf5-355f-47e3-9b7f-fa23eb36dec3",
-          "tagName" : "job",
-          "createdAt" : "1900-04-11 10:04:54",
-          "updatedAt" : "1900-04-11 10:04:54",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "6576a119-745d-43df-a516-c6d282cd98a0",
-          "tagName" : "reptile",
-          "createdAt" : "1900-04-11 08:41:59",
-          "updatedAt" : "1900-04-11 08:41:59",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "6d3a0567-0c69-4c0b-975a-304b1736c40e",
-          "tagName" : "invertebrate",
-          "createdAt" : "1900-04-11 08:48:20",
-          "updatedAt" : "1900-04-11 08:48:20",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "70509af5-5053-40b8-acb2-1748a9414868",
-          "tagName" : "weather",
-          "createdAt" : "1900-04-11 09:25:41",
-          "updatedAt" : "1900-04-11 09:25:41",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612",
-          "tagName" : "household",
-          "createdAt" : "1900-04-11 06:36:17",
-          "updatedAt" : "1900-04-11 06:36:17",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12",
-          "tagName" : "vehicle",
-          "createdAt" : "1900-04-11 10:06:22",
-          "updatedAt" : "1900-04-11 10:06:22",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da",
-          "tagName" : "math",
-          "createdAt" : "1900-04-11 07:44:01",
-          "updatedAt" : "1900-04-11 07:44:01",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7",
-          "tagName" : "emotion",
-          "createdAt" : "1900-04-11 14:28:43",
-          "updatedAt" : "1900-04-11 14:29:55",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f",
-          "tagName" : "shape",
-          "createdAt" : "1900-04-11 07:38:30",
-          "updatedAt" : "1900-04-11 07:38:30",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8",
-          "tagName" : "office",
-          "createdAt" : "1900-04-11 06:36:28",
-          "updatedAt" : "1900-04-11 06:36:28",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74",
-          "tagName" : "family",
-          "createdAt" : "1900-04-11 13:56:23",
-          "updatedAt" : "1900-04-11 13:56:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d",
-          "tagName" : "building",
-          "createdAt" : "1900-04-11 07:13:56",
-          "updatedAt" : "1900-04-11 07:13:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754",
-          "tagName" : "school",
-          "createdAt" : "1900-04-11 07:00:23",
-          "updatedAt" : "1900-04-11 07:00:23",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3",
-          "tagName" : "city",
-          "createdAt" : "1900-04-11 08:18:33",
-          "updatedAt" : "1900-04-11 08:18:33",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c",
-          "tagName" : "color",
-          "createdAt" : "1900-04-11 08:06:31",
-          "updatedAt" : "1900-04-11 08:06:31",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d",
-          "tagName" : "people",
-          "createdAt" : "1900-04-11 13:56:19",
-          "updatedAt" : "1900-04-11 13:56:19",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e",
-          "tagName" : "geography",
-          "createdAt" : "1900-04-11 09:31:21",
-          "updatedAt" : "1900-04-11 09:31:21",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        },
-        {
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979",
-          "tagName" : "personality",
-          "createdAt" : "1900-04-11 14:28:56",
-          "updatedAt" : "1900-04-11 14:28:56",
-          "createdBy" : "00000000-0000-0000-0000-000000000000"
-        }
-      ], {transaction})
+    async up(queryInterface, Sequelize) {
+        /**
+         * Add seed commands here.
+         *
+         * Example:
+         * await queryInterface.bulkInsert      {'People', [{
+         *   name: 'John Doe',
+         *   isBetaMember: false
+         * }], {});
+         */
+        const transaction = await queryInterface.sequelize.transaction()
+        try {
+            await queryInterface.bulkInsert(
+                'users',
+                [
+                    {
+                        username: 'system',
+                        userId: '00000000-0000-0000-0000-000000000000',
+                        email: 'system@admin.com',
+                        password: '$argon2id$v=19$m=65536,t=3,p=4$qHC4lw+Rp8VX+j2S52UFkQ$dha7aS5pIi3c922NX/LRQBxLK89tCqLC6iJqDn6oZf0',
+                        createdAt: '1900-04-11 06:33:54',
+                        updatedAt: '1900-04-11 06:33:54',
+                        verified: 0,
+                        profile_image: null,
+                    },
+                ],
+                { transaction },
+            )
 
-      await queryInterface.bulkInsert('tagwords', [
-        {
-          "wordId" : "1726cc26-9deb-4e52-949f-989ea37126cf",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "1ec8feb4-3afe-4816-84f7-40f0c46f04fc",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "343fc002-6316-4b6f-9b06-cc2504a82afb",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "6156e0f1-e9b2-444c-a949-1e10c8342a43",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "8956bb01-01d4-4bf6-b00c-713768973ef2",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "ab549112-dc36-447f-a8e6-3503d32c7c04",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "b0134767-3886-44eb-a6bb-ff8ad27ae4b0",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "bbf3e801-c13c-4e01-aa0a-3221f431d60e",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "d0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3",
-          "tagId" : "07eaa066-d134-4469-bbf6-f9b4f345b314"
-        },
-        {
-          "wordId" : "0ea1047d-09fd-49ec-8b11-33a94ead99fd",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "1ce7751b-5676-4ec7-873f-0f5735172744",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "29345438-b5fe-43cc-8f66-d52667aa0bc3",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "49f5c1be-28fa-4f12-8096-c2782dc0afe0",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "54ae995e-e7af-42fe-b855-3fccece38deb",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "83e775b2-1c58-4cbc-8a8a-0b4d837b91a0",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "86fcddad-7ea3-4d19-8600-95b6cc085974",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "aaae2a1e-43ec-46c6-a159-6a80641e0d6c",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "aac78064-0566-420b-bf6d-34ca928a068b",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "bcf75b90-7658-499b-9cc2-0bbb6c709a55",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "e402aaa4-b953-4ef5-8cab-f96d5bee2c86",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "fc27f5dd-b6a0-4217-8903-15c916656860",
-          "tagId" : "0896faad-98c3-4fd1-a390-8cae21b01dee"
-        },
-        {
-          "wordId" : "ae3b8a2f-0e8a-4595-b848-d07e2a125c32",
-          "tagId" : "0e82d2d1-089d-4c58-991d-991cf498e680"
-        },
-        {
-          "wordId" : "ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254",
-          "tagId" : "0e82d2d1-089d-4c58-991d-991cf498e680"
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "16c8726b-b0e9-4251-a183-c96291fb0d51",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "1a414893-c3ad-40eb-852c-9c6b0fcd44ca",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "2b7196a8-9d25-4f2c-9064-925f215c2e3a",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "4377fce9-699b-44ab-bbc0-536d45483a2f",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "72f418e3-fdb9-4483-b9d1-58be7ea58d27",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "7a0f6917-147e-44f6-9c0c-0d9c7e6543e3",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "99742a3b-19f5-4398-b2a3-4102de7452a4",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "999a354e-44c6-444e-8161-29d456e50629",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "c5095105-6acb-4dc8-8c9b-63e8210080de",
-          "tagId" : "10fe670b-07d3-4754-8307-136875591927"
-        },
-        {
-          "wordId" : "223f8ac4-48a9-426e-a632-119a27a1a75f",
-          "tagId" : "1ceec3bd-42d2-4793-9505-b62e9f3dd7cb"
-        },
-        {
-          "wordId" : "6973bb6d-8c49-4b0f-86d1-d0d1c352c87f",
-          "tagId" : "1ceec3bd-42d2-4793-9505-b62e9f3dd7cb"
-        },
-        {
-          "wordId" : "a4a16e3d-bb70-4028-ab7a-040a986186c3",
-          "tagId" : "1ceec3bd-42d2-4793-9505-b62e9f3dd7cb"
-        },
-        {
-          "wordId" : "0ea1047d-09fd-49ec-8b11-33a94ead99fd",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "18c56fa3-1791-4328-b3ed-39ff3047f6e4",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "1ce7751b-5676-4ec7-873f-0f5735172744",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "223f8ac4-48a9-426e-a632-119a27a1a75f",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "29345438-b5fe-43cc-8f66-d52667aa0bc3",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "49f5c1be-28fa-4f12-8096-c2782dc0afe0",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "54ae995e-e7af-42fe-b855-3fccece38deb",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "6973bb6d-8c49-4b0f-86d1-d0d1c352c87f",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "8126426f-93a3-486f-a346-9acbfac1daf2",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "83e775b2-1c58-4cbc-8a8a-0b4d837b91a0",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "86fcddad-7ea3-4d19-8600-95b6cc085974",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "89285848-7757-4678-9530-50b5492963cc",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "a4a16e3d-bb70-4028-ab7a-040a986186c3",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "aa34756d-0fd6-4c82-9f52-c20b28550b95",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "aaae2a1e-43ec-46c6-a159-6a80641e0d6c",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "bb04fcc5-38d4-402a-8ca4-c59570c35184",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "bcf75b90-7658-499b-9cc2-0bbb6c709a55",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "d49d6d72-138b-4b06-9901-f8b6e1747c90",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "e402aaa4-b953-4ef5-8cab-f96d5bee2c86",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "f1f94348-b2b2-4bdd-be85-32f10757593d",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "fc27f5dd-b6a0-4217-8903-15c916656860",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "fdb61374-dce9-4d9f-ad69-5de2b8254aff",
-          "tagId" : "2120f4d4-381f-46c3-8564-2592d478a7dd"
-        },
-        {
-          "wordId" : "f0be5c30-52fa-428f-970d-a885f259cf16",
-          "tagId" : "33409a8e-8f60-4365-98b5-17071a2c8b3b"
-        },
-        {
-          "wordId" : "10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "1726cc26-9deb-4e52-949f-989ea37126cf",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "1ec8feb4-3afe-4816-84f7-40f0c46f04fc",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "1fba7688-9d90-446a-92c8-4597d4deb4a4",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "3030a34d-4e8b-45e3-bf20-4d9016f6f669",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "343fc002-6316-4b6f-9b06-cc2504a82afb",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "3fae5472-1f4e-43dc-aaba-194be61e52e0",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "5e8140dd-49f4-4fbf-9043-47a368b86623",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "6027ad46-bfc3-4550-b7fd-fda0552d0c2f",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "6156e0f1-e9b2-444c-a949-1e10c8342a43",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "6f4422e2-2920-42cf-9a28-28d7d45e5170",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "711bda32-64e4-4943-97fb-d4802abe7a52",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "8956bb01-01d4-4bf6-b00c-713768973ef2",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "947336e0-a136-461a-951f-f970f8001a5e",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "ab549112-dc36-447f-a8e6-3503d32c7c04",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "b0134767-3886-44eb-a6bb-ff8ad27ae4b0",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "b13b8e30-b258-490b-b898-0ec4e2f0975b",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "bbf3e801-c13c-4e01-aa0a-3221f431d60e",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "d0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "e07cdc9e-3e21-497b-a5c0-232e37c93d60",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "feb4d38d-32e0-4590-9a67-df4ba285faaa",
-          "tagId" : "471bfecf-a3a9-4dc1-8741-3c49939d0988"
-        },
-        {
-          "wordId" : "3030a34d-4e8b-45e3-bf20-4d9016f6f669",
-          "tagId" : "47485bd8-07e6-44e3-8499-ab6ee1d089ae"
-        },
-        {
-          "wordId" : "4116ffff-48bf-4016-845f-9087905dfac0",
-          "tagId" : "47485bd8-07e6-44e3-8499-ab6ee1d089ae"
-        },
-        {
-          "wordId" : "0647b68a-3ef9-4f41-8d0f-5d2b3014cb4b",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "065c6a47-6b0e-4fdf-807a-6493cdee477c",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "06b22024-b2b7-4134-afb6-dc6c8696a143",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "137b6f99-1115-45f7-8e29-9a305a3da372",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "1cbe8cd9-0078-4fb8-8aa3-b55cbee97f0d",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "33a838d8-1190-4eee-9f62-ec144fc8b7a0",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "4012c35a-d4c8-40c9-a11f-26630968351a",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "484df8d3-33e3-41aa-84f7-875d2614c0b4",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "4c5fb3c9-1405-4089-8440-f4f635a422fa",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "4d995422-e779-4203-8079-3270535b8a61",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "540b9cf8-a8d0-48e6-a310-90151e56d103",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "656d9236-0799-4d95-a9cc-a16cfd3f4e09",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "6e977338-0418-4e72-a0ad-702e6f0ad566",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "7c2de9f0-37b1-4adc-aa8e-61ccecbec278",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "84e12f6b-270f-4f6c-a928-eaa406990446",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "95ad7467-8e22-4627-9635-7a7daafb6eea",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "babdc233-a6bf-4cd1-936a-ef1524e37417",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "bf28faf0-6ed2-4b50-803a-2fac586dac0a",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "c05240b1-8ee7-4f9b-8a50-57423965c858",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "c536cc40-86e1-4140-a6bd-a35723d259cb",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "c8d82f53-7405-4786-923f-de795a208df5",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "d72cbef3-32f4-466a-98ff-8a9fbb8acdd4",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "eb1fc4de-b70c-4ff6-8464-c9cd2277cd1f",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "ec1311eb-3f69-4845-9bda-a123d23c4737",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "ee5e5bce-83fb-4670-acab-642ba1c441ee",
-          "tagId" : "5304c96f-f3dd-46bb-8718-4af1dd93d539"
-        },
-        {
-          "wordId" : "11205f97-462e-4268-83bc-fcb4ff202cdd",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "11c4288f-cab1-4689-b80f-a2c09a9efbab",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "1687c717-255f-454f-8c56-74b0143be8af",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "171507d6-a823-4fa8-8dec-1a687b9fa185",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "1770cca3-a044-4fc7-91ee-393090e1a71d",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "19a15323-6c16-41e4-b9af-999bdfb21d21",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "1c0b17c7-f298-4981-a060-8d3ad7e56686",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "20e9606f-0d12-4f7d-8c29-8facc0b3e94a",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "22e9caac-31cf-475b-aee6-cebb219b3c05",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "253f507b-9028-46f5-b1a8-0f8b143ee1e3",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "2799fa6c-c0ea-47f2-9348-03246fb8d7d3",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "2ce0edde-6970-4b7e-9900-dcc3d15311f2",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "40d3b0db-a214-4560-93d0-551d7e555160",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "6f1eb8be-7508-4e26-8249-af9d7ce31009",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "89125544-bb12-4708-80ad-07c6b51de477",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "a6d1c34f-faed-4d79-99a0-afd965111f59",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "c4df9ed3-feec-4ae1-a213-cceea535fa70",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "e0aaf42a-d8cf-4c34-8ba0-3a17a447c539",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "e1ad2b1e-83f6-427d-a299-378a3e101abc",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "e89449d4-0353-451e-8c17-ed2b56ea3138",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "fd28b036-7290-4049-a610-b3762111e2ed",
-          "tagId" : "53bdb048-0d8f-42c8-b8c5-42a825534f3e"
-        },
-        {
-          "wordId" : "21191b66-2556-4392-a5f7-e61c928914ed",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "273004ce-4cd8-406e-850e-c7c4c63be4b9",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "447b93ef-32b3-4e71-a606-c25d494b1e07",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "4c7b0dba-317c-46f5-ae58-1926f3193d07",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "4e13a13e-c063-4866-85ed-2b5b645454e4",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "4f92482a-5076-4c07-8cab-24fb9910992c",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "55879be3-c5c1-4a02-8516-b42083f30701",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "5fa17200-6791-4e2b-b6fe-bee878e04ae8",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "62a53212-6329-4c95-a41b-c19cc97df746",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "7ae111c6-9f47-4bfe-94f6-20a584e29850",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "7d258a88-0018-4ff8-9224-bbfaeaad788e",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "7daa078a-681d-4856-8c2f-90dd43501f69",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "821e23d9-09d4-43df-8bd0-383e20607010",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "84cd8e1a-e403-48b1-8a6a-9daf47e2721e",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "88d904c7-0763-48a7-bf79-395b1d388ed4",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "8e786b12-cade-4150-9a19-801d3a11a659",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "d8cfbc2c-62ba-4c55-829e-0d0d02156e83",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "e5249b51-300a-4a31-a6c9-c31cafb76c4a",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "ed695217-5fb7-4e1e-863f-85404514b32d",
-          "tagId" : "599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4"
-        },
-        {
-          "wordId" : "1c0b17c7-f298-4981-a060-8d3ad7e56686",
-          "tagId" : "6319dcf5-355f-47e3-9b7f-fa23eb36dec3"
-        },
-        {
-          "wordId" : "8126426f-93a3-486f-a346-9acbfac1daf2",
-          "tagId" : "6576a119-745d-43df-a516-c6d282cd98a0"
-        },
-        {
-          "wordId" : "bb04fcc5-38d4-402a-8ca4-c59570c35184",
-          "tagId" : "6576a119-745d-43df-a516-c6d282cd98a0"
-        },
-        {
-          "wordId" : "fdb61374-dce9-4d9f-ad69-5de2b8254aff",
-          "tagId" : "6576a119-745d-43df-a516-c6d282cd98a0"
-        },
-        {
-          "wordId" : "89285848-7757-4678-9530-50b5492963cc",
-          "tagId" : "6d3a0567-0c69-4c0b-975a-304b1736c40e"
-        },
-        {
-          "wordId" : "aa34756d-0fd6-4c82-9f52-c20b28550b95",
-          "tagId" : "6d3a0567-0c69-4c0b-975a-304b1736c40e"
-        },
-        {
-          "wordId" : "d49d6d72-138b-4b06-9901-f8b6e1747c90",
-          "tagId" : "6d3a0567-0c69-4c0b-975a-304b1736c40e"
-        },
-        {
-          "wordId" : "f1f94348-b2b2-4bdd-be85-32f10757593d",
-          "tagId" : "6d3a0567-0c69-4c0b-975a-304b1736c40e"
-        },
-        {
-          "wordId" : "3030a34d-4e8b-45e3-bf20-4d9016f6f669",
-          "tagId" : "70509af5-5053-40b8-acb2-1748a9414868"
-        },
-        {
-          "wordId" : "db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a",
-          "tagId" : "70509af5-5053-40b8-acb2-1748a9414868"
-        },
-        {
-          "wordId" : "e07cdc9e-3e21-497b-a5c0-232e37c93d60",
-          "tagId" : "70509af5-5053-40b8-acb2-1748a9414868"
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "16c8726b-b0e9-4251-a183-c96291fb0d51",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "1a414893-c3ad-40eb-852c-9c6b0fcd44ca",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "2b7196a8-9d25-4f2c-9064-925f215c2e3a",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "315099d3-456c-4d9c-b176-9c4991fb49e5",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "3a298ec1-700b-4ad8-a9c9-0877d33e7e71",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "4012c35a-d4c8-40c9-a11f-26630968351a",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "48cfe691-d3b9-4d25-b3a5-e95a19f260b4",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "540b9cf8-a8d0-48e6-a310-90151e56d103",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "596db8b7-e6f9-4bee-a526-cbf307c3d83d",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "6632a42b-47a9-4bb0-97d0-a973cef2444a",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "685348d2-1c8c-485b-84e5-dc0513866568",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "6a493386-a63a-46b3-ab02-6b840d4d50dc",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "6ed214e5-8901-44e5-b444-ef7b95e1d699",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "72f418e3-fdb9-4483-b9d1-58be7ea58d27",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "7a0f6917-147e-44f6-9c0c-0d9c7e6543e3",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "8f102c9b-66ba-4ef2-bef4-0c0ea22411c2",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "908cbd4f-a963-4e84-8611-2225baaf6143",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "956fb730-281e-49ae-863c-ed55b030a1b7",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "99742a3b-19f5-4398-b2a3-4102de7452a4",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "999a354e-44c6-444e-8161-29d456e50629",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "ae3b8a2f-0e8a-4595-b848-d07e2a125c32",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "b7797b9f-557c-4dab-81a0-acf54496404e",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "c5095105-6acb-4dc8-8c9b-63e8210080de",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "d2d014ab-5f4d-4cd5-bf7d-a164417f4b26",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "d9272b1d-a0c1-4413-be33-45711e022ac3",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "dc1671e5-1322-44b3-b721-be926a925042",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254",
-          "tagId" : "8380e1d6-a030-4e1d-906b-998bc4376612"
-        },
-        {
-          "wordId" : "11205f97-462e-4268-83bc-fcb4ff202cdd",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "1687c717-255f-454f-8c56-74b0143be8af",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "171507d6-a823-4fa8-8dec-1a687b9fa185",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "19a15323-6c16-41e4-b9af-999bdfb21d21",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "22e9caac-31cf-475b-aee6-cebb219b3c05",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "253f507b-9028-46f5-b1a8-0f8b143ee1e3",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "2ce0edde-6970-4b7e-9900-dcc3d15311f2",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "40d3b0db-a214-4560-93d0-551d7e555160",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "89125544-bb12-4708-80ad-07c6b51de477",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "a6d1c34f-faed-4d79-99a0-afd965111f59",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "c4df9ed3-feec-4ae1-a213-cceea535fa70",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "e0aaf42a-d8cf-4c34-8ba0-3a17a447c539",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "e89449d4-0353-451e-8c17-ed2b56ea3138",
-          "tagId" : "9616d2b7-78b9-48bd-b148-3988d454cf12"
-        },
-        {
-          "wordId" : "4116ffff-48bf-4016-845f-9087905dfac0",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "48e3d241-c0e3-4fd4-88e9-6f4dc12b1697",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "503be869-3da2-4f2e-b180-cb9ea17e9152",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "5d3e6b3e-cbae-4892-8a69-913c8419e6c3",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "5d8ea683-d5be-40f1-aa74-bc7c9bba767b",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "6b5edc10-a313-454e-83a6-7ad4cd585811",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "7ef608fd-3419-4408-a22e-b5495556de91",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "909fb154-9782-4f50-a285-ba60eca86960",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "9dad3613-40ed-4ef2-a338-9bc032386826",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "ade415d5-5b63-45b2-b35f-b2fcfc3bf034",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "bcaf1632-3659-4689-8a22-66328ca38a6a",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "be9bf59b-7e45-4e14-bc26-3ee808e93093",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "d3b7505a-d879-4c03-b8a6-3cc98a8b0ffe",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "dae0a8b5-1575-44ac-8981-9f8c6849dfea",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "e21b59f3-4447-49b7-a901-e3f9f06277c6",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "faf94e4d-1bff-4d96-aa00-acd333da031d",
-          "tagId" : "9bd04d78-6ac1-45f1-821c-938a113cf0da"
-        },
-        {
-          "wordId" : "03cc7a61-363d-4c38-b22e-186727de28a7",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "06d776d9-1994-44c7-8d11-398e4fda70f1",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "09b8dbaf-fc24-4323-9a2b-3da8bf5df08c",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "1b60d467-420c-4d45-bbea-05a16f485491",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "210e36d3-de61-41c8-98de-33b7d4a18fe4",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "2bb36c27-3b7c-4b06-b40c-af0776d7ae34",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "32dfe16c-3cd9-4de2-85cc-ae4b016ba23a",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "3b0df218-addd-4906-84a4-591188a604df",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "3d860b5b-4a29-43d6-8f16-8c0d78c45474",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "3eb214fa-87b6-47d5-8169-6379a046988f",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "42681408-974d-458b-ac07-2f120c6c92f0",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "4274303b-5c4b-4cee-8a48-238e7e08002f",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "51949c1a-5525-4dfb-99ba-c4774e50b5c3",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "534a468e-fd82-403b-b208-eeae398e0140",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "6517ed6a-570f-4c75-bd41-95a539058254",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "71bab061-44a4-4aea-b048-f1b9145b0684",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "76e9aba4-be7c-4c8d-8a0e-1dfc55917463",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "84ee077c-eedf-4009-b12e-108349ee1ff3",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "878f9b1e-e11b-452a-90de-b2ae626434e2",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "8a49e100-b10d-4175-b8d3-d38e1032d97e",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "8a74aa20-4ad3-4d26-9759-b9d42ed4a29c",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "8b390b19-eca7-483c-9c89-a92598b94a15",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "9247a4e8-96ba-44ce-8fd6-a99c6e803710",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "99df8ae9-1fe4-4216-8d2a-59ba06ef4073",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "a5ce2c6b-8c64-42eb-b218-2308c6b39aeb",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "a9354f39-b321-4ae1-875d-d9fad1eaec8e",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "ad544105-8044-4af9-82c8-f7c24fea1acf",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "b7508ffe-caf9-4e5b-a615-9dc7c0891e8b",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "b8213afd-6a2b-47bd-a9c5-797c94d1ee00",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "c1d1ee0e-7a53-45a0-904b-2be41fae5573",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "c2c59a22-22bc-4108-8dad-0dfb905eb538",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "c44f37ae-b704-416b-b226-5fc0f724b051",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "cc9b3a08-efac-468f-9c8f-d3584b959223",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "cfe25952-0d43-4edf-844d-942325a77dcc",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "d1cbe8e8-7354-4ad0-be5a-c51c9f79ec69",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "e5af34fb-ca55-4364-ae3d-6e2d5b414629",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "ed09dda0-9a70-498e-bd14-37e5e71fe14b",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "f088d7d1-0832-46e9-84a3-71a74af6afe6",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "fd389c22-b5d9-481b-8577-9c6ee9699342",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "fe07129c-b278-47f1-addc-cba34bc2262f",
-          "tagId" : "a653348b-f8cb-4ab2-bd23-4d233e6d35b7"
-        },
-        {
-          "wordId" : "4116ffff-48bf-4016-845f-9087905dfac0",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "48e3d241-c0e3-4fd4-88e9-6f4dc12b1697",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "503be869-3da2-4f2e-b180-cb9ea17e9152",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "5d8ea683-d5be-40f1-aa74-bc7c9bba767b",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "6b5edc10-a313-454e-83a6-7ad4cd585811",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "7ef608fd-3419-4408-a22e-b5495556de91",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "909fb154-9782-4f50-a285-ba60eca86960",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "9dad3613-40ed-4ef2-a338-9bc032386826",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "ade415d5-5b63-45b2-b35f-b2fcfc3bf034",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "bcaf1632-3659-4689-8a22-66328ca38a6a",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "be9bf59b-7e45-4e14-bc26-3ee808e93093",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "d3b7505a-d879-4c03-b8a6-3cc98a8b0ffe",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "dae0a8b5-1575-44ac-8981-9f8c6849dfea",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "e21b59f3-4447-49b7-a901-e3f9f06277c6",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "faf94e4d-1bff-4d96-aa00-acd333da031d",
-          "tagId" : "bc8f3104-4c5f-46d8-a071-4f980d5c6d8f"
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "48cfe691-d3b9-4d25-b3a5-e95a19f260b4",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "6ed214e5-8901-44e5-b444-ef7b95e1d699",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "8f102c9b-66ba-4ef2-bef4-0c0ea22411c2",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "956fb730-281e-49ae-863c-ed55b030a1b7",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "b7797b9f-557c-4dab-81a0-acf54496404e",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "d9272b1d-a0c1-4413-be33-45711e022ac3",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "dc1671e5-1322-44b3-b721-be926a925042",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "fe8844b8-1179-4867-a61d-bcd899c4c3cd",
-          "tagId" : "c17ddb7d-4c83-4379-9a7a-5f732a1638e8"
-        },
-        {
-          "wordId" : "040d215f-b9b9-477b-bf5a-b4265ad09e7d",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "13d24d32-00ef-44e6-ae0e-d4b9c607ae6e",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "1b237643-69d7-4e66-b160-efe7e2f646bd",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "52d36228-28ee-424b-a948-4935ad33a743",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "66ffca0c-20c9-4fe3-9124-a60b3fc429d1",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "693fc269-e789-4afd-9d68-6dbbc155363d",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "69d078b5-c3da-41db-af32-8e964e44ad0e",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "8022bc27-2689-4912-984c-5971026c59a5",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "849859cd-48db-4e57-9824-d9443264f795",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "88c79156-7fca-42b8-b7f4-0477db149824",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "97c2105c-285d-4e2c-a64e-d9efc1b0e503",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "9cc9d170-614e-4740-a067-9ece44937d58",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "a1f43165-8de6-4c11-a1ca-2fc17343df71",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "ac464aa8-9da1-433a-986c-a667d87eedb0",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "adf1a776-6968-4d93-bad2-5fd238b77a28",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "b2e0cdf5-1999-4f4c-84e8-c14d7692357e",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "c823bb72-e35d-43d7-86cb-9f9e1393bd58",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "c85cf0e1-a3ab-4940-b99c-9d053f55645b",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "cfe2fde2-9828-4e68-80cd-65becb6f17a6",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "e7f90f2a-a594-4966-aacd-82cac9b4aef3",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "f0544b6c-5dce-4d3f-98be-3d4bef79b294",
-          "tagId" : "cbb61b31-bbbd-456f-8f0e-05ee32172e74"
-        },
-        {
-          "wordId" : "20e9606f-0d12-4f7d-8c29-8facc0b3e94a",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "29b44140-487b-4edb-b82d-dd3885d4ed47",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "30ef2f3c-5890-4706-9b97-1df39aa397b4",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "315099d3-456c-4d9c-b176-9c4991fb49e5",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "463a843e-9e7f-435a-bea1-80bcfd954fef",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "685348d2-1c8c-485b-84e5-dc0513866568",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "6a10458a-798d-4569-84ec-d194b50a60c5",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "6fff215f-690d-4b6b-af7a-5fc31ed80743",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "b5b24bab-e9e2-42ef-a0cc-4335aae6031d",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "d25988e1-7e0d-4651-9890-be833459138d",
-          "tagId" : "d09ec36f-ccca-4829-a6f7-a012b728ea5d"
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "48cfe691-d3b9-4d25-b3a5-e95a19f260b4",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "5d3e6b3e-cbae-4892-8a69-913c8419e6c3",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "6a493386-a63a-46b3-ab02-6b840d4d50dc",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "6ed214e5-8901-44e5-b444-ef7b95e1d699",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "8f102c9b-66ba-4ef2-bef4-0c0ea22411c2",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "908cbd4f-a963-4e84-8611-2225baaf6143",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "956fb730-281e-49ae-863c-ed55b030a1b7",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "b7797b9f-557c-4dab-81a0-acf54496404e",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "d9272b1d-a0c1-4413-be33-45711e022ac3",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "dc1671e5-1322-44b3-b721-be926a925042",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "fe8844b8-1179-4867-a61d-bcd899c4c3cd",
-          "tagId" : "d20d31bf-028a-4b2d-91dc-9c0f62088754"
-        },
-        {
-          "wordId" : "20e9606f-0d12-4f7d-8c29-8facc0b3e94a",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "2115796b-efdd-483c-a48d-b5af35325c4d",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "29b44140-487b-4edb-b82d-dd3885d4ed47",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "29ee343a-9a52-4d5b-93dc-f1e7fb45415f",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "30ef2f3c-5890-4706-9b97-1df39aa397b4",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "315099d3-456c-4d9c-b176-9c4991fb49e5",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "4377fce9-699b-44ab-bbc0-536d45483a2f",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "463a843e-9e7f-435a-bea1-80bcfd954fef",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "6a10458a-798d-4569-84ec-d194b50a60c5",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "6fff215f-690d-4b6b-af7a-5fc31ed80743",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "73c11afe-8e57-4ff3-a4fe-400256d65fc8",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "78bc6cd1-4ab0-47df-8b9a-001a1ce44f28",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "9a3ced4f-f57f-4d5e-b89d-d258e4125b63",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "9deb1efe-45f1-47d9-8925-5825acdb4e0a",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "aa197ce3-6b74-4e8e-9260-6d774a316c3c",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "b5b24bab-e9e2-42ef-a0cc-4335aae6031d",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "d3018d62-0c26-4b56-9eb4-027f41eef927",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "d73f0d17-991f-4037-a435-7d14f2db8012",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "ed82a8b1-5a14-4ae8-94fd-33afaf1d8654",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "f16811f3-acda-4a1b-a21e-a81ee7e6fb4b",
-          "tagId" : "e1b0deb7-ea2e-4efe-8016-cb9d388b28e3"
-        },
-        {
-          "wordId" : "0ab97c50-d714-4fe7-b1dd-13b585475924",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "1c617059-58c5-42ef-8a4b-ccf05de9a703",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "391dd70d-dd84-4017-b437-9a2bc37401fd",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "4e0faaa6-99e3-4284-9684-36ffe7982aab",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "5c477c4f-c9ba-4ca8-866c-3fb4a4d14539",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "7eb03048-8b0e-41a4-a1b6-178304d08bab",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "853bda7a-b6d7-448a-8105-a208b725c986",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "a752647e-367e-439d-bfd0-f65fa5cf97e6",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "a8da7e0d-16a6-4151-856c-821fff07ce29",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd",
-          "tagId" : "e3ba54ab-91c4-471f-9184-f6d550f5ef1c"
-        },
-        {
-          "wordId" : "040d215f-b9b9-477b-bf5a-b4265ad09e7d",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "12c09880-2ab7-4268-89ff-df038017318c",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "13d24d32-00ef-44e6-ae0e-d4b9c607ae6e",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "1b237643-69d7-4e66-b160-efe7e2f646bd",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "30e43f5b-5c65-401f-a305-960291ce1dab",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "4a2f9a59-a236-4b3c-816d-4b4ea1e8be97",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "52d36228-28ee-424b-a948-4935ad33a743",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "57965431-b271-4a0d-9839-1487e9a01a21",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "66ffca0c-20c9-4fe3-9124-a60b3fc429d1",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "693fc269-e789-4afd-9d68-6dbbc155363d",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "69d078b5-c3da-41db-af32-8e964e44ad0e",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "8022bc27-2689-4912-984c-5971026c59a5",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "849859cd-48db-4e57-9824-d9443264f795",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "88c79156-7fca-42b8-b7f4-0477db149824",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "97c2105c-285d-4e2c-a64e-d9efc1b0e503",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "97c594ab-18a0-4c1d-91cd-f2170132c3c5",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "9cc9d170-614e-4740-a067-9ece44937d58",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "a0f01e4e-30ce-4cb2-ba16-9b214d385b60",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "a1f43165-8de6-4c11-a1ca-2fc17343df71",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "aa9843c0-f064-47ec-abc9-6f925957ceca",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "aac78064-0566-420b-bf6d-34ca928a068b",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "ac464aa8-9da1-433a-986c-a667d87eedb0",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "adf1a776-6968-4d93-bad2-5fd238b77a28",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "b2e0cdf5-1999-4f4c-84e8-c14d7692357e",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "b540b891-fdfb-4876-9a04-9a6161708217",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "c3b0e6fe-b2b4-4767-9653-769184a572fd",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "c823bb72-e35d-43d7-86cb-9f9e1393bd58",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "c85cf0e1-a3ab-4940-b99c-9d053f55645b",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "cfe2fde2-9828-4e68-80cd-65becb6f17a6",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "e7f90f2a-a594-4966-aacd-82cac9b4aef3",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "f0544b6c-5dce-4d3f-98be-3d4bef79b294",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "f76de48c-114f-46ac-8798-cc35095e2077",
-          "tagId" : "e48a7c40-598e-4500-998e-df1ff033d43d"
-        },
-        {
-          "wordId" : "1fba7688-9d90-446a-92c8-4597d4deb4a4",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "4f92482a-5076-4c07-8cab-24fb9910992c",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "6027ad46-bfc3-4550-b7fd-fda0552d0c2f",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "7daa078a-681d-4856-8c2f-90dd43501f69",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "821e23d9-09d4-43df-8bd0-383e20607010",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "88d904c7-0763-48a7-bf79-395b1d388ed4",
-          "tagId" : "ee5966cc-7581-4ba6-834e-48a0484de53e"
-        },
-        {
-          "wordId" : "03cc7a61-363d-4c38-b22e-186727de28a7",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "06d776d9-1994-44c7-8d11-398e4fda70f1",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "09b8dbaf-fc24-4323-9a2b-3da8bf5df08c",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "1b60d467-420c-4d45-bbea-05a16f485491",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "210e36d3-de61-41c8-98de-33b7d4a18fe4",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "2bb36c27-3b7c-4b06-b40c-af0776d7ae34",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "32dfe16c-3cd9-4de2-85cc-ae4b016ba23a",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "3b0df218-addd-4906-84a4-591188a604df",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "3d860b5b-4a29-43d6-8f16-8c0d78c45474",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "3eb214fa-87b6-47d5-8169-6379a046988f",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "42681408-974d-458b-ac07-2f120c6c92f0",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "4274303b-5c4b-4cee-8a48-238e7e08002f",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "534a468e-fd82-403b-b208-eeae398e0140",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "71bab061-44a4-4aea-b048-f1b9145b0684",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "84ee077c-eedf-4009-b12e-108349ee1ff3",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "878f9b1e-e11b-452a-90de-b2ae626434e2",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "8a49e100-b10d-4175-b8d3-d38e1032d97e",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "8a74aa20-4ad3-4d26-9759-b9d42ed4a29c",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "8b390b19-eca7-483c-9c89-a92598b94a15",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "9247a4e8-96ba-44ce-8fd6-a99c6e803710",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "99df8ae9-1fe4-4216-8d2a-59ba06ef4073",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "a5ce2c6b-8c64-42eb-b218-2308c6b39aeb",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "a9354f39-b321-4ae1-875d-d9fad1eaec8e",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "ad544105-8044-4af9-82c8-f7c24fea1acf",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "b7508ffe-caf9-4e5b-a615-9dc7c0891e8b",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "b8213afd-6a2b-47bd-a9c5-797c94d1ee00",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "c1d1ee0e-7a53-45a0-904b-2be41fae5573",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "c2c59a22-22bc-4108-8dad-0dfb905eb538",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "c44f37ae-b704-416b-b226-5fc0f724b051",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "cc9b3a08-efac-468f-9c8f-d3584b959223",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "cfe25952-0d43-4edf-844d-942325a77dcc",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "d1cbe8e8-7354-4ad0-be5a-c51c9f79ec69",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "e5af34fb-ca55-4364-ae3d-6e2d5b414629",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "f088d7d1-0832-46e9-84a3-71a74af6afe6",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "fd389c22-b5d9-481b-8577-9c6ee9699342",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        },
-        {
-          "wordId" : "fe07129c-b278-47f1-addc-cba34bc2262f",
-          "tagId" : "fb0b6ff6-3225-4189-b3e0-0b7fc11cd979"
-        }
-      ], {transaction})
-      await queryInterface.bulkInsert('nouns', [
-        {
-          "wordId" : "034ebfcd-66b8-4bab-861b-10c8857d2870",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "03cc7a61-363d-4c38-b22e-186727de28a7",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "040d215f-b9b9-477b-bf5a-b4265ad09e7d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "063e9cd3-6bf8-4a94-a4cc-89a94b0a02f7",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "06b22024-b2b7-4134-afb6-dc6c8696a143",
-          "nounType" : "DEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "09b8dbaf-fc24-4323-9a2b-3da8bf5df08c",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "0ab97c50-d714-4fe7-b1dd-13b585475924",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "0ea1047d-09fd-49ec-8b11-33a94ead99fd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "11205f97-462e-4268-83bc-fcb4ff202cdd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "12c09880-2ab7-4268-89ff-df038017318c",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "136b2c08-97df-49a4-8dbb-1711de65da54",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "137b6f99-1115-45f7-8e29-9a305a3da372",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "13d24d32-00ef-44e6-ae0e-d4b9c607ae6e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "15b68ed6-f814-4422-b034-d691033888b8",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1687c717-255f-454f-8c56-74b0143be8af",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "16c8726b-b0e9-4251-a183-c96291fb0d51",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1726cc26-9deb-4e52-949f-989ea37126cf",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "18c56fa3-1791-4328-b3ed-39ff3047f6e4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "19a15323-6c16-41e4-b9af-999bdfb21d21",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1a414893-c3ad-40eb-852c-9c6b0fcd44ca",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1b237643-69d7-4e66-b160-efe7e2f646bd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1c0b17c7-f298-4981-a060-8d3ad7e56686",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1c617059-58c5-42ef-8a4b-ccf05de9a703",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1ce7751b-5676-4ec7-873f-0f5735172744",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1ec8feb4-3afe-4816-84f7-40f0c46f04fc",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "1fba7688-9d90-446a-92c8-4597d4deb4a4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "20e9606f-0d12-4f7d-8c29-8facc0b3e94a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2115796b-efdd-483c-a48d-b5af35325c4d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "223f8ac4-48a9-426e-a632-119a27a1a75f",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "22e9caac-31cf-475b-aee6-cebb219b3c05",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "253f507b-9028-46f5-b1a8-0f8b143ee1e3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2799fa6c-c0ea-47f2-9348-03246fb8d7d3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "29345438-b5fe-43cc-8f66-d52667aa0bc3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "29b44140-487b-4edb-b82d-dd3885d4ed47",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "29ee343a-9a52-4d5b-93dc-f1e7fb45415f",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2aaf5dcb-91b9-4a47-93ba-6613151a9888",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2b7196a8-9d25-4f2c-9064-925f215c2e3a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2bb36c27-3b7c-4b06-b40c-af0776d7ae34",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "2ce0edde-6970-4b7e-9900-dcc3d15311f2",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "3030a34d-4e8b-45e3-bf20-4d9016f6f669",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "304bd89e-d06a-4411-ae91-cc476073d4b8",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "30e43f5b-5c65-401f-a305-960291ce1dab",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "30ef2f3c-5890-4706-9b97-1df39aa397b4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "315099d3-456c-4d9c-b176-9c4991fb49e5",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "32dfe16c-3cd9-4de2-85cc-ae4b016ba23a",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "343fc002-6316-4b6f-9b06-cc2504a82afb",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "391dd70d-dd84-4017-b437-9a2bc37401fd",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "3a298ec1-700b-4ad8-a9c9-0877d33e7e71",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "3b0df218-addd-4906-84a4-591188a604df",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "3eb214fa-87b6-47d5-8169-6379a046988f",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "3fae5472-1f4e-43dc-aaba-194be61e52e0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4012c35a-d4c8-40c9-a11f-26630968351a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "40d3b0db-a214-4560-93d0-551d7e555160",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4116ffff-48bf-4016-845f-9087905dfac0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "42681408-974d-458b-ac07-2f120c6c92f0",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4377fce9-699b-44ab-bbc0-536d45483a2f",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "463a843e-9e7f-435a-bea1-80bcfd954fef",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "484df8d3-33e3-41aa-84f7-875d2614c0b4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "48cfe691-d3b9-4d25-b3a5-e95a19f260b4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "48e3d241-c0e3-4fd4-88e9-6f4dc12b1697",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "49f5c1be-28fa-4f12-8096-c2782dc0afe0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4a2f9a59-a236-4b3c-816d-4b4ea1e8be97",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4c5fb3c9-1405-4089-8440-f4f635a422fa",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4d2b12ba-1c41-40b4-85c7-0e1b7e38779b",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4d995422-e779-4203-8079-3270535b8a61",
-          "nounType" : "DEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "4e0faaa6-99e3-4284-9684-36ffe7982aab",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "503be869-3da2-4f2e-b180-cb9ea17e9152",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "51949c1a-5525-4dfb-99ba-c4774e50b5c3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "52d36228-28ee-424b-a948-4935ad33a743",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "534a468e-fd82-403b-b208-eeae398e0140",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "540b9cf8-a8d0-48e6-a310-90151e56d103",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "54ae995e-e7af-42fe-b855-3fccece38deb",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "57965431-b271-4a0d-9839-1487e9a01a21",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "596db8b7-e6f9-4bee-a526-cbf307c3d83d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "5c477c4f-c9ba-4ca8-866c-3fb4a4d14539",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "5d3e6b3e-cbae-4892-8a69-913c8419e6c3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "5d8ea683-d5be-40f1-aa74-bc7c9bba767b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "5e8140dd-49f4-4fbf-9043-47a368b86623",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6027ad46-bfc3-4550-b7fd-fda0552d0c2f",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6156e0f1-e9b2-444c-a949-1e10c8342a43",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "656d9236-0799-4d95-a9cc-a16cfd3f4e09",
-          "nounType" : "DEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6632a42b-47a9-4bb0-97d0-a973cef2444a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "66ffca0c-20c9-4fe3-9124-a60b3fc429d1",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "685348d2-1c8c-485b-84e5-dc0513866568",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "693fc269-e789-4afd-9d68-6dbbc155363d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6973bb6d-8c49-4b0f-86d1-d0d1c352c87f",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "69d078b5-c3da-41db-af32-8e964e44ad0e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6a10458a-798d-4569-84ec-d194b50a60c5",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6a493386-a63a-46b3-ab02-6b840d4d50dc",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6b5edc10-a313-454e-83a6-7ad4cd585811",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6dae0799-bb4f-4cad-a4c8-26e86dbfe8d8",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6e977338-0418-4e72-a0ad-702e6f0ad566",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6ed214e5-8901-44e5-b444-ef7b95e1d699",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6f1eb8be-7508-4e26-8249-af9d7ce31009",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6f4422e2-2920-42cf-9a28-28d7d45e5170",
-          "nounType" : "DEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "6fff215f-690d-4b6b-af7a-5fc31ed80743",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "7055cec8-8587-4f6d-b4f3-162e19a3fec7",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "711bda32-64e4-4943-97fb-d4802abe7a52",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "713eb408-e3a7-4726-a26f-bde5bde295f2",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "71bab061-44a4-4aea-b048-f1b9145b0684",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "72f418e3-fdb9-4483-b9d1-58be7ea58d27",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "73c11afe-8e57-4ff3-a4fe-400256d65fc8",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "76e9aba4-be7c-4c8d-8a0e-1dfc55917463",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "78bc6cd1-4ab0-47df-8b9a-001a1ce44f28",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "7a0f6917-147e-44f6-9c0c-0d9c7e6543e3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "7eb03048-8b0e-41a4-a1b6-178304d08bab",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "7ef608fd-3419-4408-a22e-b5495556de91",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8022bc27-2689-4912-984c-5971026c59a5",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8126426f-93a3-486f-a346-9acbfac1daf2",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "83e775b2-1c58-4cbc-8a8a-0b4d837b91a0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "849859cd-48db-4e57-9824-d9443264f795",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "84e12f6b-270f-4f6c-a928-eaa406990446",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "84ee077c-eedf-4009-b12e-108349ee1ff3",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "853bda7a-b6d7-448a-8105-a208b725c986",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "86fcddad-7ea3-4d19-8600-95b6cc085974",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "874ac774-1f4f-49e4-84c9-69786e2f1c0a",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "878f9b1e-e11b-452a-90de-b2ae626434e2",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "88c79156-7fca-42b8-b7f4-0477db149824",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "89125544-bb12-4708-80ad-07c6b51de477",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "89285848-7757-4678-9530-50b5492963cc",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8956bb01-01d4-4bf6-b00c-713768973ef2",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "89788a3f-be76-4c0c-9fbd-e65c419eeea6",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8a49e100-b10d-4175-b8d3-d38e1032d97e",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8a74aa20-4ad3-4d26-9759-b9d42ed4a29c",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8b390b19-eca7-483c-9c89-a92598b94a15",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "8f102c9b-66ba-4ef2-bef4-0c0ea22411c2",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "908cbd4f-a963-4e84-8611-2225baaf6143",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "909fb154-9782-4f50-a285-ba60eca86960",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9247a4e8-96ba-44ce-8fd6-a99c6e803710",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "947336e0-a136-461a-951f-f970f8001a5e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "956fb730-281e-49ae-863c-ed55b030a1b7",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "95a014a4-f9c8-4801-8e6c-104f12282d9b",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "95ad7467-8e22-4627-9635-7a7daafb6eea",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "97c2105c-285d-4e2c-a64e-d9efc1b0e503",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "97c594ab-18a0-4c1d-91cd-f2170132c3c5",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "99742a3b-19f5-4398-b2a3-4102de7452a4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "999a354e-44c6-444e-8161-29d456e50629",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "99df8ae9-1fe4-4216-8d2a-59ba06ef4073",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9a3ced4f-f57f-4d5e-b89d-d258e4125b63",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9cc9d170-614e-4740-a067-9ece44937d58",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9dad3613-40ed-4ef2-a338-9bc032386826",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9deb1efe-45f1-47d9-8925-5825acdb4e0a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "9f4c2662-9a95-4095-a7d6-2e7075e422e6",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a0f01e4e-30ce-4cb2-ba16-9b214d385b60",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a1f43165-8de6-4c11-a1ca-2fc17343df71",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a2a0d36f-8fc5-4c29-8100-167bc17fc29b",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a4a16e3d-bb70-4028-ab7a-040a986186c3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a5c0589e-7cbd-48c4-b4c7-8ccfff88f06e",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a5ce2c6b-8c64-42eb-b218-2308c6b39aeb",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a6d1c34f-faed-4d79-99a0-afd965111f59",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a752647e-367e-439d-bfd0-f65fa5cf97e6",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a8da7e0d-16a6-4151-856c-821fff07ce29",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "a9354f39-b321-4ae1-875d-d9fad1eaec8e",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "aa197ce3-6b74-4e8e-9260-6d774a316c3c",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "aa34756d-0fd6-4c82-9f52-c20b28550b95",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "aa9843c0-f064-47ec-abc9-6f925957ceca",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "aaae2a1e-43ec-46c6-a159-6a80641e0d6c",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "aac78064-0566-420b-bf6d-34ca928a068b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ab549112-dc36-447f-a8e6-3503d32c7c04",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ac464aa8-9da1-433a-986c-a667d87eedb0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ad544105-8044-4af9-82c8-f7c24fea1acf",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ade415d5-5b63-45b2-b35f-b2fcfc3bf034",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "adf1a776-6968-4d93-bad2-5fd238b77a28",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ae3b8a2f-0e8a-4595-b848-d07e2a125c32",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b0134767-3886-44eb-a6bb-ff8ad27ae4b0",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b13b8e30-b258-490b-b898-0ec4e2f0975b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b2e0cdf5-1999-4f4c-84e8-c14d7692357e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b540b891-fdfb-4876-9a04-9a6161708217",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b5b24bab-e9e2-42ef-a0cc-4335aae6031d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b730c36d-0e42-49b0-93f5-fd9449a6ea4c",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b7508ffe-caf9-4e5b-a615-9dc7c0891e8b",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b7797b9f-557c-4dab-81a0-acf54496404e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "b8213afd-6a2b-47bd-a9c5-797c94d1ee00",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "babdc233-a6bf-4cd1-936a-ef1524e37417",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "bb04fcc5-38d4-402a-8ca4-c59570c35184",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "bbf3e801-c13c-4e01-aa0a-3221f431d60e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "bcaf1632-3659-4689-8a22-66328ca38a6a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "bcf75b90-7658-499b-9cc2-0bbb6c709a55",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "be9bf59b-7e45-4e14-bc26-3ee808e93093",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c1d1ee0e-7a53-45a0-904b-2be41fae5573",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c22d2595-83da-4458-abb9-2650d46ebd8d",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c2c59a22-22bc-4108-8dad-0dfb905eb538",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c3b0e6fe-b2b4-4767-9653-769184a572fd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c5095105-6acb-4dc8-8c9b-63e8210080de",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c536cc40-86e1-4140-a6bd-a35723d259cb",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c7659573-c91f-461a-918b-bc98027c56d0",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c823bb72-e35d-43d7-86cb-9f9e1393bd58",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c85cf0e1-a3ab-4940-b99c-9d053f55645b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "c8d82f53-7405-4786-923f-de795a208df5",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "cc9b3a08-efac-468f-9c8f-d3584b959223",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "cfe25952-0d43-4edf-844d-942325a77dcc",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "cfe2fde2-9828-4e68-80cd-65becb6f17a6",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d1cbe8e8-7354-4ad0-be5a-c51c9f79ec69",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d25988e1-7e0d-4651-9890-be833459138d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d2d014ab-5f4d-4cd5-bf7d-a164417f4b26",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d3018d62-0c26-4b56-9eb4-027f41eef927",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d3b7505a-d879-4c03-b8a6-3cc98a8b0ffe",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d49d6d72-138b-4b06-9901-f8b6e1747c90",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d6f6abeb-d458-4ef6-a194-cc1fdf136c28",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d72cbef3-32f4-466a-98ff-8a9fbb8acdd4",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d73f0d17-991f-4037-a435-7d14f2db8012",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "d9272b1d-a0c1-4413-be33-45711e022ac3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "dae0a8b5-1575-44ac-8981-9f8c6849dfea",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "dc1671e5-1322-44b3-b721-be926a925042",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ddaf5e67-1885-4f74-acc0-1d0bc82b2bbd",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e07cdc9e-3e21-497b-a5c0-232e37c93d60",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e21b59f3-4447-49b7-a901-e3f9f06277c6",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e402aaa4-b953-4ef5-8cab-f96d5bee2c86",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e5af34fb-ca55-4364-ae3d-6e2d5b414629",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e6375e5c-9811-4bad-b81d-86d33f4a5edd",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e7f90f2a-a594-4966-aacd-82cac9b4aef3",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "e89449d4-0353-451e-8c17-ed2b56ea3138",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "eab244cb-6521-4327-8419-43bc60b9b7c1",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ec1311eb-3f69-4845-9bda-a123d23c4737",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ed09dda0-9a70-498e-bd14-37e5e71fe14b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ed82a8b1-5a14-4ae8-94fd-33afaf1d8654",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ee5e5bce-83fb-4670-acab-642ba1c441ee",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f0544b6c-5dce-4d3f-98be-3d4bef79b294",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f0be5c30-52fa-428f-970d-a885f259cf16",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f16811f3-acda-4a1b-a21e-a81ee7e6fb4b",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f1f94348-b2b2-4bdd-be85-32f10757593d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f4d91028-a529-4955-a8b1-829439bca52e",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "f76de48c-114f-46ac-8798-cc35095e2077",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "fa2999ad-bd9c-4c7c-8103-123b22db12bd",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "faf94e4d-1bff-4d96-aa00-acd333da031d",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "fc27f5dd-b6a0-4217-8903-15c916656860",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "fdb61374-dce9-4d9f-ad69-5de2b8254aff",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "fe07129c-b278-47f1-addc-cba34bc2262f",
-          "nounType" : "ADJECTIVE",
-          "gender" : "MALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "fe8844b8-1179-4867-a61d-bcd899c4c3cd",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        },
-        {
-          "wordId" : "feb4d38d-32e0-4590-9a67-df4ba285faaa",
-          "nounType" : "INDEFINITE_NOUN",
-          "gender" : "FEMALE",
-          "brokenPlural" : ""
-        }
-      ], {transaction})
-      await queryInterface.bulkInsert('verbs', [
-        {
-          "wordId" : "06d776d9-1994-44c7-8d11-398e4fda70f1",
-          "verbform" : "I",
-          "irregularityClass" : "DOUBLED",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "11c4288f-cab1-4689-b80f-a2c09a9efbab",
-          "verbform" : "I",
-          "irregularityClass" : "DOUBLED",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "171507d6-a823-4fa8-8dec-1a687b9fa185",
-          "verbform" : "I",
-          "irregularityClass" : "HOLLOW",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "1770cca3-a044-4fc7-91ee-393090e1a71d",
-          "verbform" : "I",
-          "irregularityClass" : "DOUBLED",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "1b60d467-420c-4d45-bbea-05a16f485491",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "210e36d3-de61-41c8-98de-33b7d4a18fe4",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "3d860b5b-4a29-43d6-8f16-8c0d78c45474",
-          "verbform" : "VIII",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "4274303b-5c4b-4cee-8a48-238e7e08002f",
-          "verbform" : "X",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "49bca8a4-123f-4ed2-88d9-f5326ab58742",
-          "verbform" : "I",
-          "irregularityClass" : "HOLLOW",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "6517ed6a-570f-4c75-bd41-95a539058254",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d",
-          "verbform" : "IV",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22",
-          "verbform" : "I",
-          "irregularityClass" : "DEFECTIVE",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669",
-          "verbform" : "I",
-          "irregularityClass" : "HOLLOW",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "c44f37ae-b704-416b-b226-5fc0f724b051",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "c4df9ed3-feec-4ae1-a213-cceea535fa70",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "e0aaf42a-d8cf-4c34-8ba0-3a17a447c539",
-          "verbform" : "VI",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "e1ad2b1e-83f6-427d-a299-378a3e101abc",
-          "verbform" : "III",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "f088d7d1-0832-46e9-84a3-71a74af6afe6",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "fd28b036-7290-4049-a610-b3762111e2ed",
-          "verbform" : "I",
-          "irregularityClass" : "REGULAR",
-          "tense" : "PAST"
-        },
-        {
-          "wordId" : "fd389c22-b5d9-481b-8577-9c6ee9699342",
-          "verbform" : "I",
-          "irregularityClass" : "ASSIMILATED",
-          "tense" : "PAST"
-        }
-      ], {transaction})
-      
-      await transaction.commit()
-    }
-    catch(err){
-      console.log(err.message)
-      await transaction.rollback()
+            await queryInterface.bulkInsert(
+                'words',
+                [
+                    {
+                        wordId: '034ebfcd-66b8-4bab-861b-10c8857d2870',
+                        english: 'small',
+                        arabic: 'صَغير',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:59:04',
+                        updatedAt: '1900-04-11 09:59:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '03cc7a61-363d-4c38-b22e-186727de28a7',
+                        english: 'fear',
+                        arabic: 'خوف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:51:07',
+                        updatedAt: '1900-04-11 14:51:07',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '040d215f-b9b9-477b-bf5a-b4265ad09e7d',
+                        english: 'marriage',
+                        arabic: 'زَواج',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:22:15',
+                        updatedAt: '1900-04-11 14:22:15',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '063e9cd3-6bf8-4a94-a4cc-89a94b0a02f7',
+                        english: 'closed',
+                        arabic: 'مُغْلاق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:48:21',
+                        updatedAt: '1900-04-11 09:48:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '0647b68a-3ef9-4f41-8d0f-5d2b3014cb4b',
+                        english: 'until',
+                        arabic: 'حَتّى',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:49:06',
+                        updatedAt: '1900-04-11 13:49:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '065c6a47-6b0e-4fdf-807a-6493cdee477c',
+                        english: 'after',
+                        arabic: 'بَعْد',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:38:31',
+                        updatedAt: '1900-04-11 13:38:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '06b22024-b2b7-4134-afb6-dc6c8696a143',
+                        english: 'tomorrow',
+                        arabic: 'غَدَاً',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:40:32',
+                        updatedAt: '1900-04-11 13:40:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '06d776d9-1994-44c7-8d11-398e4fda70f1',
+                        english: 'to be disgusted',
+                        arabic: 'إشْمَأزّ',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:59:04',
+                        updatedAt: '1900-04-11 14:59:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '09b8dbaf-fc24-4323-9a2b-3da8bf5df08c',
+                        english: 'alert/awake',
+                        arabic: 'فائِق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:11:00',
+                        updatedAt: '1900-04-11 15:11:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '0ab97c50-d714-4fe7-b1dd-13b585475924',
+                        english: 'black',
+                        arabic: 'أسْوَد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:08:59',
+                        updatedAt: '1900-04-11 08:08:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a',
+                        english: 'optimistic',
+                        arabic: 'مُتَفَائِل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:07:32',
+                        updatedAt: '1900-04-11 15:07:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '0ea1047d-09fd-49ec-8b11-33a94ead99fd',
+                        english: 'dog',
+                        arabic: 'كَلْب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:58:35',
+                        updatedAt: '1900-04-11 08:58:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035',
+                        english: 'snow',
+                        arabic: 'ثَلْج',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:24:31',
+                        updatedAt: '1900-04-11 09:24:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '11205f97-462e-4268-83bc-fcb4ff202cdd',
+                        english: 'brake',
+                        arabic: 'فَرامِل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:31:00',
+                        updatedAt: '1900-04-11 10:31:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '11c4288f-cab1-4689-b80f-a2c09a9efbab',
+                        english: 'to honk',
+                        arabic: 'زَمَّر',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:27:28',
+                        updatedAt: '1900-04-11 10:27:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '12c09880-2ab7-4268-89ff-df038017318c',
+                        english: 'orphan',
+                        arabic: 'يَتيم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:16:19',
+                        updatedAt: '1900-04-11 14:16:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '136b2c08-97df-49a4-8dbb-1711de65da54',
+                        english: 'tall/long',
+                        arabic: 'طَويل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:00:41',
+                        updatedAt: '1900-04-11 10:00:41',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '137b6f99-1115-45f7-8e29-9a305a3da372',
+                        english: 'time (quantity)',
+                        arabic: 'وَقْت',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:54:49',
+                        updatedAt: '1900-04-11 13:54:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '13d24d32-00ef-44e6-ae0e-d4b9c607ae6e',
+                        english: 'paternal aunt',
+                        arabic: 'عَمَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:02:36',
+                        updatedAt: '1900-04-11 14:02:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        english: 'desk',
+                        arabic: 'مَكْتَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:02:13',
+                        updatedAt: '1900-04-11 07:02:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1687c717-255f-454f-8c56-74b0143be8af',
+                        english: 'tire',
+                        arabic: 'إطار',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:13:14',
+                        updatedAt: '1900-04-11 10:13:14',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '16c8726b-b0e9-4251-a183-c96291fb0d51',
+                        english: 'cabinet',
+                        arabic: 'خِزانَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:18:23',
+                        updatedAt: '1900-04-11 07:18:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '171507d6-a823-4fa8-8dec-1a687b9fa185',
+                        english: 'to fly',
+                        arabic: 'طار',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:36:46',
+                        updatedAt: '1900-04-11 10:36:46',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1726cc26-9deb-4e52-949f-989ea37126cf',
+                        english: 'branch',
+                        arabic: 'فَرْع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:33:22',
+                        updatedAt: '1900-04-11 09:33:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1770cca3-a044-4fc7-91ee-393090e1a71d',
+                        english: 'turn',
+                        arabic: 'لَفَّ',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:13:57',
+                        updatedAt: '1900-04-11 10:13:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '18c56fa3-1791-4328-b3ed-39ff3047f6e4',
+                        english: 'fish',
+                        arabic: 'سَمَكَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:56:02',
+                        updatedAt: '1900-04-11 08:56:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '19a15323-6c16-41e4-b9af-999bdfb21d21',
+                        english: 'bus',
+                        arabic: 'حافِلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:12:19',
+                        updatedAt: '1900-04-11 10:12:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1a414893-c3ad-40eb-852c-9c6b0fcd44ca',
+                        english: 'fridge',
+                        arabic: 'ثَلَّاجَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:09:56',
+                        updatedAt: '1900-04-11 07:09:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1b237643-69d7-4e66-b160-efe7e2f646bd',
+                        english: 'mother',
+                        arabic: 'أُم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:59:13',
+                        updatedAt: '1900-04-11 13:59:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1b60d467-420c-4d45-bbea-05a16f485491',
+                        english: 'to get angry',
+                        arabic: 'غَضِب',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:50:06',
+                        updatedAt: '1900-04-11 14:50:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1c0b17c7-f298-4981-a060-8d3ad7e56686',
+                        english: 'driver',
+                        arabic: 'سائِق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:05:01',
+                        updatedAt: '1900-04-11 10:05:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1c617059-58c5-42ef-8a4b-ccf05de9a703',
+                        english: 'yellow',
+                        arabic: 'أصْفَر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:10:30',
+                        updatedAt: '1900-04-11 08:10:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1cbe8cd9-0078-4fb8-8aa3-b55cbee97f0d',
+                        english: 'early',
+                        arabic: 'مُبَكِّر',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:52:07',
+                        updatedAt: '1900-04-11 13:52:07',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1ce7751b-5676-4ec7-873f-0f5735172744',
+                        english: 'camel',
+                        arabic: 'جَمَل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:53:52',
+                        updatedAt: '1900-04-11 08:53:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1ec8feb4-3afe-4816-84f7-40f0c46f04fc',
+                        english: 'grass',
+                        arabic: 'عُشْب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:34:58',
+                        updatedAt: '1900-04-11 09:34:58',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '1fba7688-9d90-446a-92c8-4597d4deb4a4',
+                        english: 'river',
+                        arabic: 'نَهر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:41:37',
+                        updatedAt: '1900-04-11 09:41:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '20e9606f-0d12-4f7d-8c29-8facc0b3e94a',
+                        english: 'airport',
+                        arabic: 'مَطار',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:39:18',
+                        updatedAt: '1900-04-11 10:39:18',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '210e36d3-de61-41c8-98de-33b7d4a18fe4',
+                        english: 'to get tired',
+                        arabic: 'تَعِب',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:53:57',
+                        updatedAt: '1900-04-11 14:53:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2115796b-efdd-483c-a48d-b5af35325c4d',
+                        english: 'garden',
+                        arabic: 'حَديقَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:35:28',
+                        updatedAt: '1900-04-11 08:35:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '21191b66-2556-4392-a5f7-e61c928914ed',
+                        english: 'in front',
+                        arabic: 'أمامَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:18:49',
+                        updatedAt: '1900-04-11 13:18:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '223f8ac4-48a9-426e-a632-119a27a1a75f',
+                        english: 'chicken',
+                        arabic: 'دَجاجَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:43:11',
+                        updatedAt: '1900-04-11 08:43:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '22e9caac-31cf-475b-aee6-cebb219b3c05',
+                        english: 'train',
+                        arabic: 'قِطار',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:26:35',
+                        updatedAt: '1900-04-11 10:26:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '253f507b-9028-46f5-b1a8-0f8b143ee1e3',
+                        english: 'car',
+                        arabic: 'سَيَّارَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:05:56',
+                        updatedAt: '1900-04-11 10:05:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '273004ce-4cd8-406e-850e-c7c4c63be4b9',
+                        english: 'above',
+                        arabic: 'فَوْقَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:17:33',
+                        updatedAt: '1900-04-11 13:17:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2799fa6c-c0ea-47f2-9348-03246fb8d7d3',
+                        english: 'tour',
+                        arabic: 'جَوْلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:32:36',
+                        updatedAt: '1900-04-11 10:32:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '29345438-b5fe-43cc-8f66-d52667aa0bc3',
+                        english: 'frog',
+                        arabic: 'ضِفْدَعَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:02:08',
+                        updatedAt: '1900-04-11 09:02:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '29b44140-487b-4edb-b82d-dd3885d4ed47',
+                        english: 'building',
+                        arabic: 'عِمارَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:22:33',
+                        updatedAt: '1900-04-11 08:22:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '29ee343a-9a52-4d5b-93dc-f1e7fb45415f',
+                        english: 'sign',
+                        arabic: 'يافِطَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:30:33',
+                        updatedAt: '1900-04-11 08:30:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2aaf5dcb-91b9-4a47-93ba-6613151a9888',
+                        english: 'fat',
+                        arabic: 'سَمين',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:54:27',
+                        updatedAt: '1900-04-11 09:54:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2b7196a8-9d25-4f2c-9064-925f215c2e3a',
+                        english: 'washing machine',
+                        arabic: 'غَسالَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:14:56',
+                        updatedAt: '1900-04-11 07:14:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2bb36c27-3b7c-4b06-b40c-af0776d7ae34',
+                        english: 'stupid',
+                        arabic: 'غَبي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:02:48',
+                        updatedAt: '1900-04-11 15:02:48',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '2ce0edde-6970-4b7e-9900-dcc3d15311f2',
+                        english: 'motorbike',
+                        arabic: 'دَرَّاجَة ناريَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:11:32',
+                        updatedAt: '1900-04-11 10:11:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3030a34d-4e8b-45e3-bf20-4d9016f6f669',
+                        english: 'sun',
+                        arabic: 'شَمْس',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:43:22',
+                        updatedAt: '1900-04-11 09:43:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '304bd89e-d06a-4411-ae91-cc476073d4b8',
+                        english: 'bad',
+                        arabic: 'سَيِئ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:02:04',
+                        updatedAt: '1900-04-11 10:02:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '30e43f5b-5c65-401f-a305-960291ce1dab',
+                        english: 'teenager/adolescent',
+                        arabic: 'مُراهِق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:09:57',
+                        updatedAt: '1900-04-11 14:09:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '30ef2f3c-5890-4706-9b97-1df39aa397b4',
+                        english: 'restaurant',
+                        arabic: 'مَطْعَم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:40:13',
+                        updatedAt: '1900-04-11 08:40:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '315099d3-456c-4d9c-b176-9c4991fb49e5',
+                        english: 'fence',
+                        arabic: 'سور',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:24:59',
+                        updatedAt: '1900-04-11 08:24:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '32dfe16c-3cd9-4de2-85cc-ae4b016ba23a',
+                        english: 'worried',
+                        arabic: 'قَلْق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:46:42',
+                        updatedAt: '1900-04-11 14:46:42',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '33a838d8-1190-4eee-9f62-ec144fc8b7a0',
+                        english: 'before',
+                        arabic: 'قَبْل',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:38:04',
+                        updatedAt: '1900-04-11 13:38:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '343fc002-6316-4b6f-9b06-cc2504a82afb',
+                        english: 'tree',
+                        arabic: 'شَجَرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:16:57',
+                        updatedAt: '1900-04-11 15:16:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '391dd70d-dd84-4017-b437-9a2bc37401fd',
+                        english: 'red',
+                        arabic: 'أحْمَر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:07:27',
+                        updatedAt: '1900-04-11 08:07:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3a298ec1-700b-4ad8-a9c9-0877d33e7e71',
+                        english: 'lock',
+                        arabic: 'قُفْل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:51:40',
+                        updatedAt: '1900-04-11 06:51:40',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3b0df218-addd-4906-84a4-591188a604df',
+                        english: 'comfortable/relaxed',
+                        arabic: 'مُرْتاح',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:44:04',
+                        updatedAt: '1900-04-11 14:44:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3d860b5b-4a29-43d6-8f16-8c0d78c45474',
+                        english: 'to be proud',
+                        arabic: 'إفْتَجَر',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:39:15',
+                        updatedAt: '1900-04-11 14:39:15',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3eb214fa-87b6-47d5-8169-6379a046988f',
+                        english: 'conceited',
+                        arabic: 'مُغْرور',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:00:49',
+                        updatedAt: '1900-04-11 15:00:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '3fae5472-1f4e-43dc-aaba-194be61e52e0',
+                        english: 'horizon',
+                        arabic: 'أُفُق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:39:58',
+                        updatedAt: '1900-04-11 09:39:58',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4012c35a-d4c8-40c9-a11f-26630968351a',
+                        english: 'calendar',
+                        arabic: 'تَقْويم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:46:04',
+                        updatedAt: '1900-04-11 13:46:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '40d3b0db-a214-4560-93d0-551d7e555160',
+                        english: 'bike',
+                        arabic: 'دَرّاجَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:08:38',
+                        updatedAt: '1900-04-11 10:08:38',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4116ffff-48bf-4016-845f-9087905dfac0',
+                        english: 'star',
+                        arabic: 'نَجْمَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:53:43',
+                        updatedAt: '1900-04-11 07:53:43',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '42681408-974d-458b-ac07-2f120c6c92f0',
+                        english: 'hardworking',
+                        arabic: 'مُجْتَهِد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:09:58',
+                        updatedAt: '1900-04-11 15:09:58',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4274303b-5c4b-4cee-8a48-238e7e08002f',
+                        english: 'to relax',
+                        arabic: 'إستَراح',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:45:47',
+                        updatedAt: '1900-04-11 14:45:47',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4377fce9-699b-44ab-bbc0-536d45483a2f',
+                        english: 'bench',
+                        arabic: 'مَقْعَد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:36:12',
+                        updatedAt: '1900-04-11 08:36:12',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '447b93ef-32b3-4e71-a606-c25d494b1e07',
+                        english: 'left',
+                        arabic: 'يَسار',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:27:47',
+                        updatedAt: '1900-04-11 13:27:47',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '463a843e-9e7f-435a-bea1-80bcfd954fef',
+                        english: 'church',
+                        arabic: 'كَنيس',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:34:26',
+                        updatedAt: '1900-04-11 08:34:26',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '484df8d3-33e3-41aa-84f7-875d2614c0b4',
+                        english: 'second',
+                        arabic: 'ثانية',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:45:16',
+                        updatedAt: '1900-04-11 13:45:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '48cfe691-d3b9-4d25-b3a5-e95a19f260b4',
+                        english: 'notebook',
+                        arabic: 'دَفْتَر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:43:32',
+                        updatedAt: '1900-04-11 06:43:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '48e3d241-c0e3-4fd4-88e9-6f4dc12b1697',
+                        english: 'square',
+                        arabic: 'مُرَبَّع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:51:15',
+                        updatedAt: '1900-04-11 07:51:15',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '49bca8a4-123f-4ed2-88d9-f5326ab58742',
+                        english: 'to visit',
+                        arabic: 'زار',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:31:43',
+                        updatedAt: '1900-04-11 10:31:43',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '49f5c1be-28fa-4f12-8096-c2782dc0afe0',
+                        english: 'lion',
+                        arabic: 'أسَد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:51:01',
+                        updatedAt: '1900-04-11 08:51:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4a2f9a59-a236-4b3c-816d-4b4ea1e8be97',
+                        english: 'kid',
+                        arabic: 'عَيِّل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:09:02',
+                        updatedAt: '1900-04-11 14:09:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4c5fb3c9-1405-4089-8440-f4f635a422fa',
+                        english: 'age',
+                        arabic: 'عُمْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:06:30',
+                        updatedAt: '1900-04-11 14:06:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4c7b0dba-317c-46f5-ae58-1926f3193d07',
+                        english: 'with',
+                        arabic: 'مَعَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:22:01',
+                        updatedAt: '1900-04-11 13:22:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4d2b12ba-1c41-40b4-85c7-0e1b7e38779b',
+                        english: 'new',
+                        arabic: 'جَديد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:50:29',
+                        updatedAt: '1900-04-11 09:50:29',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4d995422-e779-4203-8079-3270535b8a61',
+                        english: 'yesterday',
+                        arabic: 'أمْس',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:40:00',
+                        updatedAt: '1900-04-11 13:40:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4e0faaa6-99e3-4284-9684-36ffe7982aab',
+                        english: 'purple',
+                        arabic: 'بِنَفْسَجي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:14:52',
+                        updatedAt: '1900-04-11 08:14:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4e13a13e-c063-4866-85ed-2b5b645454e4',
+                        english: 'below',
+                        arabic: 'تَحْتَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:18:11',
+                        updatedAt: '1900-04-11 13:18:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '4f92482a-5076-4c07-8cab-24fb9910992c',
+                        english: 'north',
+                        arabic: 'شَمال',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:24:32',
+                        updatedAt: '1900-04-11 13:24:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '503be869-3da2-4f2e-b180-cb9ea17e9152',
+                        english: 'pyramid',
+                        arabic: 'هَرَم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:56:16',
+                        updatedAt: '1900-04-11 07:56:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '51949c1a-5525-4dfb-99ba-c4774e50b5c3',
+                        english: 'hate',
+                        arabic: 'كَراهِيَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:32:53',
+                        updatedAt: '1900-04-11 14:32:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '52d36228-28ee-424b-a948-4935ad33a743',
+                        english: 'fiancée',
+                        arabic: 'خَطيبَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:21:35',
+                        updatedAt: '1900-04-11 14:21:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '534a468e-fd82-403b-b208-eeae398e0140',
+                        english: 'pride',
+                        arabic: 'فَخْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:36:33',
+                        updatedAt: '1900-04-11 14:36:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '540b9cf8-a8d0-48e6-a310-90151e56d103',
+                        english: 'clock/watch/hour',
+                        arabic: 'ساعَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:39:50',
+                        updatedAt: '1900-04-11 13:43:25',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '54ae995e-e7af-42fe-b855-3fccece38deb',
+                        english: 'giraffe',
+                        arabic: 'زَرافَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:59:10',
+                        updatedAt: '1900-04-11 08:59:10',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '55879be3-c5c1-4a02-8516-b42083f30701',
+                        english: 'behind',
+                        arabic: 'وَرَاءَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:19:37',
+                        updatedAt: '1900-04-11 13:19:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '57965431-b271-4a0d-9839-1487e9a01a21',
+                        english: 'baby',
+                        arabic: 'طِفْل رَضيع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:08:14',
+                        updatedAt: '1900-04-11 14:08:14',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '596db8b7-e6f9-4bee-a526-cbf307c3d83d',
+                        english: 'telephone',
+                        arabic: 'هاتِف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:57:34',
+                        updatedAt: '1900-04-11 06:57:34',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd',
+                        english: 'sphere',
+                        arabic: 'كُرَويّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:03:28',
+                        updatedAt: '1900-04-11 08:03:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5c477c4f-c9ba-4ca8-866c-3fb4a4d14539',
+                        english: 'orange',
+                        arabic: 'بِرْتُقالي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:13:28',
+                        updatedAt: '1900-04-11 08:13:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5d3e6b3e-cbae-4892-8a69-913c8419e6c3',
+                        english: 'triangle',
+                        arabic: 'مُثَلَّث',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:44:08',
+                        updatedAt: '1900-04-11 07:44:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5d8ea683-d5be-40f1-aa74-bc7c9bba767b',
+                        english: 'cube',
+                        arabic: 'مُكَعََّب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:57:18',
+                        updatedAt: '1900-04-11 07:57:18',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5e8140dd-49f4-4fbf-9043-47a368b86623',
+                        english: 'soil',
+                        arabic: 'تُرْبَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:36:50',
+                        updatedAt: '1900-04-11 09:36:50',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '5fa17200-6791-4e2b-b6fe-bee878e04ae8',
+                        english: 'in',
+                        arabic: 'في',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:16:03',
+                        updatedAt: '1900-04-11 13:16:03',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6027ad46-bfc3-4550-b7fd-fda0552d0c2f',
+                        english: 'lake',
+                        arabic: 'بُحَيْرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:31:33',
+                        updatedAt: '1900-04-11 09:31:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6156e0f1-e9b2-444c-a949-1e10c8342a43',
+                        english: 'flower',
+                        arabic: 'زَهْرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:27:37',
+                        updatedAt: '1900-04-11 09:27:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '62a53212-6329-4c95-a41b-c19cc97df746',
+                        english: 'next to',
+                        arabic: 'بِجانِب',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:23:11',
+                        updatedAt: '1900-04-11 13:23:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6517ed6a-570f-4c75-bd41-95a539058254',
+                        english: 'to feel',
+                        arabic: 'شَعَرَ',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:29:05',
+                        updatedAt: '1900-04-11 14:29:05',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '656d9236-0799-4d95-a9cc-a16cfd3f4e09',
+                        english: 'time (concept)',
+                        arabic: 'الزَمان',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:54:03',
+                        updatedAt: '1900-04-11 13:54:03',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6632a42b-47a9-4bb0-97d0-a973cef2444a',
+                        english: 'key',
+                        arabic: 'مِفْتاح',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:58:31',
+                        updatedAt: '1900-04-11 06:58:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '66ffca0c-20c9-4fe3-9124-a60b3fc429d1',
+                        english: 'wedding',
+                        arabic: 'زِفاف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:23:23',
+                        updatedAt: '1900-04-11 14:23:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '685348d2-1c8c-485b-84e5-dc0513866568',
+                        english: 'house',
+                        arabic: 'بَيْت',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:13:36',
+                        updatedAt: '1900-04-11 07:13:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '693fc269-e789-4afd-9d68-6dbbc155363d',
+                        english: 'fiancé',
+                        arabic: 'خَطيب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:20:44',
+                        updatedAt: '1900-04-11 14:20:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6973bb6d-8c49-4b0f-86d1-d0d1c352c87f',
+                        english: 'owl',
+                        arabic: 'بومَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:47:00',
+                        updatedAt: '1900-04-11 08:47:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '69d078b5-c3da-41db-af32-8e964e44ad0e',
+                        english: 'father',
+                        arabic: 'أَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:58:44',
+                        updatedAt: '1900-04-11 13:58:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6a10458a-798d-4569-84ec-d194b50a60c5',
+                        english: 'apartment',
+                        arabic: 'شَقَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:23:22',
+                        updatedAt: '1900-04-11 08:23:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6a493386-a63a-46b3-ab02-6b840d4d50dc',
+                        english: 'book',
+                        arabic: 'كِتاب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:41:28',
+                        updatedAt: '1900-04-11 06:41:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6b5edc10-a313-454e-83a6-7ad4cd585811',
+                        english: 'prism',
+                        arabic: 'مَوْشور',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:00:30',
+                        updatedAt: '1900-04-11 08:00:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6dae0799-bb4f-4cad-a4c8-26e86dbfe8d8',
+                        english: 'open',
+                        arabic: 'مُفْتوح',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:47:37',
+                        updatedAt: '1900-04-11 09:47:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6e977338-0418-4e72-a0ad-702e6f0ad566',
+                        english: 'day',
+                        arabic: 'يَوْم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:31:30',
+                        updatedAt: '1900-04-11 13:31:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6ed214e5-8901-44e5-b444-ef7b95e1d699',
+                        english: 'stapler',
+                        arabic: 'دَبَّاسَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:07:16',
+                        updatedAt: '1900-04-11 07:07:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6f1eb8be-7508-4e26-8249-af9d7ce31009',
+                        english: 'car accident',
+                        arabic: 'حادِثَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:28:41',
+                        updatedAt: '1900-04-11 10:28:41',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6f4422e2-2920-42cf-9a28-28d7d45e5170',
+                        english: 'world',
+                        arabic: 'كَوْكَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:42:49',
+                        updatedAt: '1900-04-11 09:42:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '6fff215f-690d-4b6b-af7a-5fc31ed80743',
+                        english: 'shop',
+                        arabic: 'مَحَلّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:36:55',
+                        updatedAt: '1900-04-11 08:36:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        english: 'door',
+                        arabic: 'باب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:07:55',
+                        updatedAt: '1900-04-11 07:07:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '711bda32-64e4-4943-97fb-d4802abe7a52',
+                        english: 'fire',
+                        arabic: 'نار',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:37:44',
+                        updatedAt: '1900-04-11 09:37:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '713eb408-e3a7-4726-a26f-bde5bde295f2',
+                        english: 'straight',
+                        arabic: 'مُسْتَقيم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:58:16',
+                        updatedAt: '1900-04-11 09:58:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '71bab061-44a4-4aea-b048-f1b9145b0684',
+                        english: 'cruel',
+                        arabic: 'قاسٍ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:04:33',
+                        updatedAt: '1900-04-11 15:04:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '72f418e3-fdb9-4483-b9d1-58be7ea58d27',
+                        english: 'table',
+                        arabic: 'طاوِلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:12:46',
+                        updatedAt: '1900-04-11 07:12:46',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '73c11afe-8e57-4ff3-a4fe-400256d65fc8',
+                        english: 'street',
+                        arabic: 'شارِع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:20:19',
+                        updatedAt: '1900-04-11 08:20:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d',
+                        english: 'to take off',
+                        arabic: ' أقْلَع',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:34:45',
+                        updatedAt: '1900-04-11 10:35:20',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '76e9aba4-be7c-4c8d-8a0e-1dfc55917463',
+                        english: 'love',
+                        arabic: 'حُبّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:31:48',
+                        updatedAt: '1900-04-11 14:31:48',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '78bc6cd1-4ab0-47df-8b9a-001a1ce44f28',
+                        english: 'bridge',
+                        arabic: 'جِسْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:24:10',
+                        updatedAt: '1900-04-11 08:24:10',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7a0f6917-147e-44f6-9c0c-0d9c7e6543e3',
+                        english: 'radio',
+                        arabic: 'مِذْياع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:19:23',
+                        updatedAt: '1900-04-11 07:19:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7ae111c6-9f47-4bfe-94f6-20a584e29850',
+                        english: 'chez',
+                        arabic: 'عِنْدَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:24:00',
+                        updatedAt: '1900-04-11 13:24:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7c2de9f0-37b1-4adc-aa8e-61ccecbec278',
+                        english: 'late',
+                        arabic: 'مُتَأَخِّر',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:52:44',
+                        updatedAt: '1900-04-11 13:52:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7d258a88-0018-4ff8-9224-bbfaeaad788e',
+                        english: 'far',
+                        arabic: 'بَعيد',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:28:36',
+                        updatedAt: '1900-04-11 13:28:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7daa078a-681d-4856-8c2f-90dd43501f69',
+                        english: 'south',
+                        arabic: 'جَنوب',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:25:08',
+                        updatedAt: '1900-04-11 13:25:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7eb03048-8b0e-41a4-a1b6-178304d08bab',
+                        english: 'brown',
+                        arabic: 'بُنّي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:12:04',
+                        updatedAt: '1900-04-11 08:12:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7ef608fd-3419-4408-a22e-b5495556de91',
+                        english: 'line',
+                        arabic: 'خَطّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:05:43',
+                        updatedAt: '1900-04-11 08:05:43',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2',
+                        english: 'helicopter',
+                        arabic: 'مَرْوَحِيَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:33:36',
+                        updatedAt: '1900-04-11 10:33:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8022bc27-2689-4912-984c-5971026c59a5',
+                        english: 'engaged',
+                        arabic: 'مَخْطوب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:19:53',
+                        updatedAt: '1900-04-11 14:19:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8126426f-93a3-486f-a346-9acbfac1daf2',
+                        english: 'tortoise',
+                        arabic: 'سُلَحْفاة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:53:25',
+                        updatedAt: '1900-04-11 08:53:25',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '821e23d9-09d4-43df-8bd0-383e20607010',
+                        english: 'west',
+                        arabic: 'غَرْب',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:26:19',
+                        updatedAt: '1900-04-11 13:26:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '83e775b2-1c58-4cbc-8a8a-0b4d837b91a0',
+                        english: 'rabbit',
+                        arabic: 'أرْنَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:57:58',
+                        updatedAt: '1900-04-11 08:57:58',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '849859cd-48db-4e57-9824-d9443264f795',
+                        english: 'single',
+                        arabic: 'أَعزَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:22:51',
+                        updatedAt: '1900-04-11 14:22:51',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '84cd8e1a-e403-48b1-8a6a-9daf47e2721e',
+                        english: 'right',
+                        arabic: 'يَمين',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:26:49',
+                        updatedAt: '1900-04-11 13:26:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '84e12f6b-270f-4f6c-a928-eaa406990446',
+                        english: 'dawn',
+                        arabic: 'فَجْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:32:25',
+                        updatedAt: '1900-04-11 13:32:25',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '84ee077c-eedf-4009-b12e-108349ee1ff3',
+                        english: 'afraid',
+                        arabic: 'خائِف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:51:36',
+                        updatedAt: '1900-04-11 14:51:36',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '853bda7a-b6d7-448a-8105-a208b725c986',
+                        english: 'green',
+                        arabic: 'أخْضَر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:11:02',
+                        updatedAt: '1900-04-11 08:11:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '86fcddad-7ea3-4d19-8600-95b6cc085974',
+                        english: 'monkey',
+                        arabic: 'قِرْد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:45:46',
+                        updatedAt: '1900-04-11 08:45:46',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '874ac774-1f4f-49e4-84c9-69786e2f1c0a',
+                        english: 'curved',
+                        arabic: 'مُنْحَنٍ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:57:24',
+                        updatedAt: '1900-04-11 09:57:24',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '878f9b1e-e11b-452a-90de-b2ae626434e2',
+                        english: 'cowardly',
+                        arabic: 'جَبان',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:14:25',
+                        updatedAt: '1900-04-11 15:14:25',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '88c79156-7fca-42b8-b7f4-0477db149824',
+                        english: 'paternal uncle',
+                        arabic: 'عَمّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:01:57',
+                        updatedAt: '1900-04-11 14:01:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '88d904c7-0763-48a7-bf79-395b1d388ed4',
+                        english: 'east',
+                        arabic: 'شَرْق',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:25:44',
+                        updatedAt: '1900-04-11 13:25:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '89125544-bb12-4708-80ad-07c6b51de477',
+                        english: 'truck',
+                        arabic: 'شاحِنَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:07:26',
+                        updatedAt: '1900-04-11 10:07:26',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '89285848-7757-4678-9530-50b5492963cc',
+                        english: 'bee',
+                        arabic: 'نَحلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:56:31',
+                        updatedAt: '1900-04-11 08:56:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8956bb01-01d4-4bf6-b00c-713768973ef2',
+                        english: 'bush',
+                        arabic: 'دَغَل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:40:48',
+                        updatedAt: '1900-04-11 09:40:48',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '89788a3f-be76-4c0c-9fbd-e65c419eeea6',
+                        english: 'heavy',
+                        arabic: 'ثَقيل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:46:03',
+                        updatedAt: '1900-04-11 09:46:03',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8a49e100-b10d-4175-b8d3-d38e1032d97e',
+                        english: 'sad',
+                        arabic: 'حَزين',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:35:06',
+                        updatedAt: '1900-04-11 14:35:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8a74aa20-4ad3-4d26-9759-b9d42ed4a29c',
+                        english: 'humble',
+                        arabic: 'مُتَواضِع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:00:16',
+                        updatedAt: '1900-04-11 15:00:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8b390b19-eca7-483c-9c89-a92598b94a15',
+                        english: 'content/satisfied',
+                        arabic: 'راضي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:40:21',
+                        updatedAt: '1900-04-11 14:40:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8e786b12-cade-4150-9a19-801d3a11a659',
+                        english: 'near',
+                        arabic: 'قَريب',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:29:09',
+                        updatedAt: '1900-04-11 13:29:09',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '8f102c9b-66ba-4ef2-bef4-0c0ea22411c2',
+                        english: 'pen',
+                        arabic: 'قَلَم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:44:25',
+                        updatedAt: '1900-04-11 06:44:25',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '908cbd4f-a963-4e84-8611-2225baaf6143',
+                        english: 'ruler',
+                        arabic: 'مِسْطَرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:00:29',
+                        updatedAt: '1900-04-11 07:00:29',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '909fb154-9782-4f50-a285-ba60eca86960',
+                        english: 'crescent',
+                        arabic: 'هِلال',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:54:32',
+                        updatedAt: '1900-04-11 07:54:32',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9247a4e8-96ba-44ce-8fd6-a99c6e803710',
+                        english: 'pessimistic',
+                        arabic: 'مُتَشائِم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:08:18',
+                        updatedAt: '1900-04-11 15:08:18',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '947336e0-a136-461a-951f-f970f8001a5e',
+                        english: 'earth',
+                        arabic: 'أرْض',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:38:13',
+                        updatedAt: '1900-04-11 09:38:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '956fb730-281e-49ae-863c-ed55b030a1b7',
+                        english: 'pencil sharpener',
+                        arabic: 'بَرَّايَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:48:43',
+                        updatedAt: '1900-04-11 06:48:43',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '95a014a4-f9c8-4801-8e6c-104f12282d9b',
+                        english: 'low',
+                        arabic: 'مُنْخَفِض',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:55:45',
+                        updatedAt: '1900-04-11 09:55:45',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '95ad7467-8e22-4627-9635-7a7daafb6eea',
+                        english: 'minute',
+                        arabic: 'دَقيقَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:44:23',
+                        updatedAt: '1900-04-11 13:44:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '97c2105c-285d-4e2c-a64e-d9efc1b0e503',
+                        english: 'relative',
+                        arabic: 'قَريب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:12:40',
+                        updatedAt: '1900-04-11 14:12:40',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '97c594ab-18a0-4c1d-91cd-f2170132c3c5',
+                        english: 'child',
+                        arabic: 'طِفْل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:07:11',
+                        updatedAt: '1900-04-11 14:07:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '99742a3b-19f5-4398-b2a3-4102de7452a4',
+                        english: 'candle',
+                        arabic: 'شَمْعَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:17:23',
+                        updatedAt: '1900-04-11 07:17:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '999a354e-44c6-444e-8161-29d456e50629',
+                        english: 'bed',
+                        arabic: 'سَرير',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:15:55',
+                        updatedAt: '1900-04-11 07:15:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9',
+                        english: 'dust',
+                        arabic: 'تُراب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:35:55',
+                        updatedAt: '1900-04-11 09:35:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '99df8ae9-1fe4-4216-8d2a-59ba06ef4073',
+                        english: 'sleepy',
+                        arabic: 'نَعْسان',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:11:53',
+                        updatedAt: '1900-04-11 15:11:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9a3ced4f-f57f-4d5e-b89d-d258e4125b63',
+                        english: 'tunnel',
+                        arabic: 'نَفَق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:38:40',
+                        updatedAt: '1900-04-11 08:38:40',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e',
+                        english: 'hospital',
+                        arabic: 'مُستَشْفى',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:32:27',
+                        updatedAt: '1900-04-11 08:32:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4',
+                        english: 'night',
+                        arabic: 'لَيْلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:36:38',
+                        updatedAt: '1900-04-11 13:36:38',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34',
+                        english: 'pothole',
+                        arabic: 'مَطَبّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:31:21',
+                        updatedAt: '1900-04-11 08:31:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9cc9d170-614e-4740-a067-9ece44937d58',
+                        english: 'sister',
+                        arabic: 'أُخت',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:01:06',
+                        updatedAt: '1900-04-11 14:01:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22',
+                        english: 'to be cruel',
+                        arabic: 'قَسا',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 15:06:02',
+                        updatedAt: '1900-04-11 15:06:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9dad3613-40ed-4ef2-a338-9bc032386826',
+                        english: 'cone',
+                        arabic: 'مَخْروط',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:59:51',
+                        updatedAt: '1900-04-11 07:59:51',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9deb1efe-45f1-47d9-8925-5825acdb4e0a',
+                        english: 'city',
+                        arabic: 'مَدينَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:19:12',
+                        updatedAt: '1900-04-11 08:19:12',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3',
+                        english: 'feeling',
+                        arabic: 'شَعْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:29:59',
+                        updatedAt: '1900-04-11 14:29:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        english: 'chair',
+                        arabic: 'كُرْسيّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:03:22',
+                        updatedAt: '1900-04-11 07:03:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a0f01e4e-30ce-4cb2-ba16-9b214d385b60',
+                        english: 'adult',
+                        arabic: 'بالِغ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:11:33',
+                        updatedAt: '1900-04-11 14:11:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a1f43165-8de6-4c11-a1ca-2fc17343df71',
+                        english: 'family',
+                        arabic: 'عائِلة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:13:31',
+                        updatedAt: '1900-04-11 14:13:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a2a0d36f-8fc5-4c29-8100-167bc17fc29b',
+                        english: 'narrow',
+                        arabic: 'ضَيِّق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:52:17',
+                        updatedAt: '1900-04-11 09:52:17',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a4a16e3d-bb70-4028-ab7a-040a986186c3',
+                        english: 'ostrich',
+                        arabic: 'نَعامَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:46:27',
+                        updatedAt: '1900-04-11 08:46:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a5c0589e-7cbd-48c4-b4c7-8ccfff88f06e',
+                        english: 'good',
+                        arabic: 'جَيِد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:01:17',
+                        updatedAt: '1900-04-11 10:01:17',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a5ce2c6b-8c64-42eb-b218-2308c6b39aeb',
+                        english: 'proud',
+                        arabic: 'فَخور',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:37:09',
+                        updatedAt: '1900-04-11 14:37:09',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a6d1c34f-faed-4d79-99a0-afd965111f59',
+                        english: 'car horn',
+                        arabic: 'بوق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:28:00',
+                        updatedAt: '1900-04-11 10:28:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a752647e-367e-439d-bfd0-f65fa5cf97e6',
+                        english: 'grey',
+                        arabic: 'رَمادي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:15:52',
+                        updatedAt: '1900-04-11 08:15:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a8da7e0d-16a6-4151-856c-821fff07ce29',
+                        english: 'white',
+                        arabic: 'أبْيَض',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:10:02',
+                        updatedAt: '1900-04-11 08:10:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'a9354f39-b321-4ae1-875d-d9fad1eaec8e',
+                        english: 'lazy',
+                        arabic: 'كُسول',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:09:08',
+                        updatedAt: '1900-04-11 15:09:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'aa197ce3-6b74-4e8e-9260-6d774a316c3c',
+                        english: 'road',
+                        arabic: 'طَريق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:21:37',
+                        updatedAt: '1900-04-11 08:21:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'aa34756d-0fd6-4c82-9f52-c20b28550b95',
+                        english: 'worm',
+                        arabic: 'دودَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:48:23',
+                        updatedAt: '1900-04-11 08:48:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'aa9843c0-f064-47ec-abc9-6f925957ceca',
+                        english: 'engagement',
+                        arabic: 'خُطوبَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:18:53',
+                        updatedAt: '1900-04-11 14:18:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'aaae2a1e-43ec-46c6-a159-6a80641e0d6c',
+                        english: 'bear',
+                        arabic: 'ّدُب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:49:19',
+                        updatedAt: '1900-04-11 08:49:42',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'aac78064-0566-420b-bf6d-34ca928a068b',
+                        english: 'person',
+                        arabic: 'شَخْص',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:15:14',
+                        updatedAt: '1900-04-11 14:15:14',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ab549112-dc36-447f-a8e6-3503d32c7c04',
+                        english: 'leaf/petal',
+                        arabic: 'وَرَق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:32:26',
+                        updatedAt: '1900-04-11 09:32:26',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ac464aa8-9da1-433a-986c-a667d87eedb0',
+                        english: 'maternal aunt',
+                        arabic: 'خالة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:03:50',
+                        updatedAt: '1900-04-11 14:03:50',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5',
+                        english: 'emotion',
+                        arabic: 'عاطِف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:30:42',
+                        updatedAt: '1900-04-11 14:30:42',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ad544105-8044-4af9-82c8-f7c24fea1acf',
+                        english: 'curious',
+                        arabic: 'فُضولي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:12:45',
+                        updatedAt: '1900-04-11 15:12:45',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ade415d5-5b63-45b2-b35f-b2fcfc3bf034',
+                        english: 'oval',
+                        arabic: 'بَيْضاوي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:59:06',
+                        updatedAt: '1900-04-11 07:59:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'adf1a776-6968-4d93-bad2-5fd238b77a28',
+                        english: 'wife',
+                        arabic: 'زَوْجَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:24:27',
+                        updatedAt: '1900-04-11 14:24:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ae3b8a2f-0e8a-4595-b848-d07e2a125c32',
+                        english: 'box',
+                        arabic: 'صُنْدوق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:56:31',
+                        updatedAt: '1900-04-11 06:56:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b0134767-3886-44eb-a6bb-ff8ad27ae4b0',
+                        english: 'root',
+                        arabic: 'جَذْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:34:19',
+                        updatedAt: '1900-04-11 09:34:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b13b8e30-b258-490b-b898-0ec4e2f0975b',
+                        english: 'mud',
+                        arabic: 'طين',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:29:10',
+                        updatedAt: '1900-04-11 09:29:10',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669',
+                        english: 'drive',
+                        arabic: 'قاد',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:04:00',
+                        updatedAt: '1900-04-11 10:04:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b2e0cdf5-1999-4f4c-84e8-c14d7692357e',
+                        english: 'husband',
+                        arabic: 'زَوْج',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:23:54',
+                        updatedAt: '1900-04-11 14:23:54',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f',
+                        english: 'blue',
+                        arabic: 'أزْرَق',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:08:19',
+                        updatedAt: '1900-04-11 08:08:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b540b891-fdfb-4876-9a04-9a6161708217',
+                        english: 'woman',
+                        arabic: 'إمْرَأَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:58:00',
+                        updatedAt: '1900-04-11 13:58:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b5b24bab-e9e2-42ef-a0cc-4335aae6031d',
+                        english: 'bank',
+                        arabic: 'بَنْك',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:27:51',
+                        updatedAt: '1900-04-11 08:27:51',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b730c36d-0e42-49b0-93f5-fd9449a6ea4c',
+                        english: 'high',
+                        arabic: 'مُرْتَفِع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:56:35',
+                        updatedAt: '1900-04-11 09:56:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b7508ffe-caf9-4e5b-a615-9dc7c0891e8b',
+                        english: 'tired',
+                        arabic: 'مُتْعَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:53:18',
+                        updatedAt: '1900-04-11 14:53:18',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b7797b9f-557c-4dab-81a0-acf54496404e',
+                        english: 'eraser',
+                        arabic: 'مِمْحاة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:50:08',
+                        updatedAt: '1900-04-11 06:50:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'b8213afd-6a2b-47bd-a9c5-797c94d1ee00',
+                        english: 'happy',
+                        arabic: 'سَعيد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:33:57',
+                        updatedAt: '1900-04-11 14:33:57',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'babdc233-a6bf-4cd1-936a-ef1524e37417',
+                        english: 'evening',
+                        arabic: 'مَساء',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:34:50',
+                        updatedAt: '1900-04-11 13:34:50',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'bb04fcc5-38d4-402a-8ca4-c59570c35184',
+                        english: 'snake',
+                        arabic: 'ثُعْبان',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:00:00',
+                        updatedAt: '1900-04-11 09:00:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'bbf3e801-c13c-4e01-aa0a-3221f431d60e',
+                        english: 'wood',
+                        arabic: 'خَشَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:28:30',
+                        updatedAt: '1900-04-11 09:28:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'bcaf1632-3659-4689-8a22-66328ca38a6a',
+                        english: 'rectangle',
+                        arabic: 'مُسْتَطيل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:38:46',
+                        updatedAt: '1900-04-11 07:38:46',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'bcf75b90-7658-499b-9cc2-0bbb6c709a55',
+                        english: 'horse',
+                        arabic: 'حِصان',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:50:33',
+                        updatedAt: '1900-04-11 08:50:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'be9bf59b-7e45-4e14-bc26-3ee808e93093',
+                        english: 'circle',
+                        arabic: 'دائِرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:50:19',
+                        updatedAt: '1900-04-11 07:50:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'bf28faf0-6ed2-4b50-803a-2fac586dac0a',
+                        english: 'then',
+                        arabic: 'ثُمَّ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:47:21',
+                        updatedAt: '1900-04-11 13:47:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c05240b1-8ee7-4f9b-8a50-57423965c858',
+                        english: 'later',
+                        arabic: 'لَحِقاً',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:50:21',
+                        updatedAt: '1900-04-11 13:50:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c1d1ee0e-7a53-45a0-904b-2be41fae5573',
+                        english: 'brave',
+                        arabic: 'شُجاع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:13:44',
+                        updatedAt: '1900-04-11 15:13:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c22d2595-83da-4458-abb9-2650d46ebd8d',
+                        english: 'slow',
+                        arabic: 'بَطيء',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:49:52',
+                        updatedAt: '1900-04-11 09:49:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c2c59a22-22bc-4108-8dad-0dfb905eb538',
+                        english: 'insane',
+                        arabic: 'مَجْنون',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:16:01',
+                        updatedAt: '1900-04-11 15:16:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c3b0e6fe-b2b4-4767-9653-769184a572fd',
+                        english: 'minor',
+                        arabic: 'قاصِر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:10:48',
+                        updatedAt: '1900-04-11 14:10:48',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c44f37ae-b704-416b-b226-5fc0f724b051',
+                        english: 'to be content',
+                        arabic: 'رَضِى',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:42:46',
+                        updatedAt: '1900-04-11 14:42:46',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c4df9ed3-feec-4ae1-a213-cceea535fa70',
+                        english: 'to land',
+                        arabic: 'هَنَط',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:36:13',
+                        updatedAt: '1900-04-11 10:36:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c5095105-6acb-4dc8-8c9b-63e8210080de',
+                        english: 'sofa',
+                        arabic: 'أريكَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:04:59',
+                        updatedAt: '1900-04-11 07:04:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c536cc40-86e1-4140-a6bd-a35723d259cb',
+                        english: 'week',
+                        arabic: 'أُسْبوع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:42:04',
+                        updatedAt: '1900-04-11 13:42:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c7659573-c91f-461a-918b-bc98027c56d0',
+                        english: 'wide',
+                        arabic: 'واسِع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:53:03',
+                        updatedAt: '1900-04-11 09:53:03',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c823bb72-e35d-43d7-86cb-9f9e1393bd58',
+                        english: 'grandfather',
+                        arabic: 'جَدّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:04:21',
+                        updatedAt: '1900-04-11 14:04:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c85cf0e1-a3ab-4940-b99c-9d053f55645b',
+                        english: 'brother',
+                        arabic: 'أج',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:00:22',
+                        updatedAt: '1900-04-11 14:00:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e',
+                        english: 'window (alt)',
+                        arabic: 'نافْذَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:21:27',
+                        updatedAt: '1900-04-11 07:21:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'c8d82f53-7405-4786-923f-de795a208df5',
+                        english: 'morning',
+                        arabic: 'صَباح',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:33:27',
+                        updatedAt: '1900-04-11 13:33:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'cc9b3a08-efac-468f-9c8f-d3584b959223',
+                        english: 'smart',
+                        arabic: 'ذَكي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:02:09',
+                        updatedAt: '1900-04-11 15:02:09',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e',
+                        english: 'taxi',
+                        arabic: 'تَكْسي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:09:21',
+                        updatedAt: '1900-04-11 10:09:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'cfe25952-0d43-4edf-844d-942325a77dcc',
+                        english: 'sensible/sane',
+                        arabic: 'عاقِل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:15:27',
+                        updatedAt: '1900-04-11 15:15:27',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'cfe2fde2-9828-4e68-80cd-65becb6f17a6',
+                        english: 'maternal uncle',
+                        arabic: 'خال',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:03:16',
+                        updatedAt: '1900-04-11 14:03:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3',
+                        english: 'plant',
+                        arabic: 'نَبات',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:29:53',
+                        updatedAt: '1900-04-11 09:29:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd1cbe8e8-7354-4ad0-be5a-c51c9f79ec69',
+                        english: 'angry',
+                        arabic: 'غاضِب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:49:21',
+                        updatedAt: '1900-04-11 14:49:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd25988e1-7e0d-4651-9890-be833459138d',
+                        english: 'window',
+                        arabic: 'شُبَّاك',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:20:29',
+                        updatedAt: '1900-04-11 07:20:29',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd2d014ab-5f4d-4cd5-bf7d-a164417f4b26',
+                        english: 'clothes iron',
+                        arabic: 'مِكْواة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:53:12',
+                        updatedAt: '1900-04-11 06:53:12',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd3018d62-0c26-4b56-9eb4-027f41eef927',
+                        english: 'graveyard',
+                        arabic: 'مَقْبَرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:33:38',
+                        updatedAt: '1900-04-11 08:33:38',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd3b7505a-d879-4c03-b8a6-3cc98a8b0ffe',
+                        english: 'rhombus',
+                        arabic: 'مُعَيَّن',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:55:37',
+                        updatedAt: '1900-04-11 07:55:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd49d6d72-138b-4b06-9901-f8b6e1747c90',
+                        english: 'ant',
+                        arabic: 'نَمْلَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:51:55',
+                        updatedAt: '1900-04-11 08:51:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd6f6abeb-d458-4ef6-a194-cc1fdf136c28',
+                        english: 'light',
+                        arabic: 'خَفيف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:45:26',
+                        updatedAt: '1900-04-11 09:45:26',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd72cbef3-32f4-466a-98ff-8a9fbb8acdd4',
+                        english: 'year',
+                        arabic: 'سَنَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:41:17',
+                        updatedAt: '1900-04-11 13:41:17',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd73f0d17-991f-4037-a435-7d14f2db8012',
+                        english: 'sidewalk',
+                        arabic: 'رَصيف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:28:29',
+                        updatedAt: '1900-04-11 08:28:29',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd8cfbc2c-62ba-4c55-829e-0d0d02156e83',
+                        english: 'around',
+                        arabic: 'حَوْلَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:21:15',
+                        updatedAt: '1900-04-11 13:21:15',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'd9272b1d-a0c1-4413-be33-45711e022ac3',
+                        english: 'computer',
+                        arabic: 'حاسوب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:45:49',
+                        updatedAt: '1900-04-11 06:45:49',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'dae0a8b5-1575-44ac-8981-9f8c6849dfea',
+                        english: 'cylinder',
+                        arabic: 'أُسْطُوَانَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:02:37',
+                        updatedAt: '1900-04-11 08:02:37',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a',
+                        english: 'sky',
+                        arabic: 'سَماء',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:39:10',
+                        updatedAt: '1900-04-11 09:39:10',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'dc1671e5-1322-44b3-b721-be926a925042',
+                        english: 'scissors',
+                        arabic: 'مِقَصّ',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:51:03',
+                        updatedAt: '1900-04-11 07:00:51',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ddaf5e67-1885-4f74-acc0-1d0bc82b2bbd',
+                        english: 'thin',
+                        arabic: 'نَحيف',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:53:59',
+                        updatedAt: '1900-04-11 09:53:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e07cdc9e-3e21-497b-a5c0-232e37c93d60',
+                        english: 'cloud',
+                        arabic: 'غَيْمَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:25:52',
+                        updatedAt: '1900-04-11 09:25:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e0aaf42a-d8cf-4c34-8ba0-3a17a447c539',
+                        english: 'to crash land',
+                        arabic: 'تَحَطَّم',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:37:50',
+                        updatedAt: '1900-04-11 10:37:50',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e1ad2b1e-83f6-427d-a299-378a3e101abc',
+                        english: 'to crash',
+                        arabic: 'صادَم',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:29:58',
+                        updatedAt: '1900-04-11 10:29:58',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e21b59f3-4447-49b7-a901-e3f9f06277c6',
+                        english: 'hexagon',
+                        arabic: 'مُسَدَّس',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:58:15',
+                        updatedAt: '1900-04-11 07:58:15',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e402aaa4-b953-4ef5-8cab-f96d5bee2c86',
+                        english: 'elephant',
+                        arabic: 'فيل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:54:20',
+                        updatedAt: '1900-04-11 08:54:20',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e5249b51-300a-4a31-a6c9-c31cafb76c4a',
+                        english: 'on',
+                        arabic: 'عَلى',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:15:11',
+                        updatedAt: '1900-04-11 13:15:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e5af34fb-ca55-4364-ae3d-6e2d5b414629',
+                        english: 'cruelty',
+                        arabic: 'قَسْوَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 15:05:19',
+                        updatedAt: '1900-04-11 15:05:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e6375e5c-9811-4bad-b81d-86d33f4a5edd',
+                        english: 'old',
+                        arabic: 'قَديم',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:50:48',
+                        updatedAt: '1900-04-11 09:50:48',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a',
+                        english: 'sewer drain',
+                        arabic: 'بَلاعَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:29:35',
+                        updatedAt: '1900-04-11 08:29:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e7f90f2a-a594-4966-aacd-82cac9b4aef3',
+                        english: 'twin',
+                        arabic: 'تُؤَام',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:17:22',
+                        updatedAt: '1900-04-11 14:17:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'e89449d4-0353-451e-8c17-ed2b56ea3138',
+                        english: 'airplane',
+                        arabic: 'طائِرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:38:38',
+                        updatedAt: '1900-04-11 10:38:38',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'eab244cb-6521-4327-8419-43bc60b9b7c1',
+                        english: 'fast',
+                        arabic: 'سَريع',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:49:08',
+                        updatedAt: '1900-04-11 09:49:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'eb1fc4de-b70c-4ff6-8464-c9cd2277cd1f',
+                        english: 'now',
+                        arabic: 'ألآن',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:48:02',
+                        updatedAt: '1900-04-11 13:48:02',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ec1311eb-3f69-4845-9bda-a123d23c4737',
+                        english: 'time (countable)',
+                        arabic: 'مَرَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:55:28',
+                        updatedAt: '1900-04-11 13:55:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ed09dda0-9a70-498e-bd14-37e5e71fe14b',
+                        english: 'anger',
+                        arabic: 'غَضَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:48:44',
+                        updatedAt: '1900-04-11 14:48:44',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254',
+                        english: 'bag',
+                        arabic: 'حَقيبَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 06:55:29',
+                        updatedAt: '1900-04-11 06:55:29',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ed695217-5fb7-4e1e-863f-85404514b32d',
+                        english: 'between',
+                        arabic: 'بَيْنَ',
+                        root: null,
+                        partOfSpeech: 'PARTICLE',
+                        img: null,
+                        createdAt: '1900-04-11 13:20:35',
+                        updatedAt: '1900-04-11 13:20:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ed82a8b1-5a14-4ae8-94fd-33afaf1d8654',
+                        english: 'downtown',
+                        arabic: 'وُسْط اللبَلَد',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:27:13',
+                        updatedAt: '1900-04-11 08:27:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ee5e5bce-83fb-4670-acab-642ba1c441ee',
+                        english: 'noon',
+                        arabic: 'ظُهْر',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:34:13',
+                        updatedAt: '1900-04-11 13:34:13',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd',
+                        english: 'pink',
+                        arabic: 'وَرْدي',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:16:52',
+                        updatedAt: '1900-04-11 08:16:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f0544b6c-5dce-4d3f-98be-3d4bef79b294',
+                        english: 'grandmother',
+                        arabic: 'جَدّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:04:53',
+                        updatedAt: '1900-04-11 14:04:53',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f088d7d1-0832-46e9-84a3-71a74af6afe6',
+                        english: 'to worry',
+                        arabic: 'قَلِق',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:47:16',
+                        updatedAt: '1900-04-11 14:47:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f0be5c30-52fa-428f-970d-a885f259cf16',
+                        english: 'heart',
+                        arabic: 'قَلْب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:52:47',
+                        updatedAt: '1900-04-11 07:52:47',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f16811f3-acda-4a1b-a21e-a81ee7e6fb4b',
+                        english: 'alley',
+                        arabic: 'حارَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:39:19',
+                        updatedAt: '1900-04-11 08:39:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f1f94348-b2b2-4bdd-be85-32f10757593d',
+                        english: 'butterfly',
+                        arabic: 'فَراشَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:57:16',
+                        updatedAt: '1900-04-11 08:57:16',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f4d91028-a529-4955-a8b1-829439bca52e',
+                        english: 'big',
+                        arabic: 'كَبير',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:59:31',
+                        updatedAt: '1900-04-11 09:59:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'f76de48c-114f-46ac-8798-cc35095e2077',
+                        english: 'man',
+                        arabic: 'رَجُل',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 13:57:08',
+                        updatedAt: '1900-04-11 13:57:08',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fa2999ad-bd9c-4c7c-8103-123b22db12bd',
+                        english: 'short',
+                        arabic: 'قَصير',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 10:00:12',
+                        updatedAt: '1900-04-11 10:00:12',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'faf94e4d-1bff-4d96-aa00-acd333da031d',
+                        english: 'spiral',
+                        arabic: 'لَوْلَب',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:04:56',
+                        updatedAt: '1900-04-11 08:04:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fc27f5dd-b6a0-4217-8903-15c916656860',
+                        english: 'cat',
+                        arabic: 'قِطَّة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:45:01',
+                        updatedAt: '1900-04-11 08:45:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fd28b036-7290-4049-a610-b3762111e2ed',
+                        english: 'to park',
+                        arabic: 'وَقَف',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 10:14:41',
+                        updatedAt: '1900-04-11 10:14:41',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fd389c22-b5d9-481b-8577-9c6ee9699342',
+                        english: 'to fear',
+                        arabic: 'خاف',
+                        root: null,
+                        partOfSpeech: 'VERB',
+                        img: null,
+                        createdAt: '1900-04-11 14:52:06',
+                        updatedAt: '1900-04-11 14:52:06',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fdb61374-dce9-4d9f-ad69-5de2b8254aff',
+                        english: 'crocodile',
+                        arabic: 'تِمْساح',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 08:44:11',
+                        updatedAt: '1900-04-11 08:44:11',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fe07129c-b278-47f1-addc-cba34bc2262f',
+                        english: 'disgusted',
+                        arabic: 'مُشْمَئِز',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 14:54:42',
+                        updatedAt: '1900-04-11 14:54:42',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'fe8844b8-1179-4867-a61d-bcd899c4c3cd',
+                        english: 'blackboard',
+                        arabic: 'سَبُّورَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 07:11:04',
+                        updatedAt: '1900-04-11 07:11:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        wordId: 'feb4d38d-32e0-4590-9a67-df4ba285faaa',
+                        english: 'rock',
+                        arabic: 'صَخْرَة',
+                        root: null,
+                        partOfSpeech: 'NOUN',
+                        img: null,
+                        createdAt: '1900-04-11 09:26:33',
+                        updatedAt: '1900-04-11 09:26:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                ],
+                { transaction },
+            )
 
-    }
-  
-  },
+            await queryInterface.bulkInsert(
+                'tags',
+                [
+                    {
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                        tagName: 'plant',
+                        createdAt: '1900-04-11 09:27:34',
+                        updatedAt: '1900-04-11 09:27:34',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                        tagName: 'mammal',
+                        createdAt: '1900-04-11 08:41:45',
+                        updatedAt: '1900-04-11 08:41:45',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '0e82d2d1-089d-4c58-991d-991cf498e680',
+                        tagName: 'container',
+                        createdAt: '1900-04-11 06:54:04',
+                        updatedAt: '1900-04-11 06:54:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                        tagName: 'furniture',
+                        createdAt: '1900-04-11 07:04:51',
+                        updatedAt: '1900-04-11 07:04:51',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '1ceec3bd-42d2-4793-9505-b62e9f3dd7cb',
+                        tagName: 'bird',
+                        createdAt: '1900-04-11 08:42:10',
+                        updatedAt: '1900-04-11 08:42:10',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                        tagName: 'animal',
+                        createdAt: '1900-04-11 08:41:31',
+                        updatedAt: '1900-04-11 08:41:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '33409a8e-8f60-4365-98b5-17071a2c8b3b',
+                        tagName: 'anatomy',
+                        createdAt: '1900-04-11 07:52:35',
+                        updatedAt: '1900-04-11 07:52:35',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                        tagName: 'nature',
+                        createdAt: '1900-04-11 09:24:00',
+                        updatedAt: '1900-04-11 09:24:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '47485bd8-07e6-44e3-8499-ab6ee1d089ae',
+                        tagName: 'astronomy',
+                        createdAt: '1900-04-11 07:53:04',
+                        updatedAt: '1900-04-11 07:53:04',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                        tagName: 'time',
+                        createdAt: '1900-04-11 06:36:07',
+                        updatedAt: '1900-04-11 06:36:07',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                        tagName: 'transportation',
+                        createdAt: '1900-04-11 10:03:52',
+                        updatedAt: '1900-04-11 10:03:52',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                        tagName: 'position',
+                        createdAt: '1900-04-11 13:16:00',
+                        updatedAt: '1900-04-11 13:16:00',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '6319dcf5-355f-47e3-9b7f-fa23eb36dec3',
+                        tagName: 'job',
+                        createdAt: '1900-04-11 10:04:54',
+                        updatedAt: '1900-04-11 10:04:54',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '6576a119-745d-43df-a516-c6d282cd98a0',
+                        tagName: 'reptile',
+                        createdAt: '1900-04-11 08:41:59',
+                        updatedAt: '1900-04-11 08:41:59',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '6d3a0567-0c69-4c0b-975a-304b1736c40e',
+                        tagName: 'invertebrate',
+                        createdAt: '1900-04-11 08:48:20',
+                        updatedAt: '1900-04-11 08:48:20',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '70509af5-5053-40b8-acb2-1748a9414868',
+                        tagName: 'weather',
+                        createdAt: '1900-04-11 09:25:41',
+                        updatedAt: '1900-04-11 09:25:41',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                        tagName: 'household',
+                        createdAt: '1900-04-11 06:36:17',
+                        updatedAt: '1900-04-11 06:36:17',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                        tagName: 'vehicle',
+                        createdAt: '1900-04-11 10:06:22',
+                        updatedAt: '1900-04-11 10:06:22',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                        tagName: 'math',
+                        createdAt: '1900-04-11 07:44:01',
+                        updatedAt: '1900-04-11 07:44:01',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                        tagName: 'emotion',
+                        createdAt: '1900-04-11 14:28:43',
+                        updatedAt: '1900-04-11 14:29:55',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                        tagName: 'shape',
+                        createdAt: '1900-04-11 07:38:30',
+                        updatedAt: '1900-04-11 07:38:30',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                        tagName: 'office',
+                        createdAt: '1900-04-11 06:36:28',
+                        updatedAt: '1900-04-11 06:36:28',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                        tagName: 'family',
+                        createdAt: '1900-04-11 13:56:23',
+                        updatedAt: '1900-04-11 13:56:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                        tagName: 'building',
+                        createdAt: '1900-04-11 07:13:56',
+                        updatedAt: '1900-04-11 07:13:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                        tagName: 'school',
+                        createdAt: '1900-04-11 07:00:23',
+                        updatedAt: '1900-04-11 07:00:23',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                        tagName: 'city',
+                        createdAt: '1900-04-11 08:18:33',
+                        updatedAt: '1900-04-11 08:18:33',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                        tagName: 'color',
+                        createdAt: '1900-04-11 08:06:31',
+                        updatedAt: '1900-04-11 08:06:31',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                        tagName: 'people',
+                        createdAt: '1900-04-11 13:56:19',
+                        updatedAt: '1900-04-11 13:56:19',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                        tagName: 'geography',
+                        createdAt: '1900-04-11 09:31:21',
+                        updatedAt: '1900-04-11 09:31:21',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                    {
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                        tagName: 'personality',
+                        createdAt: '1900-04-11 14:28:56',
+                        updatedAt: '1900-04-11 14:28:56',
+                        createdBy: '00000000-0000-0000-0000-000000000000',
+                    },
+                ],
+                { transaction },
+            )
 
-  async down (queryInterface, Sequelize) {
-    const transaction = await queryInterface.sequelize.transaction()
-    try{
-      await queryInterface.sequelize.query('DELETE FROM verbs', {transaction})
-      await queryInterface.sequelize.query('DELETE FROM nouns', {transaction})
-      await queryInterface.sequelize.query('DELETE FROM tagwords', {transaction})
-      await queryInterface.sequelize.query('DELETE FROM tags', {transaction})
-      await queryInterface.sequelize.query('DELETE FROM words', {transaction})
-      await queryInterface.sequelize.query('DELETE FROM users', {transaction})
-      await transaction.commit()
-    }catch(err){
-      console.log(err.message)
-      await transaction.rollback()
-    }
-  }
-};
+            await queryInterface.bulkInsert(
+                'tagwords',
+                [
+                    {
+                        wordId: '1726cc26-9deb-4e52-949f-989ea37126cf',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: '1ec8feb4-3afe-4816-84f7-40f0c46f04fc',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: '343fc002-6316-4b6f-9b06-cc2504a82afb',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: '6156e0f1-e9b2-444c-a949-1e10c8342a43',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: '8956bb01-01d4-4bf6-b00c-713768973ef2',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: 'ab549112-dc36-447f-a8e6-3503d32c7c04',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: 'b0134767-3886-44eb-a6bb-ff8ad27ae4b0',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: 'bbf3e801-c13c-4e01-aa0a-3221f431d60e',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: 'd0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3',
+                        tagId: '07eaa066-d134-4469-bbf6-f9b4f345b314',
+                    },
+                    {
+                        wordId: '0ea1047d-09fd-49ec-8b11-33a94ead99fd',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '1ce7751b-5676-4ec7-873f-0f5735172744',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '29345438-b5fe-43cc-8f66-d52667aa0bc3',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '49f5c1be-28fa-4f12-8096-c2782dc0afe0',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '54ae995e-e7af-42fe-b855-3fccece38deb',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '83e775b2-1c58-4cbc-8a8a-0b4d837b91a0',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: '86fcddad-7ea3-4d19-8600-95b6cc085974',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'aaae2a1e-43ec-46c6-a159-6a80641e0d6c',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'aac78064-0566-420b-bf6d-34ca928a068b',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'bcf75b90-7658-499b-9cc2-0bbb6c709a55',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'e402aaa4-b953-4ef5-8cab-f96d5bee2c86',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'fc27f5dd-b6a0-4217-8903-15c916656860',
+                        tagId: '0896faad-98c3-4fd1-a390-8cae21b01dee',
+                    },
+                    {
+                        wordId: 'ae3b8a2f-0e8a-4595-b848-d07e2a125c32',
+                        tagId: '0e82d2d1-089d-4c58-991d-991cf498e680',
+                    },
+                    {
+                        wordId: 'ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254',
+                        tagId: '0e82d2d1-089d-4c58-991d-991cf498e680',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '16c8726b-b0e9-4251-a183-c96291fb0d51',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '1a414893-c3ad-40eb-852c-9c6b0fcd44ca',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '2b7196a8-9d25-4f2c-9064-925f215c2e3a',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '4377fce9-699b-44ab-bbc0-536d45483a2f',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '72f418e3-fdb9-4483-b9d1-58be7ea58d27',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '7a0f6917-147e-44f6-9c0c-0d9c7e6543e3',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '99742a3b-19f5-4398-b2a3-4102de7452a4',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '999a354e-44c6-444e-8161-29d456e50629',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: 'c5095105-6acb-4dc8-8c9b-63e8210080de',
+                        tagId: '10fe670b-07d3-4754-8307-136875591927',
+                    },
+                    {
+                        wordId: '223f8ac4-48a9-426e-a632-119a27a1a75f',
+                        tagId: '1ceec3bd-42d2-4793-9505-b62e9f3dd7cb',
+                    },
+                    {
+                        wordId: '6973bb6d-8c49-4b0f-86d1-d0d1c352c87f',
+                        tagId: '1ceec3bd-42d2-4793-9505-b62e9f3dd7cb',
+                    },
+                    {
+                        wordId: 'a4a16e3d-bb70-4028-ab7a-040a986186c3',
+                        tagId: '1ceec3bd-42d2-4793-9505-b62e9f3dd7cb',
+                    },
+                    {
+                        wordId: '0ea1047d-09fd-49ec-8b11-33a94ead99fd',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '18c56fa3-1791-4328-b3ed-39ff3047f6e4',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '1ce7751b-5676-4ec7-873f-0f5735172744',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '223f8ac4-48a9-426e-a632-119a27a1a75f',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '29345438-b5fe-43cc-8f66-d52667aa0bc3',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '49f5c1be-28fa-4f12-8096-c2782dc0afe0',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '54ae995e-e7af-42fe-b855-3fccece38deb',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '6973bb6d-8c49-4b0f-86d1-d0d1c352c87f',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '8126426f-93a3-486f-a346-9acbfac1daf2',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '83e775b2-1c58-4cbc-8a8a-0b4d837b91a0',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '86fcddad-7ea3-4d19-8600-95b6cc085974',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: '89285848-7757-4678-9530-50b5492963cc',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'a4a16e3d-bb70-4028-ab7a-040a986186c3',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'aa34756d-0fd6-4c82-9f52-c20b28550b95',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'aaae2a1e-43ec-46c6-a159-6a80641e0d6c',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'bb04fcc5-38d4-402a-8ca4-c59570c35184',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'bcf75b90-7658-499b-9cc2-0bbb6c709a55',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'd49d6d72-138b-4b06-9901-f8b6e1747c90',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'e402aaa4-b953-4ef5-8cab-f96d5bee2c86',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'f1f94348-b2b2-4bdd-be85-32f10757593d',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'fc27f5dd-b6a0-4217-8903-15c916656860',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'fdb61374-dce9-4d9f-ad69-5de2b8254aff',
+                        tagId: '2120f4d4-381f-46c3-8564-2592d478a7dd',
+                    },
+                    {
+                        wordId: 'f0be5c30-52fa-428f-970d-a885f259cf16',
+                        tagId: '33409a8e-8f60-4365-98b5-17071a2c8b3b',
+                    },
+                    {
+                        wordId: '10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '1726cc26-9deb-4e52-949f-989ea37126cf',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '1ec8feb4-3afe-4816-84f7-40f0c46f04fc',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '1fba7688-9d90-446a-92c8-4597d4deb4a4',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '3030a34d-4e8b-45e3-bf20-4d9016f6f669',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '343fc002-6316-4b6f-9b06-cc2504a82afb',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '3fae5472-1f4e-43dc-aaba-194be61e52e0',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '5e8140dd-49f4-4fbf-9043-47a368b86623',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '6027ad46-bfc3-4550-b7fd-fda0552d0c2f',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '6156e0f1-e9b2-444c-a949-1e10c8342a43',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '6f4422e2-2920-42cf-9a28-28d7d45e5170',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '711bda32-64e4-4943-97fb-d4802abe7a52',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '8956bb01-01d4-4bf6-b00c-713768973ef2',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '947336e0-a136-461a-951f-f970f8001a5e',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'ab549112-dc36-447f-a8e6-3503d32c7c04',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'b0134767-3886-44eb-a6bb-ff8ad27ae4b0',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'b13b8e30-b258-490b-b898-0ec4e2f0975b',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'bbf3e801-c13c-4e01-aa0a-3221f431d60e',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'd0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'e07cdc9e-3e21-497b-a5c0-232e37c93d60',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: 'feb4d38d-32e0-4590-9a67-df4ba285faaa',
+                        tagId: '471bfecf-a3a9-4dc1-8741-3c49939d0988',
+                    },
+                    {
+                        wordId: '3030a34d-4e8b-45e3-bf20-4d9016f6f669',
+                        tagId: '47485bd8-07e6-44e3-8499-ab6ee1d089ae',
+                    },
+                    {
+                        wordId: '4116ffff-48bf-4016-845f-9087905dfac0',
+                        tagId: '47485bd8-07e6-44e3-8499-ab6ee1d089ae',
+                    },
+                    {
+                        wordId: '0647b68a-3ef9-4f41-8d0f-5d2b3014cb4b',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '065c6a47-6b0e-4fdf-807a-6493cdee477c',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '06b22024-b2b7-4134-afb6-dc6c8696a143',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '137b6f99-1115-45f7-8e29-9a305a3da372',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '1cbe8cd9-0078-4fb8-8aa3-b55cbee97f0d',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '33a838d8-1190-4eee-9f62-ec144fc8b7a0',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '4012c35a-d4c8-40c9-a11f-26630968351a',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '484df8d3-33e3-41aa-84f7-875d2614c0b4',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '4c5fb3c9-1405-4089-8440-f4f635a422fa',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '4d995422-e779-4203-8079-3270535b8a61',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '540b9cf8-a8d0-48e6-a310-90151e56d103',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '656d9236-0799-4d95-a9cc-a16cfd3f4e09',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '6e977338-0418-4e72-a0ad-702e6f0ad566',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '7c2de9f0-37b1-4adc-aa8e-61ccecbec278',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '84e12f6b-270f-4f6c-a928-eaa406990446',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '95ad7467-8e22-4627-9635-7a7daafb6eea',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'babdc233-a6bf-4cd1-936a-ef1524e37417',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'bf28faf0-6ed2-4b50-803a-2fac586dac0a',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'c05240b1-8ee7-4f9b-8a50-57423965c858',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'c536cc40-86e1-4140-a6bd-a35723d259cb',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'c8d82f53-7405-4786-923f-de795a208df5',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'd72cbef3-32f4-466a-98ff-8a9fbb8acdd4',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'eb1fc4de-b70c-4ff6-8464-c9cd2277cd1f',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'ec1311eb-3f69-4845-9bda-a123d23c4737',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: 'ee5e5bce-83fb-4670-acab-642ba1c441ee',
+                        tagId: '5304c96f-f3dd-46bb-8718-4af1dd93d539',
+                    },
+                    {
+                        wordId: '11205f97-462e-4268-83bc-fcb4ff202cdd',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '11c4288f-cab1-4689-b80f-a2c09a9efbab',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '1687c717-255f-454f-8c56-74b0143be8af',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '171507d6-a823-4fa8-8dec-1a687b9fa185',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '1770cca3-a044-4fc7-91ee-393090e1a71d',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '19a15323-6c16-41e4-b9af-999bdfb21d21',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '1c0b17c7-f298-4981-a060-8d3ad7e56686',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '20e9606f-0d12-4f7d-8c29-8facc0b3e94a',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '22e9caac-31cf-475b-aee6-cebb219b3c05',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '253f507b-9028-46f5-b1a8-0f8b143ee1e3',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '2799fa6c-c0ea-47f2-9348-03246fb8d7d3',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '2ce0edde-6970-4b7e-9900-dcc3d15311f2',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '40d3b0db-a214-4560-93d0-551d7e555160',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '6f1eb8be-7508-4e26-8249-af9d7ce31009',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '89125544-bb12-4708-80ad-07c6b51de477',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'a6d1c34f-faed-4d79-99a0-afd965111f59',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'c4df9ed3-feec-4ae1-a213-cceea535fa70',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'e0aaf42a-d8cf-4c34-8ba0-3a17a447c539',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'e1ad2b1e-83f6-427d-a299-378a3e101abc',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'e89449d4-0353-451e-8c17-ed2b56ea3138',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: 'fd28b036-7290-4049-a610-b3762111e2ed',
+                        tagId: '53bdb048-0d8f-42c8-b8c5-42a825534f3e',
+                    },
+                    {
+                        wordId: '21191b66-2556-4392-a5f7-e61c928914ed',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '273004ce-4cd8-406e-850e-c7c4c63be4b9',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '447b93ef-32b3-4e71-a606-c25d494b1e07',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '4c7b0dba-317c-46f5-ae58-1926f3193d07',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '4e13a13e-c063-4866-85ed-2b5b645454e4',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '4f92482a-5076-4c07-8cab-24fb9910992c',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '55879be3-c5c1-4a02-8516-b42083f30701',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '5fa17200-6791-4e2b-b6fe-bee878e04ae8',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '62a53212-6329-4c95-a41b-c19cc97df746',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '7ae111c6-9f47-4bfe-94f6-20a584e29850',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '7d258a88-0018-4ff8-9224-bbfaeaad788e',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '7daa078a-681d-4856-8c2f-90dd43501f69',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '821e23d9-09d4-43df-8bd0-383e20607010',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '84cd8e1a-e403-48b1-8a6a-9daf47e2721e',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '88d904c7-0763-48a7-bf79-395b1d388ed4',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '8e786b12-cade-4150-9a19-801d3a11a659',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: 'd8cfbc2c-62ba-4c55-829e-0d0d02156e83',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: 'e5249b51-300a-4a31-a6c9-c31cafb76c4a',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: 'ed695217-5fb7-4e1e-863f-85404514b32d',
+                        tagId: '599af4c0-5bb1-4bd0-bd1d-2c10b1a3ebe4',
+                    },
+                    {
+                        wordId: '1c0b17c7-f298-4981-a060-8d3ad7e56686',
+                        tagId: '6319dcf5-355f-47e3-9b7f-fa23eb36dec3',
+                    },
+                    {
+                        wordId: '8126426f-93a3-486f-a346-9acbfac1daf2',
+                        tagId: '6576a119-745d-43df-a516-c6d282cd98a0',
+                    },
+                    {
+                        wordId: 'bb04fcc5-38d4-402a-8ca4-c59570c35184',
+                        tagId: '6576a119-745d-43df-a516-c6d282cd98a0',
+                    },
+                    {
+                        wordId: 'fdb61374-dce9-4d9f-ad69-5de2b8254aff',
+                        tagId: '6576a119-745d-43df-a516-c6d282cd98a0',
+                    },
+                    {
+                        wordId: '89285848-7757-4678-9530-50b5492963cc',
+                        tagId: '6d3a0567-0c69-4c0b-975a-304b1736c40e',
+                    },
+                    {
+                        wordId: 'aa34756d-0fd6-4c82-9f52-c20b28550b95',
+                        tagId: '6d3a0567-0c69-4c0b-975a-304b1736c40e',
+                    },
+                    {
+                        wordId: 'd49d6d72-138b-4b06-9901-f8b6e1747c90',
+                        tagId: '6d3a0567-0c69-4c0b-975a-304b1736c40e',
+                    },
+                    {
+                        wordId: 'f1f94348-b2b2-4bdd-be85-32f10757593d',
+                        tagId: '6d3a0567-0c69-4c0b-975a-304b1736c40e',
+                    },
+                    {
+                        wordId: '3030a34d-4e8b-45e3-bf20-4d9016f6f669',
+                        tagId: '70509af5-5053-40b8-acb2-1748a9414868',
+                    },
+                    {
+                        wordId: 'db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a',
+                        tagId: '70509af5-5053-40b8-acb2-1748a9414868',
+                    },
+                    {
+                        wordId: 'e07cdc9e-3e21-497b-a5c0-232e37c93d60',
+                        tagId: '70509af5-5053-40b8-acb2-1748a9414868',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '16c8726b-b0e9-4251-a183-c96291fb0d51',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '1a414893-c3ad-40eb-852c-9c6b0fcd44ca',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '2b7196a8-9d25-4f2c-9064-925f215c2e3a',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '315099d3-456c-4d9c-b176-9c4991fb49e5',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '3a298ec1-700b-4ad8-a9c9-0877d33e7e71',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '4012c35a-d4c8-40c9-a11f-26630968351a',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '48cfe691-d3b9-4d25-b3a5-e95a19f260b4',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '540b9cf8-a8d0-48e6-a310-90151e56d103',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '596db8b7-e6f9-4bee-a526-cbf307c3d83d',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '6632a42b-47a9-4bb0-97d0-a973cef2444a',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '685348d2-1c8c-485b-84e5-dc0513866568',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '6a493386-a63a-46b3-ab02-6b840d4d50dc',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '6ed214e5-8901-44e5-b444-ef7b95e1d699',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '72f418e3-fdb9-4483-b9d1-58be7ea58d27',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '7a0f6917-147e-44f6-9c0c-0d9c7e6543e3',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '8f102c9b-66ba-4ef2-bef4-0c0ea22411c2',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '908cbd4f-a963-4e84-8611-2225baaf6143',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '956fb730-281e-49ae-863c-ed55b030a1b7',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '99742a3b-19f5-4398-b2a3-4102de7452a4',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '999a354e-44c6-444e-8161-29d456e50629',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'ae3b8a2f-0e8a-4595-b848-d07e2a125c32',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'b7797b9f-557c-4dab-81a0-acf54496404e',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'c5095105-6acb-4dc8-8c9b-63e8210080de',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'd2d014ab-5f4d-4cd5-bf7d-a164417f4b26',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'd9272b1d-a0c1-4413-be33-45711e022ac3',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'dc1671e5-1322-44b3-b721-be926a925042',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: 'ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254',
+                        tagId: '8380e1d6-a030-4e1d-906b-998bc4376612',
+                    },
+                    {
+                        wordId: '11205f97-462e-4268-83bc-fcb4ff202cdd',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '1687c717-255f-454f-8c56-74b0143be8af',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '171507d6-a823-4fa8-8dec-1a687b9fa185',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '19a15323-6c16-41e4-b9af-999bdfb21d21',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '22e9caac-31cf-475b-aee6-cebb219b3c05',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '253f507b-9028-46f5-b1a8-0f8b143ee1e3',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '2ce0edde-6970-4b7e-9900-dcc3d15311f2',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '40d3b0db-a214-4560-93d0-551d7e555160',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '89125544-bb12-4708-80ad-07c6b51de477',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: 'a6d1c34f-faed-4d79-99a0-afd965111f59',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: 'c4df9ed3-feec-4ae1-a213-cceea535fa70',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: 'ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: 'e0aaf42a-d8cf-4c34-8ba0-3a17a447c539',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: 'e89449d4-0353-451e-8c17-ed2b56ea3138',
+                        tagId: '9616d2b7-78b9-48bd-b148-3988d454cf12',
+                    },
+                    {
+                        wordId: '4116ffff-48bf-4016-845f-9087905dfac0',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '48e3d241-c0e3-4fd4-88e9-6f4dc12b1697',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '503be869-3da2-4f2e-b180-cb9ea17e9152',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '5d3e6b3e-cbae-4892-8a69-913c8419e6c3',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '5d8ea683-d5be-40f1-aa74-bc7c9bba767b',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '6b5edc10-a313-454e-83a6-7ad4cd585811',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '7ef608fd-3419-4408-a22e-b5495556de91',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '909fb154-9782-4f50-a285-ba60eca86960',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '9dad3613-40ed-4ef2-a338-9bc032386826',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'ade415d5-5b63-45b2-b35f-b2fcfc3bf034',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'bcaf1632-3659-4689-8a22-66328ca38a6a',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'be9bf59b-7e45-4e14-bc26-3ee808e93093',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'd3b7505a-d879-4c03-b8a6-3cc98a8b0ffe',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'dae0a8b5-1575-44ac-8981-9f8c6849dfea',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'e21b59f3-4447-49b7-a901-e3f9f06277c6',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: 'faf94e4d-1bff-4d96-aa00-acd333da031d',
+                        tagId: '9bd04d78-6ac1-45f1-821c-938a113cf0da',
+                    },
+                    {
+                        wordId: '03cc7a61-363d-4c38-b22e-186727de28a7',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '06d776d9-1994-44c7-8d11-398e4fda70f1',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '09b8dbaf-fc24-4323-9a2b-3da8bf5df08c',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '1b60d467-420c-4d45-bbea-05a16f485491',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '210e36d3-de61-41c8-98de-33b7d4a18fe4',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '2bb36c27-3b7c-4b06-b40c-af0776d7ae34',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '32dfe16c-3cd9-4de2-85cc-ae4b016ba23a',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '3b0df218-addd-4906-84a4-591188a604df',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '3d860b5b-4a29-43d6-8f16-8c0d78c45474',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '3eb214fa-87b6-47d5-8169-6379a046988f',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '42681408-974d-458b-ac07-2f120c6c92f0',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '4274303b-5c4b-4cee-8a48-238e7e08002f',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '51949c1a-5525-4dfb-99ba-c4774e50b5c3',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '534a468e-fd82-403b-b208-eeae398e0140',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '6517ed6a-570f-4c75-bd41-95a539058254',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '71bab061-44a4-4aea-b048-f1b9145b0684',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '76e9aba4-be7c-4c8d-8a0e-1dfc55917463',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '84ee077c-eedf-4009-b12e-108349ee1ff3',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '878f9b1e-e11b-452a-90de-b2ae626434e2',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '8a49e100-b10d-4175-b8d3-d38e1032d97e',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '8a74aa20-4ad3-4d26-9759-b9d42ed4a29c',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '8b390b19-eca7-483c-9c89-a92598b94a15',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '9247a4e8-96ba-44ce-8fd6-a99c6e803710',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '99df8ae9-1fe4-4216-8d2a-59ba06ef4073',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'a5ce2c6b-8c64-42eb-b218-2308c6b39aeb',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'a9354f39-b321-4ae1-875d-d9fad1eaec8e',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'ad544105-8044-4af9-82c8-f7c24fea1acf',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'b7508ffe-caf9-4e5b-a615-9dc7c0891e8b',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'b8213afd-6a2b-47bd-a9c5-797c94d1ee00',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'c1d1ee0e-7a53-45a0-904b-2be41fae5573',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'c2c59a22-22bc-4108-8dad-0dfb905eb538',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'c44f37ae-b704-416b-b226-5fc0f724b051',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'cc9b3a08-efac-468f-9c8f-d3584b959223',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'cfe25952-0d43-4edf-844d-942325a77dcc',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'd1cbe8e8-7354-4ad0-be5a-c51c9f79ec69',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'e5af34fb-ca55-4364-ae3d-6e2d5b414629',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'ed09dda0-9a70-498e-bd14-37e5e71fe14b',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'f088d7d1-0832-46e9-84a3-71a74af6afe6',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'fd389c22-b5d9-481b-8577-9c6ee9699342',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: 'fe07129c-b278-47f1-addc-cba34bc2262f',
+                        tagId: 'a653348b-f8cb-4ab2-bd23-4d233e6d35b7',
+                    },
+                    {
+                        wordId: '4116ffff-48bf-4016-845f-9087905dfac0',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '48e3d241-c0e3-4fd4-88e9-6f4dc12b1697',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '503be869-3da2-4f2e-b180-cb9ea17e9152',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '5d8ea683-d5be-40f1-aa74-bc7c9bba767b',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '6b5edc10-a313-454e-83a6-7ad4cd585811',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '7ef608fd-3419-4408-a22e-b5495556de91',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '909fb154-9782-4f50-a285-ba60eca86960',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '9dad3613-40ed-4ef2-a338-9bc032386826',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'ade415d5-5b63-45b2-b35f-b2fcfc3bf034',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'bcaf1632-3659-4689-8a22-66328ca38a6a',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'be9bf59b-7e45-4e14-bc26-3ee808e93093',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'd3b7505a-d879-4c03-b8a6-3cc98a8b0ffe',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'dae0a8b5-1575-44ac-8981-9f8c6849dfea',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'e21b59f3-4447-49b7-a901-e3f9f06277c6',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: 'faf94e4d-1bff-4d96-aa00-acd333da031d',
+                        tagId: 'bc8f3104-4c5f-46d8-a071-4f980d5c6d8f',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '48cfe691-d3b9-4d25-b3a5-e95a19f260b4',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '6ed214e5-8901-44e5-b444-ef7b95e1d699',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '8f102c9b-66ba-4ef2-bef4-0c0ea22411c2',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '956fb730-281e-49ae-863c-ed55b030a1b7',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: 'b7797b9f-557c-4dab-81a0-acf54496404e',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: 'd9272b1d-a0c1-4413-be33-45711e022ac3',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: 'dc1671e5-1322-44b3-b721-be926a925042',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: 'fe8844b8-1179-4867-a61d-bcd899c4c3cd',
+                        tagId: 'c17ddb7d-4c83-4379-9a7a-5f732a1638e8',
+                    },
+                    {
+                        wordId: '040d215f-b9b9-477b-bf5a-b4265ad09e7d',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '13d24d32-00ef-44e6-ae0e-d4b9c607ae6e',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '1b237643-69d7-4e66-b160-efe7e2f646bd',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '52d36228-28ee-424b-a948-4935ad33a743',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '66ffca0c-20c9-4fe3-9124-a60b3fc429d1',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '693fc269-e789-4afd-9d68-6dbbc155363d',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '69d078b5-c3da-41db-af32-8e964e44ad0e',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '8022bc27-2689-4912-984c-5971026c59a5',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '849859cd-48db-4e57-9824-d9443264f795',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '88c79156-7fca-42b8-b7f4-0477db149824',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '97c2105c-285d-4e2c-a64e-d9efc1b0e503',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '9cc9d170-614e-4740-a067-9ece44937d58',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'a1f43165-8de6-4c11-a1ca-2fc17343df71',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'ac464aa8-9da1-433a-986c-a667d87eedb0',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'adf1a776-6968-4d93-bad2-5fd238b77a28',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'b2e0cdf5-1999-4f4c-84e8-c14d7692357e',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'c823bb72-e35d-43d7-86cb-9f9e1393bd58',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'c85cf0e1-a3ab-4940-b99c-9d053f55645b',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'cfe2fde2-9828-4e68-80cd-65becb6f17a6',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'e7f90f2a-a594-4966-aacd-82cac9b4aef3',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: 'f0544b6c-5dce-4d3f-98be-3d4bef79b294',
+                        tagId: 'cbb61b31-bbbd-456f-8f0e-05ee32172e74',
+                    },
+                    {
+                        wordId: '20e9606f-0d12-4f7d-8c29-8facc0b3e94a',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '29b44140-487b-4edb-b82d-dd3885d4ed47',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '30ef2f3c-5890-4706-9b97-1df39aa397b4',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '315099d3-456c-4d9c-b176-9c4991fb49e5',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '463a843e-9e7f-435a-bea1-80bcfd954fef',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '685348d2-1c8c-485b-84e5-dc0513866568',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '6a10458a-798d-4569-84ec-d194b50a60c5',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '6fff215f-690d-4b6b-af7a-5fc31ed80743',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: 'b5b24bab-e9e2-42ef-a0cc-4335aae6031d',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: 'c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: 'd25988e1-7e0d-4651-9890-be833459138d',
+                        tagId: 'd09ec36f-ccca-4829-a6f7-a012b728ea5d',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '48cfe691-d3b9-4d25-b3a5-e95a19f260b4',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '5d3e6b3e-cbae-4892-8a69-913c8419e6c3',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '6a493386-a63a-46b3-ab02-6b840d4d50dc',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '6ed214e5-8901-44e5-b444-ef7b95e1d699',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '8f102c9b-66ba-4ef2-bef4-0c0ea22411c2',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '908cbd4f-a963-4e84-8611-2225baaf6143',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '956fb730-281e-49ae-863c-ed55b030a1b7',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: 'b7797b9f-557c-4dab-81a0-acf54496404e',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: 'd9272b1d-a0c1-4413-be33-45711e022ac3',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: 'dc1671e5-1322-44b3-b721-be926a925042',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: 'fe8844b8-1179-4867-a61d-bcd899c4c3cd',
+                        tagId: 'd20d31bf-028a-4b2d-91dc-9c0f62088754',
+                    },
+                    {
+                        wordId: '20e9606f-0d12-4f7d-8c29-8facc0b3e94a',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '2115796b-efdd-483c-a48d-b5af35325c4d',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '29b44140-487b-4edb-b82d-dd3885d4ed47',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '29ee343a-9a52-4d5b-93dc-f1e7fb45415f',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '30ef2f3c-5890-4706-9b97-1df39aa397b4',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '315099d3-456c-4d9c-b176-9c4991fb49e5',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '4377fce9-699b-44ab-bbc0-536d45483a2f',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '463a843e-9e7f-435a-bea1-80bcfd954fef',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '6a10458a-798d-4569-84ec-d194b50a60c5',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '6fff215f-690d-4b6b-af7a-5fc31ed80743',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '73c11afe-8e57-4ff3-a4fe-400256d65fc8',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '78bc6cd1-4ab0-47df-8b9a-001a1ce44f28',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '9a3ced4f-f57f-4d5e-b89d-d258e4125b63',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '9deb1efe-45f1-47d9-8925-5825acdb4e0a',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'aa197ce3-6b74-4e8e-9260-6d774a316c3c',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'b5b24bab-e9e2-42ef-a0cc-4335aae6031d',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'd3018d62-0c26-4b56-9eb4-027f41eef927',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'd73f0d17-991f-4037-a435-7d14f2db8012',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'ed82a8b1-5a14-4ae8-94fd-33afaf1d8654',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: 'f16811f3-acda-4a1b-a21e-a81ee7e6fb4b',
+                        tagId: 'e1b0deb7-ea2e-4efe-8016-cb9d388b28e3',
+                    },
+                    {
+                        wordId: '0ab97c50-d714-4fe7-b1dd-13b585475924',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '1c617059-58c5-42ef-8a4b-ccf05de9a703',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '391dd70d-dd84-4017-b437-9a2bc37401fd',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '4e0faaa6-99e3-4284-9684-36ffe7982aab',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '5c477c4f-c9ba-4ca8-866c-3fb4a4d14539',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '7eb03048-8b0e-41a4-a1b6-178304d08bab',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '853bda7a-b6d7-448a-8105-a208b725c986',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: 'a752647e-367e-439d-bfd0-f65fa5cf97e6',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: 'a8da7e0d-16a6-4151-856c-821fff07ce29',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: 'b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: 'ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd',
+                        tagId: 'e3ba54ab-91c4-471f-9184-f6d550f5ef1c',
+                    },
+                    {
+                        wordId: '040d215f-b9b9-477b-bf5a-b4265ad09e7d',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '12c09880-2ab7-4268-89ff-df038017318c',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '13d24d32-00ef-44e6-ae0e-d4b9c607ae6e',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '1b237643-69d7-4e66-b160-efe7e2f646bd',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '30e43f5b-5c65-401f-a305-960291ce1dab',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '4a2f9a59-a236-4b3c-816d-4b4ea1e8be97',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '52d36228-28ee-424b-a948-4935ad33a743',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '57965431-b271-4a0d-9839-1487e9a01a21',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '66ffca0c-20c9-4fe3-9124-a60b3fc429d1',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '693fc269-e789-4afd-9d68-6dbbc155363d',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '69d078b5-c3da-41db-af32-8e964e44ad0e',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '8022bc27-2689-4912-984c-5971026c59a5',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '849859cd-48db-4e57-9824-d9443264f795',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '88c79156-7fca-42b8-b7f4-0477db149824',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '97c2105c-285d-4e2c-a64e-d9efc1b0e503',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '97c594ab-18a0-4c1d-91cd-f2170132c3c5',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '9cc9d170-614e-4740-a067-9ece44937d58',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'a0f01e4e-30ce-4cb2-ba16-9b214d385b60',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'a1f43165-8de6-4c11-a1ca-2fc17343df71',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'aa9843c0-f064-47ec-abc9-6f925957ceca',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'aac78064-0566-420b-bf6d-34ca928a068b',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'ac464aa8-9da1-433a-986c-a667d87eedb0',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'adf1a776-6968-4d93-bad2-5fd238b77a28',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'b2e0cdf5-1999-4f4c-84e8-c14d7692357e',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'b540b891-fdfb-4876-9a04-9a6161708217',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'c3b0e6fe-b2b4-4767-9653-769184a572fd',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'c823bb72-e35d-43d7-86cb-9f9e1393bd58',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'c85cf0e1-a3ab-4940-b99c-9d053f55645b',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'cfe2fde2-9828-4e68-80cd-65becb6f17a6',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'e7f90f2a-a594-4966-aacd-82cac9b4aef3',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'f0544b6c-5dce-4d3f-98be-3d4bef79b294',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: 'f76de48c-114f-46ac-8798-cc35095e2077',
+                        tagId: 'e48a7c40-598e-4500-998e-df1ff033d43d',
+                    },
+                    {
+                        wordId: '1fba7688-9d90-446a-92c8-4597d4deb4a4',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '4f92482a-5076-4c07-8cab-24fb9910992c',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '6027ad46-bfc3-4550-b7fd-fda0552d0c2f',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '7daa078a-681d-4856-8c2f-90dd43501f69',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '821e23d9-09d4-43df-8bd0-383e20607010',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '88d904c7-0763-48a7-bf79-395b1d388ed4',
+                        tagId: 'ee5966cc-7581-4ba6-834e-48a0484de53e',
+                    },
+                    {
+                        wordId: '03cc7a61-363d-4c38-b22e-186727de28a7',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '06d776d9-1994-44c7-8d11-398e4fda70f1',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '09b8dbaf-fc24-4323-9a2b-3da8bf5df08c',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '1b60d467-420c-4d45-bbea-05a16f485491',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '210e36d3-de61-41c8-98de-33b7d4a18fe4',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '2bb36c27-3b7c-4b06-b40c-af0776d7ae34',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '32dfe16c-3cd9-4de2-85cc-ae4b016ba23a',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '3b0df218-addd-4906-84a4-591188a604df',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '3d860b5b-4a29-43d6-8f16-8c0d78c45474',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '3eb214fa-87b6-47d5-8169-6379a046988f',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '42681408-974d-458b-ac07-2f120c6c92f0',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '4274303b-5c4b-4cee-8a48-238e7e08002f',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '534a468e-fd82-403b-b208-eeae398e0140',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '71bab061-44a4-4aea-b048-f1b9145b0684',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '84ee077c-eedf-4009-b12e-108349ee1ff3',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '878f9b1e-e11b-452a-90de-b2ae626434e2',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '8a49e100-b10d-4175-b8d3-d38e1032d97e',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '8a74aa20-4ad3-4d26-9759-b9d42ed4a29c',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '8b390b19-eca7-483c-9c89-a92598b94a15',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '9247a4e8-96ba-44ce-8fd6-a99c6e803710',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '99df8ae9-1fe4-4216-8d2a-59ba06ef4073',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: '9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'a5ce2c6b-8c64-42eb-b218-2308c6b39aeb',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'a9354f39-b321-4ae1-875d-d9fad1eaec8e',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'ad544105-8044-4af9-82c8-f7c24fea1acf',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'b7508ffe-caf9-4e5b-a615-9dc7c0891e8b',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'b8213afd-6a2b-47bd-a9c5-797c94d1ee00',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'c1d1ee0e-7a53-45a0-904b-2be41fae5573',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'c2c59a22-22bc-4108-8dad-0dfb905eb538',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'c44f37ae-b704-416b-b226-5fc0f724b051',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'cc9b3a08-efac-468f-9c8f-d3584b959223',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'cfe25952-0d43-4edf-844d-942325a77dcc',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'd1cbe8e8-7354-4ad0-be5a-c51c9f79ec69',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'e5af34fb-ca55-4364-ae3d-6e2d5b414629',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'f088d7d1-0832-46e9-84a3-71a74af6afe6',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'fd389c22-b5d9-481b-8577-9c6ee9699342',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                    {
+                        wordId: 'fe07129c-b278-47f1-addc-cba34bc2262f',
+                        tagId: 'fb0b6ff6-3225-4189-b3e0-0b7fc11cd979',
+                    },
+                ],
+                { transaction },
+            )
+            await queryInterface.bulkInsert(
+                'nouns',
+                [
+                    {
+                        wordId: '034ebfcd-66b8-4bab-861b-10c8857d2870',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '03cc7a61-363d-4c38-b22e-186727de28a7',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '040d215f-b9b9-477b-bf5a-b4265ad09e7d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '063e9cd3-6bf8-4a94-a4cc-89a94b0a02f7',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '06b22024-b2b7-4134-afb6-dc6c8696a143',
+                        nounType: 'DEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '09b8dbaf-fc24-4323-9a2b-3da8bf5df08c',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '0ab97c50-d714-4fe7-b1dd-13b585475924',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '0e2acf7e-e8cc-4019-bdb8-3e1cc240a88a',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '0ea1047d-09fd-49ec-8b11-33a94ead99fd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '10ed1d81-75f0-4e2b-8cb2-7ce4fcd08035',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '11205f97-462e-4268-83bc-fcb4ff202cdd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '12c09880-2ab7-4268-89ff-df038017318c',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '136b2c08-97df-49a4-8dbb-1711de65da54',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '137b6f99-1115-45f7-8e29-9a305a3da372',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '13d24d32-00ef-44e6-ae0e-d4b9c607ae6e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '15b68ed6-f814-4422-b034-d691033888b8',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1687c717-255f-454f-8c56-74b0143be8af',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '16c8726b-b0e9-4251-a183-c96291fb0d51',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1726cc26-9deb-4e52-949f-989ea37126cf',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '18c56fa3-1791-4328-b3ed-39ff3047f6e4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '19a15323-6c16-41e4-b9af-999bdfb21d21',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1a414893-c3ad-40eb-852c-9c6b0fcd44ca',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1b237643-69d7-4e66-b160-efe7e2f646bd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1c0b17c7-f298-4981-a060-8d3ad7e56686',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1c617059-58c5-42ef-8a4b-ccf05de9a703',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1ce7751b-5676-4ec7-873f-0f5735172744',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1ec8feb4-3afe-4816-84f7-40f0c46f04fc',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '1fba7688-9d90-446a-92c8-4597d4deb4a4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '20e9606f-0d12-4f7d-8c29-8facc0b3e94a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2115796b-efdd-483c-a48d-b5af35325c4d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '223f8ac4-48a9-426e-a632-119a27a1a75f',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '22e9caac-31cf-475b-aee6-cebb219b3c05',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '253f507b-9028-46f5-b1a8-0f8b143ee1e3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2799fa6c-c0ea-47f2-9348-03246fb8d7d3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '29345438-b5fe-43cc-8f66-d52667aa0bc3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '29b44140-487b-4edb-b82d-dd3885d4ed47',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '29ee343a-9a52-4d5b-93dc-f1e7fb45415f',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2aaf5dcb-91b9-4a47-93ba-6613151a9888',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2b7196a8-9d25-4f2c-9064-925f215c2e3a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2bb36c27-3b7c-4b06-b40c-af0776d7ae34',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '2ce0edde-6970-4b7e-9900-dcc3d15311f2',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '3030a34d-4e8b-45e3-bf20-4d9016f6f669',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '304bd89e-d06a-4411-ae91-cc476073d4b8',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '30e43f5b-5c65-401f-a305-960291ce1dab',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '30ef2f3c-5890-4706-9b97-1df39aa397b4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '315099d3-456c-4d9c-b176-9c4991fb49e5',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '32dfe16c-3cd9-4de2-85cc-ae4b016ba23a',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '343fc002-6316-4b6f-9b06-cc2504a82afb',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '391dd70d-dd84-4017-b437-9a2bc37401fd',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '3a298ec1-700b-4ad8-a9c9-0877d33e7e71',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '3b0df218-addd-4906-84a4-591188a604df',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '3eb214fa-87b6-47d5-8169-6379a046988f',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '3fae5472-1f4e-43dc-aaba-194be61e52e0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4012c35a-d4c8-40c9-a11f-26630968351a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '40d3b0db-a214-4560-93d0-551d7e555160',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4116ffff-48bf-4016-845f-9087905dfac0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '42681408-974d-458b-ac07-2f120c6c92f0',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4377fce9-699b-44ab-bbc0-536d45483a2f',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '463a843e-9e7f-435a-bea1-80bcfd954fef',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '484df8d3-33e3-41aa-84f7-875d2614c0b4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '48cfe691-d3b9-4d25-b3a5-e95a19f260b4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '48e3d241-c0e3-4fd4-88e9-6f4dc12b1697',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '49f5c1be-28fa-4f12-8096-c2782dc0afe0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4a2f9a59-a236-4b3c-816d-4b4ea1e8be97',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4c5fb3c9-1405-4089-8440-f4f635a422fa',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4d2b12ba-1c41-40b4-85c7-0e1b7e38779b',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4d995422-e779-4203-8079-3270535b8a61',
+                        nounType: 'DEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '4e0faaa6-99e3-4284-9684-36ffe7982aab',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '503be869-3da2-4f2e-b180-cb9ea17e9152',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '51949c1a-5525-4dfb-99ba-c4774e50b5c3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '52d36228-28ee-424b-a948-4935ad33a743',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '534a468e-fd82-403b-b208-eeae398e0140',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '540b9cf8-a8d0-48e6-a310-90151e56d103',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '54ae995e-e7af-42fe-b855-3fccece38deb',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '57965431-b271-4a0d-9839-1487e9a01a21',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '596db8b7-e6f9-4bee-a526-cbf307c3d83d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '5a4be2f9-1024-4e08-ad73-9cf3aae2b7cd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '5c477c4f-c9ba-4ca8-866c-3fb4a4d14539',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '5d3e6b3e-cbae-4892-8a69-913c8419e6c3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '5d8ea683-d5be-40f1-aa74-bc7c9bba767b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '5e8140dd-49f4-4fbf-9043-47a368b86623',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6027ad46-bfc3-4550-b7fd-fda0552d0c2f',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6156e0f1-e9b2-444c-a949-1e10c8342a43',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '656d9236-0799-4d95-a9cc-a16cfd3f4e09',
+                        nounType: 'DEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6632a42b-47a9-4bb0-97d0-a973cef2444a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '66ffca0c-20c9-4fe3-9124-a60b3fc429d1',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '685348d2-1c8c-485b-84e5-dc0513866568',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '693fc269-e789-4afd-9d68-6dbbc155363d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6973bb6d-8c49-4b0f-86d1-d0d1c352c87f',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '69d078b5-c3da-41db-af32-8e964e44ad0e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6a10458a-798d-4569-84ec-d194b50a60c5',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6a493386-a63a-46b3-ab02-6b840d4d50dc',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6b5edc10-a313-454e-83a6-7ad4cd585811',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6dae0799-bb4f-4cad-a4c8-26e86dbfe8d8',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6e977338-0418-4e72-a0ad-702e6f0ad566',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6ed214e5-8901-44e5-b444-ef7b95e1d699',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6f1eb8be-7508-4e26-8249-af9d7ce31009',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6f4422e2-2920-42cf-9a28-28d7d45e5170',
+                        nounType: 'DEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '6fff215f-690d-4b6b-af7a-5fc31ed80743',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '7055cec8-8587-4f6d-b4f3-162e19a3fec7',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '711bda32-64e4-4943-97fb-d4802abe7a52',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '713eb408-e3a7-4726-a26f-bde5bde295f2',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '71bab061-44a4-4aea-b048-f1b9145b0684',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '72f418e3-fdb9-4483-b9d1-58be7ea58d27',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '73c11afe-8e57-4ff3-a4fe-400256d65fc8',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '76e9aba4-be7c-4c8d-8a0e-1dfc55917463',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '78bc6cd1-4ab0-47df-8b9a-001a1ce44f28',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '7a0f6917-147e-44f6-9c0c-0d9c7e6543e3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '7eb03048-8b0e-41a4-a1b6-178304d08bab',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '7ef608fd-3419-4408-a22e-b5495556de91',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '7f8b8c3a-ada0-4ccc-acb3-361c5ebd9fd2',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8022bc27-2689-4912-984c-5971026c59a5',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8126426f-93a3-486f-a346-9acbfac1daf2',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '83e775b2-1c58-4cbc-8a8a-0b4d837b91a0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '849859cd-48db-4e57-9824-d9443264f795',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '84e12f6b-270f-4f6c-a928-eaa406990446',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '84ee077c-eedf-4009-b12e-108349ee1ff3',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '853bda7a-b6d7-448a-8105-a208b725c986',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '86fcddad-7ea3-4d19-8600-95b6cc085974',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '874ac774-1f4f-49e4-84c9-69786e2f1c0a',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '878f9b1e-e11b-452a-90de-b2ae626434e2',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '88c79156-7fca-42b8-b7f4-0477db149824',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '89125544-bb12-4708-80ad-07c6b51de477',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '89285848-7757-4678-9530-50b5492963cc',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8956bb01-01d4-4bf6-b00c-713768973ef2',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '89788a3f-be76-4c0c-9fbd-e65c419eeea6',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8a49e100-b10d-4175-b8d3-d38e1032d97e',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8a74aa20-4ad3-4d26-9759-b9d42ed4a29c',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8b390b19-eca7-483c-9c89-a92598b94a15',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '8f102c9b-66ba-4ef2-bef4-0c0ea22411c2',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '908cbd4f-a963-4e84-8611-2225baaf6143',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '909fb154-9782-4f50-a285-ba60eca86960',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9247a4e8-96ba-44ce-8fd6-a99c6e803710',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '947336e0-a136-461a-951f-f970f8001a5e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '956fb730-281e-49ae-863c-ed55b030a1b7',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '95a014a4-f9c8-4801-8e6c-104f12282d9b',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '95ad7467-8e22-4627-9635-7a7daafb6eea',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '97c2105c-285d-4e2c-a64e-d9efc1b0e503',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '97c594ab-18a0-4c1d-91cd-f2170132c3c5',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '99742a3b-19f5-4398-b2a3-4102de7452a4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '999a354e-44c6-444e-8161-29d456e50629',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '99b2e336-c8b1-4c03-ac5e-21dbfe53e1a9',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '99df8ae9-1fe4-4216-8d2a-59ba06ef4073',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9a3ced4f-f57f-4d5e-b89d-d258e4125b63',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9bd883e3-0dd2-49ea-a0c0-ae7ea8c9a60e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9bea5f1c-1dd0-4b3b-9ec4-fb6f855f1fe4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9c1f5f90-72f7-4c30-9bd8-2abc13e0bf34',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9cc9d170-614e-4740-a067-9ece44937d58',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9dad3613-40ed-4ef2-a338-9bc032386826',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9deb1efe-45f1-47d9-8925-5825acdb4e0a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9e6178f8-e0c3-41ec-8d3e-a38df2bb07e3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: '9f4c2662-9a95-4095-a7d6-2e7075e422e6',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a0f01e4e-30ce-4cb2-ba16-9b214d385b60',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a1f43165-8de6-4c11-a1ca-2fc17343df71',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a2a0d36f-8fc5-4c29-8100-167bc17fc29b',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a4a16e3d-bb70-4028-ab7a-040a986186c3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a5c0589e-7cbd-48c4-b4c7-8ccfff88f06e',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a5ce2c6b-8c64-42eb-b218-2308c6b39aeb',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a6d1c34f-faed-4d79-99a0-afd965111f59',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a752647e-367e-439d-bfd0-f65fa5cf97e6',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a8da7e0d-16a6-4151-856c-821fff07ce29',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'a9354f39-b321-4ae1-875d-d9fad1eaec8e',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'aa197ce3-6b74-4e8e-9260-6d774a316c3c',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'aa34756d-0fd6-4c82-9f52-c20b28550b95',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'aa9843c0-f064-47ec-abc9-6f925957ceca',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'aaae2a1e-43ec-46c6-a159-6a80641e0d6c',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'aac78064-0566-420b-bf6d-34ca928a068b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ab549112-dc36-447f-a8e6-3503d32c7c04',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ac464aa8-9da1-433a-986c-a667d87eedb0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ad1f5840-4a5f-49ac-aeb9-39f21d4f0cd5',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ad544105-8044-4af9-82c8-f7c24fea1acf',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ade415d5-5b63-45b2-b35f-b2fcfc3bf034',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'adf1a776-6968-4d93-bad2-5fd238b77a28',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ae3b8a2f-0e8a-4595-b848-d07e2a125c32',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b0134767-3886-44eb-a6bb-ff8ad27ae4b0',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b13b8e30-b258-490b-b898-0ec4e2f0975b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b2e0cdf5-1999-4f4c-84e8-c14d7692357e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b4a3c09a-f4ee-41e9-97cb-8ec467c83e1f',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b540b891-fdfb-4876-9a04-9a6161708217',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b5b24bab-e9e2-42ef-a0cc-4335aae6031d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b730c36d-0e42-49b0-93f5-fd9449a6ea4c',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b7508ffe-caf9-4e5b-a615-9dc7c0891e8b',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b7797b9f-557c-4dab-81a0-acf54496404e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'b8213afd-6a2b-47bd-a9c5-797c94d1ee00',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'babdc233-a6bf-4cd1-936a-ef1524e37417',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'bb04fcc5-38d4-402a-8ca4-c59570c35184',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'bbf3e801-c13c-4e01-aa0a-3221f431d60e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'bcaf1632-3659-4689-8a22-66328ca38a6a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'bcf75b90-7658-499b-9cc2-0bbb6c709a55',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'be9bf59b-7e45-4e14-bc26-3ee808e93093',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c1d1ee0e-7a53-45a0-904b-2be41fae5573',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c22d2595-83da-4458-abb9-2650d46ebd8d',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c2c59a22-22bc-4108-8dad-0dfb905eb538',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c3b0e6fe-b2b4-4767-9653-769184a572fd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c5095105-6acb-4dc8-8c9b-63e8210080de',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c536cc40-86e1-4140-a6bd-a35723d259cb',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c7659573-c91f-461a-918b-bc98027c56d0',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c823bb72-e35d-43d7-86cb-9f9e1393bd58',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c85cf0e1-a3ab-4940-b99c-9d053f55645b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c8ca2cc9-f93c-4310-8070-4b6eadfd5e2e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'c8d82f53-7405-4786-923f-de795a208df5',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'cc9b3a08-efac-468f-9c8f-d3584b959223',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ce4ba7a9-6d9a-4620-ab7a-f403d2967f1e',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'cfe25952-0d43-4edf-844d-942325a77dcc',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'cfe2fde2-9828-4e68-80cd-65becb6f17a6',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd0fa8ab0-85c4-4eff-bc46-9b8066cd0ec3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd1cbe8e8-7354-4ad0-be5a-c51c9f79ec69',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd25988e1-7e0d-4651-9890-be833459138d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd2d014ab-5f4d-4cd5-bf7d-a164417f4b26',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd3018d62-0c26-4b56-9eb4-027f41eef927',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd3b7505a-d879-4c03-b8a6-3cc98a8b0ffe',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd49d6d72-138b-4b06-9901-f8b6e1747c90',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd6f6abeb-d458-4ef6-a194-cc1fdf136c28',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd72cbef3-32f4-466a-98ff-8a9fbb8acdd4',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd73f0d17-991f-4037-a435-7d14f2db8012',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'd9272b1d-a0c1-4413-be33-45711e022ac3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'dae0a8b5-1575-44ac-8981-9f8c6849dfea',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'db2275f4-4d3c-4a2b-abb1-4fe1b937ba6a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'dc1671e5-1322-44b3-b721-be926a925042',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ddaf5e67-1885-4f74-acc0-1d0bc82b2bbd',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e07cdc9e-3e21-497b-a5c0-232e37c93d60',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e21b59f3-4447-49b7-a901-e3f9f06277c6',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e402aaa4-b953-4ef5-8cab-f96d5bee2c86',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e5af34fb-ca55-4364-ae3d-6e2d5b414629',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e6375e5c-9811-4bad-b81d-86d33f4a5edd',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e78c5c11-b4dd-4f1c-b0d8-8947d34bb16a',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e7f90f2a-a594-4966-aacd-82cac9b4aef3',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'e89449d4-0353-451e-8c17-ed2b56ea3138',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'eab244cb-6521-4327-8419-43bc60b9b7c1',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ec1311eb-3f69-4845-9bda-a123d23c4737',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ed09dda0-9a70-498e-bd14-37e5e71fe14b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ed3e4828-49e3-4dce-b9dd-1d0fe0cbe254',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ed82a8b1-5a14-4ae8-94fd-33afaf1d8654',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ee5e5bce-83fb-4670-acab-642ba1c441ee',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'ef3edabf-103d-47ff-b9ff-a45c1e3cd5cd',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f0544b6c-5dce-4d3f-98be-3d4bef79b294',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f0be5c30-52fa-428f-970d-a885f259cf16',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f16811f3-acda-4a1b-a21e-a81ee7e6fb4b',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f1f94348-b2b2-4bdd-be85-32f10757593d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f4d91028-a529-4955-a8b1-829439bca52e',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'f76de48c-114f-46ac-8798-cc35095e2077',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'fa2999ad-bd9c-4c7c-8103-123b22db12bd',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'faf94e4d-1bff-4d96-aa00-acd333da031d',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'fc27f5dd-b6a0-4217-8903-15c916656860',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'fdb61374-dce9-4d9f-ad69-5de2b8254aff',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'fe07129c-b278-47f1-addc-cba34bc2262f',
+                        nounType: 'ADJECTIVE',
+                        gender: 'MALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'fe8844b8-1179-4867-a61d-bcd899c4c3cd',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                    {
+                        wordId: 'feb4d38d-32e0-4590-9a67-df4ba285faaa',
+                        nounType: 'INDEFINITE_NOUN',
+                        gender: 'FEMALE',
+                        brokenPlural: '',
+                    },
+                ],
+                { transaction },
+            )
+            await queryInterface.bulkInsert(
+                'verbs',
+                [
+                    {
+                        wordId: '06d776d9-1994-44c7-8d11-398e4fda70f1',
+                        verbform: 'I',
+                        irregularityClass: 'DOUBLED',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '11c4288f-cab1-4689-b80f-a2c09a9efbab',
+                        verbform: 'I',
+                        irregularityClass: 'DOUBLED',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '171507d6-a823-4fa8-8dec-1a687b9fa185',
+                        verbform: 'I',
+                        irregularityClass: 'HOLLOW',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '1770cca3-a044-4fc7-91ee-393090e1a71d',
+                        verbform: 'I',
+                        irregularityClass: 'DOUBLED',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '1b60d467-420c-4d45-bbea-05a16f485491',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '210e36d3-de61-41c8-98de-33b7d4a18fe4',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '3d860b5b-4a29-43d6-8f16-8c0d78c45474',
+                        verbform: 'VIII',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '4274303b-5c4b-4cee-8a48-238e7e08002f',
+                        verbform: 'X',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '49bca8a4-123f-4ed2-88d9-f5326ab58742',
+                        verbform: 'I',
+                        irregularityClass: 'HOLLOW',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '6517ed6a-570f-4c75-bd41-95a539058254',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '73d03bff-ba0c-4c1c-8b81-e69bc0f95b7d',
+                        verbform: 'IV',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: '9d0f57a6-c6a1-4e0a-89ba-101eb90a4f22',
+                        verbform: 'I',
+                        irregularityClass: 'DEFECTIVE',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'b1a3e09d-f5c8-4eac-8ada-0b9b32fe4669',
+                        verbform: 'I',
+                        irregularityClass: 'HOLLOW',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'c44f37ae-b704-416b-b226-5fc0f724b051',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'c4df9ed3-feec-4ae1-a213-cceea535fa70',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'e0aaf42a-d8cf-4c34-8ba0-3a17a447c539',
+                        verbform: 'VI',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'e1ad2b1e-83f6-427d-a299-378a3e101abc',
+                        verbform: 'III',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'f088d7d1-0832-46e9-84a3-71a74af6afe6',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'fd28b036-7290-4049-a610-b3762111e2ed',
+                        verbform: 'I',
+                        irregularityClass: 'REGULAR',
+                        tense: 'PAST',
+                    },
+                    {
+                        wordId: 'fd389c22-b5d9-481b-8577-9c6ee9699342',
+                        verbform: 'I',
+                        irregularityClass: 'ASSIMILATED',
+                        tense: 'PAST',
+                    },
+                ],
+                { transaction },
+            )
+
+            await transaction.commit()
+        } catch (err) {
+            console.log(err.message)
+            await transaction.rollback()
+        }
+    },
+
+    async down(queryInterface, Sequelize) {
+        const transaction = await queryInterface.sequelize.transaction()
+        try {
+            await queryInterface.sequelize.query('DELETE FROM verbs', { transaction })
+            await queryInterface.sequelize.query('DELETE FROM nouns', { transaction })
+            await queryInterface.sequelize.query('DELETE FROM tagwords', { transaction })
+            await queryInterface.sequelize.query('DELETE FROM tags', { transaction })
+            await queryInterface.sequelize.query('DELETE FROM words', { transaction })
+            await queryInterface.sequelize.query('DELETE FROM users', { transaction })
+            await transaction.commit()
+        } catch (err) {
+            console.log(err.message)
+            await transaction.rollback()
+        }
+    },
+}

@@ -1,53 +1,52 @@
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router'
 import { useCookies } from 'react-cookie'
-import { CssBaseline } from '@mui/material';
-import Stack from "@mui/material/Stack";
+import { CssBaseline } from '@mui/material'
+import Stack from '@mui/material/Stack'
 
-import {error} from './Util/notify'
-import AppBar from "./Components/Nav"; 
-import request from './Api/request';
+import { error } from './Util/notify'
+import AppBar from './Components/Nav'
+import request from './Api/request'
 import Routes from './Routes'
 
-
-function App(){
+function App() {
     // const [auth, setAuth] = useState(false)
     const [user, setUser] = useState()
-    const navigate = useNavigate() 
+    const navigate = useNavigate()
     const [cookies] = useCookies()
     useEffect(() => {
         request.interceptors.response.use(
-            function (response) {return response},
-            function (err){
-                if(err.status === 403) {
+            function (response) {
+                return response
+            },
+            function (err) {
+                if (err.status === 403) {
                     error('Session Expired')
                     logout()
-                }else{
+                } else {
                     const reason = err.response?.data || err.message
-                    return Promise.reject(new Error(reason));
+                    return Promise.reject(new Error(reason))
                 }
-            }
+            },
         )
 
         // if(!auth) logout()
     }, [])
-
+    const Broken = <input />
     useEffect(() => {
         const check_user = async () => {
-            if(cookies.smartposting_session){
+            if (cookies.smartposting_session) {
                 const response = await request.get('user')
-                if(response?.data?.user){
+                if (response?.data?.user) {
                     authorize(response?.data?.user)
-                }
-                else await logout()
+                } else await logout()
             }
         }
         check_user()
     }, [cookies])
 
-    const logout = async() => {
+    const logout = async () => {
         await request.post('logout')
         setUser()
         // setAuth(false)
@@ -57,17 +56,20 @@ function App(){
         setUser(user)
         // setAuth(true)
         navigate(`/`)
-    } 
+    }
 
-return(
+    return (
         <Stack spacing={2} flexGrow={1}>
-            <CssBaseline/>
+            <CssBaseline />
             <AppBar logout={logout} user={user} />
-            <Routes  flexGrow={1} user={user}/>
-            <ToastContainer/>
+            <Routes flexGrow={1} user={user} />
+            <ToastContainer />
         </Stack>
-)
+    )
+}
 
+function foo() {
+    return 'bar'
 }
 
 export default App
