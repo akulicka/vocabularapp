@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate() {
       // List.belongsTo(models.User)
       // List.hasMany(models.ListItem)
       // models.ListItem.belongsTo(List)

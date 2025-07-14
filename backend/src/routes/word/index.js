@@ -1,6 +1,5 @@
 import {Router} from "express";
 import { v4 as uuidv4 } from "uuid";
-import map from 'lodash/map.js'
 
 import { PARTS_OF_SPEECH } from "../../enum/word.js";
 import { verifycookie } from "../../util/cookie.js";

@@ -3,8 +3,8 @@ import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from "cors";
 import fs from 'fs';
-// import https from 'https';
-import http from 'http';
+import https from 'https';
+// import http from 'http';
 
 import {setRoutes} from './routes/index.js'
 
@@ -15,13 +15,14 @@ const options = {
 
 const app = express();
 const port = "3000";
-
+let abc = 3 === 2;
+console.log(abc)
 app.use(cors({      
-  origin: process.env.NODE_ENV == 'development' ? "http://localhost:5173" : process.env.HOST_DOMAIN,
+  origin: process.env.NODE_ENV == 'development' ? "https://localhost:5173" : process.env.HOST_DOMAIN,
   credentials: true,}))
 app.use(cookieParser())
 app.use(bodyParser.json())
 setRoutes(app)
 
-// https.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))
-http.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))
+// http.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))
+https.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))

@@ -16,7 +16,7 @@ function Routes ({user})  {
             {user ?
                 <RouterRoutes>
                     <Route path ="/" element={<Dictionary/>}/>
-                    <Route path ="/quiz" element={<Quiz/>}/>
+                 <Route path ="/quiz" element={<Quiz/>}/>
                 </RouterRoutes>:
                 <RouterRoutes>
                     <Route path ="/" element={<Login/>}/>
