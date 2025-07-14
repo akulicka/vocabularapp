@@ -9,5 +9,4 @@ export const setRoutes = (app) => {
     app.use('/words', WordRouter)
     app.use('/', AuthRouter)
     console.log('routes set')
-} 
-
+}

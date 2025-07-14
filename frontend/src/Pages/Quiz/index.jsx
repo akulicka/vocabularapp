@@ -1,26 +1,26 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
-import { Link, useNavigate } from "react-router";
+import { useState, useMemo, useEffect, useCallback } from 'react'
+import { Link, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import TagList from "../../Components/TagList";
-import LinearProgress from "@mui/material/LinearProgress";
-import { error } from "../../Util/notify";
-import Request from '../../Api/request';
-import { Stack } from "@mui/material";
+import TagList from '../../Components/TagList'
+import LinearProgress from '@mui/material/LinearProgress'
+import { error } from '../../Util/notify'
+import Request from '../../Api/request'
+import { Stack } from '@mui/material'
 
-function Quiz () {
+function Quiz() {
     const [selectedTags, setSelectedTags] = useState([])
-    const [progress, setProgress] = useState(100);
-    const [endTime, setEndTime] = useState(0);
+    const [progress, setProgress] = useState(100)
+    const [endTime, setEndTime] = useState(0)
     const [remaining, setRemaining] = useState(0)
-    const [done, setDone] = useState(false);
+    const [done, setDone] = useState(false)
     const [preCountDown, setPreCountDown] = useState(0)
     const timeout = 6000
     let timer
     let cdTimer
 
     const stopTimer = () => {
-        timer && clearInterval(timer);
+        timer && clearInterval(timer)
         setDone(true)
         setRemaining(+(0).toFixed(2))
     }
@@ -33,12 +33,12 @@ function Quiz () {
                         stopTimer()
                         return 0
                     }
-                    setRemaining( +Math.max(((endTime - Date.now()) / 1000).toFixed(2), 0))
-                    return Math.max(((endTime - Date.now()) / timeout) * 100,0);
-                });
+                    setRemaining(+Math.max(((endTime - Date.now()) / 1000).toFixed(2), 0))
+                    return Math.max(((endTime - Date.now()) / timeout) * 100, 0)
+                })
             }, 10)
         }
-        if(endTime && preCountDown === 0) {
+        if (endTime && preCountDown === 0) {
             startTimer()
         }
     }, [endTime, preCountDown])
@@ -50,7 +50,7 @@ function Quiz () {
         cdTimer = setInterval(() => {
             console.log('preCountDown', preCountDown)
             setPreCountDown((oldPreCountDown) => {
-                if(oldPreCountDown === 1) {
+                if (oldPreCountDown === 1) {
                     setEndTime(Date.now() + timeout)
                     clearInterval(cdTimer)
                     return 0
@@ -69,19 +69,26 @@ function Quiz () {
     // } ,[preCountDown, cdTimer])
 
     const uiString = useMemo(() => {
-        if(done) return 'DONE' 
+        if (done) return 'DONE'
         if (endTime && preCountDown === 0) return remaining
         if (preCountDown != 0) return preCountDown
         return 'READY'
     }, [done, preCountDown, endTime, remaining])
 
-    return(
+    return (
         <>
-            <Typography textAlign={'center'} variant={"h1"}>Quiz</Typography>
-            <Typography textAlign={'center'} variant={"h6"}>{uiString}</Typography>
-            <Stack direction={"row"} spacing={2} alignItems={'center'}>
-                <Button variant='contained' disabled={(!done && endTime) || preCountDown != 0 } onClick={kickOff}> Start </Button>
-                <LinearProgress sx={{flexGrow:1}} variant='determinate' value={progress} />
+            <Typography textAlign={'center'} variant={'h1'}>
+                Quiz
+            </Typography>
+            <Typography textAlign={'center'} variant={'h6'}>
+                {uiString}
+            </Typography>
+            <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Button variant="contained" disabled={(!done && endTime) || preCountDown != 0} onClick={kickOff}>
+                    {' '}
+                    Start{' '}
+                </Button>
+                <LinearProgress sx={{ flexGrow: 1 }} variant="determinate" value={progress} />
             </Stack>
             <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
         </>
@@ -89,7 +96,6 @@ function Quiz () {
 }
 
 export default Quiz
-
 
 // import * as React from 'react';
 // import Box from '@mui/material/Box';
