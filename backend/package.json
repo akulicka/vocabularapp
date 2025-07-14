@@ -1,4 +1,10 @@
 {
+      "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
     "scripts": {
         "development": "NODE_ENV=development node src/index.js",
         "test": "NODE_ENV=test node src/index.js",

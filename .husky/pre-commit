@@ -1,6 +1,7 @@
 #!/bin/sh
-echo abcdefg
+
 . "$(dirname "$0")/_/husky.sh"
-echo abc
+echo "linting frontend"
 cd frontend && npx lint-staged || exit 1
-exit 1
+echo "linting backend"
+cd ../backend && npx lint-staged || exit 1

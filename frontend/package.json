@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"lint-staged": {
-  "*.{js,jsx,ts,tsx}": [
-    "eslint --fix",
-    "prettier --write"
-  ]
-},
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "scripts": {
     "dev": "vite",
     "devhost": "vite --host",
@@ -18,7 +18,7 @@
     "production": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "husky init"
+    "prepare": "husky"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.28.0",
