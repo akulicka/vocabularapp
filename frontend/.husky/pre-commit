@@ -1,4 +1,5 @@
 #!/bin/sh
+echo abcdefg
 . "$(dirname "$0")/_/husky.sh"
 
 npx lint-staged
