@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 echo abcdefg
 . "$(dirname "$0")/_/husky.sh"
 echo abc
