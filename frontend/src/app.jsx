@@ -33,7 +33,7 @@ function App() {
 
         // if(!auth) logout()
     }, [])
-    const Broken = <input />
+
     useEffect(() => {
         const check_user = async () => {
             if (cookies.smartposting_session) {
@@ -66,10 +66,6 @@ function App() {
             <ToastContainer />
         </Stack>
     )
-}
-
-function foo() {
-    return 'bar'
 }
 
 export default App

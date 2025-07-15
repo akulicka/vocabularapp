@@ -12,12 +12,10 @@ const options = {
     cert: fs.readFileSync(process.env.NODE_ENV == 'development' ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_CERT}` : process.env.PATH_TO_CERT, 'utf8'),
     key: fs.readFileSync(process.env.NODE_ENV == 'development' ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_KEY}` : process.env.PATH_TO_KEY, 'utf8'),
 }
-function foo ()  {  return "bar"}
-foo()
+
 const app = express()
 const port = '3000'
-let abc = 3 === 2
-console.log(abc)
+
 app.use(
     cors({
         origin: process.env.NODE_ENV == 'development' ? 'https://localhost:5173' : process.env.HOST_DOMAIN,
