@@ -1,128 +1,73 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import TagList from '../../Components/TagList'
-import LinearProgress from '@mui/material/LinearProgress'
-import { error } from '../../Util/notify'
-import Request from '../../Api/request'
+import { error, success } from '../../Util/notify'
 import { Stack } from '@mui/material'
+import { useStartQuiz, useSubmitQuiz } from '../../Api/quiz'
+import { useTags } from '../../Api/words'
+import QuizModal from '../../Components/QuizModal'
 
 function Quiz() {
     const [selectedTags, setSelectedTags] = useState([])
-    const [progress, setProgress] = useState(100)
-    const [endTime, setEndTime] = useState(0)
-    const [remaining, setRemaining] = useState(0)
-    const [done, setDone] = useState(false)
-    const [preCountDown, setPreCountDown] = useState(0)
-    const timeout = 6000
-    let timer
-    let cdTimer
+    const [modalOpen, setModalOpen] = useState(false)
 
-    const stopTimer = () => {
-        timer && clearInterval(timer)
-        setDone(true)
-        setRemaining(+(0).toFixed(2))
-    }
-
-    useEffect(() => {
-        const startTimer = () => {
-            timer = setInterval(() => {
-                setProgress((oldProgress) => {
-                    if (oldProgress === 0) {
-                        stopTimer()
-                        return 0
-                    }
-                    setRemaining(+Math.max(((endTime - Date.now()) / 1000).toFixed(2), 0))
-                    return Math.max(((endTime - Date.now()) / timeout) * 100, 0)
-                })
-            }, 10)
-        }
-        if (endTime && preCountDown === 0) {
-            startTimer()
-        }
-    }, [endTime, preCountDown])
+    // TanStack Query hooks
+    const { data: tags, isLoading: tagsLoading } = useTags()
+    const submitQuizMutation = useSubmitQuiz()
 
     const kickOff = () => {
-        setProgress(100)
-        setPreCountDown(3)
-        setDone(false)
-        cdTimer = setInterval(() => {
-            console.log('preCountDown', preCountDown)
-            setPreCountDown((oldPreCountDown) => {
-                if (oldPreCountDown === 1) {
-                    setEndTime(Date.now() + timeout)
-                    clearInterval(cdTimer)
-                    return 0
-                }
-                return oldPreCountDown - 1
-            })
-        }, 1000)
+        if (selectedTags.length === 0) {
+            error('Please select at least one tag')
+            return
+        }
+
+        setModalOpen(true)
     }
 
-    // useEffect(() => {
-    //     console.log('CLEARING?', preCountDown, cdTimer ? 'y': 'n')
-    //     if(preCountDown === 0 && cdTimer) {
-    //         console.log('CLEARING')
-    //         clearInterval(cdTimer)
-    //     }
-    // } ,[preCountDown, cdTimer])
+    const handleQuizComplete = async (quizAnswers, quizData) => {
+        if (!quizData || !quizAnswers || quizAnswers.length === 0) {
+            error('No quiz data or answers to submit')
+            return
+        }
 
-    const uiString = useMemo(() => {
-        if (done) return 'DONE'
-        if (endTime && preCountDown === 0) return remaining
-        if (preCountDown != 0) return preCountDown
-        return 'READY'
-    }, [done, preCountDown, endTime, remaining])
+        try {
+            const result = await submitQuizMutation.mutateAsync({
+                quizId: quizData.quizId,
+                answers: quizAnswers,
+                timeSpent: 120000, // Timer will handle actual time calculation
+            })
+
+            success(`Quiz completed! Score: ${result.correctAnswers}/${result.totalQuestions}`)
+            setModalOpen(false)
+        } catch (err) {
+            error('Failed to submit quiz: ' + err.message)
+        }
+    }
+
+    const handleModalClose = () => {
+        setModalOpen(false)
+    }
 
     return (
         <>
-            <Typography textAlign={'center'} variant={'h1'}>
-                Quiz
-            </Typography>
-            <Typography textAlign={'center'} variant={'h6'}>
-                {uiString}
-            </Typography>
-            <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                <Button variant="contained" disabled={(!done && endTime) || preCountDown != 0} onClick={kickOff}>
-                    {' '}
-                    Start{' '}
+            <Stack spacing={2} alignItems={'center'}>
+                <Typography textAlign={'center'} variant={'h1'}>
+                    Quiz
+                </Typography>
+
+                <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags} tags={tags} isLoading={tagsLoading} />
+
+                <Button variant="contained" disabled={modalOpen} onClick={kickOff}>
+                    Start
                 </Button>
-                <LinearProgress sx={{ flexGrow: 1 }} variant="determinate" value={progress} />
             </Stack>
-            <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+
+            {/* Quiz Modal */}
+            {modalOpen && <QuizModal open={modalOpen} onClose={handleModalClose} selectedTags={selectedTags} onQuizComplete={handleQuizComplete} />}
         </>
     )
 }
 
 export default Quiz
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import LinearProgress from '@mui/material/LinearProgress';
-
-// export default function LinearDeterminate() {
-//   const [progress, setProgress] = React.useState(0);
-
-//   React.useEffect(() => {
-//     const timer = setInterval(() => {
-//       setProgress((oldProgress) => {
-//         if (oldProgress === 100) {
-//           return 0;
-//         }
-//         const diff = Math.random() * 10;
-//         return Math.min(oldProgress + diff, 100);
-//       });
-//     }, 500);
-
-//     return () => {
-//       clearInterval(timer);
-//     };
-//   }, []);
-
-//   return (
-//     <Box sx={{ width: '100%' }}>
-//       <LinearProgress variant="determinate" value={progress} />
-//     </Box>
-//   );
-// }

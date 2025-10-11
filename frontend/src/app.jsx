@@ -4,15 +4,25 @@ import { useNavigate } from 'react-router'
 import { useCookies } from 'react-cookie'
 import { CssBaseline } from '@mui/material'
 import Stack from '@mui/material/Stack'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { error } from './Util/notify'
 import AppBar from './Components/Nav'
 import request from './Api/request'
 import Routes from './Routes'
 
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            retry: 1,
+        },
+    },
+})
+
 function App() {
     // const [auth, setAuth] = useState(false)
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(null)
     const navigate = useNavigate()
     const [cookies] = useCookies()
     useEffect(() => {
@@ -55,16 +65,18 @@ function App() {
     const authorize = (user) => {
         setUser(user)
         // setAuth(true)
-        navigate(`/`)
+        navigate(`/quiz`)
     }
 
     return (
-        <Stack spacing={2} flexGrow={1}>
-            <CssBaseline />
-            <AppBar logout={logout} user={user} />
-            <Routes flexGrow={1} user={user} />
-            <ToastContainer />
-        </Stack>
+        <QueryClientProvider client={queryClient}>
+            <Stack spacing={2} flexGrow={1}>
+                <CssBaseline />
+                <AppBar logout={logout} user={user} />
+                <Routes flexGrow={1} user={user} />
+                <ToastContainer />
+            </Stack>
+        </QueryClientProvider>
     )
 }
 

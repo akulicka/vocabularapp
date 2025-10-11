@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import Add from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 import Cancel from '@mui/icons-material/Cancel'
@@ -18,24 +18,33 @@ import without from 'lodash/without'
 import { success, error } from '../../Util/notify'
 import { TagChip } from '../Chip'
 import Dialog from '../Dialog'
-import request from '../../Api/request'
+import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '../../Api/words'
 
 // TODO - limit to 5 tags
-function TagList({ selectedTags, setSelectedTags }) {
+function TagList({ selectedTags, setSelectedTags, tags, isLoading }) {
     const [tagName, setTagName] = useState()
     const [tagBeingEdited, setTagBeingEdited] = useState()
-    const [tags, setTags] = useState([])
     const [isOpen, setIsOpen] = useState(false)
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const [isEditMode, setIsEditmode] = useState(false)
 
+    // TanStack Query hooks
+    const { data: tagsData, isLoading: tagsLoading } = useTags()
+    const createTagMutation = useCreateTag()
+    const updateTagMutation = useUpdateTag()
+    const deleteTagMutation = useDeleteTag()
+
+    // Use passed tags or fallback to query data
+    const displayTags = tags || tagsData || []
+    const loading = isLoading || tagsLoading
+
     const submitTag = async () => {
         try {
-            const result = await request.post('words/tag', { tagName })
-            setTags([...tags, result.data])
-            success(`successfully created tag: ${result.data.tagName}`)
+            await createTagMutation.mutateAsync({ tagName })
+            success(`successfully created tag: ${tagName}`)
             setIsOpen(false)
+            setTagName('')
         } catch (err) {
             error(`error creating tag: ${err.message}`)
         }
@@ -43,10 +52,13 @@ function TagList({ selectedTags, setSelectedTags }) {
 
     const submitEditTag = async () => {
         try {
-            const result = await request.put('words/tag', { tagId: tagBeingEdited.tagId, tagName })
-            setTags([...filter(tags, (tag) => tag.tagId != result.data.tagId), result.data])
-            success(`successfully edited tag: ${result.data.tagName}`)
+            await updateTagMutation.mutateAsync({
+                tagId: tagBeingEdited.tagId,
+                tagName,
+            })
+            success(`successfully edited tag: ${tagName}`)
             setIsEditOpen(false)
+            setTagName('')
         } catch (err) {
             error(`error editing tag: ${err.message}`)
         }
@@ -54,22 +66,12 @@ function TagList({ selectedTags, setSelectedTags }) {
 
     const submitDeleteTag = async () => {
         try {
-            const result = await request.delete(`words/tag?tagId=${tagBeingEdited.tagId}`)
-            setTags([...filter(tags, (tag) => tag.tagId != tagBeingEdited.tagId)])
-            setSelectedTags([...filter(selectedTags, (selectedTags) => selectedTags.tagId != tagBeingEdited.tagId)])
+            await deleteTagMutation.mutateAsync(tagBeingEdited.tagId)
+            setSelectedTags([...filter(selectedTags, (selectedTag) => selectedTag.tagId != tagBeingEdited.tagId)])
             success(`successfully deleted tag: ${tagBeingEdited.tagName}`)
             setIsDeleteOpen(false)
         } catch (err) {
             error(`error deleting tag: ${err.message}`)
-        }
-    }
-
-    const getTags = async () => {
-        try {
-            const results = await request.get('words/tags')
-            setTags(results?.data || [])
-        } catch (err) {
-            error(`error getting tags:  ${err.message}`)
         }
     }
 
@@ -82,11 +84,6 @@ function TagList({ selectedTags, setSelectedTags }) {
         },
         [selectedTags],
     )
-
-    useEffect(() => {
-        const initialGet = async () => await getTags()
-        initialGet()
-    }, [])
 
     return (
         <>
@@ -106,24 +103,28 @@ function TagList({ selectedTags, setSelectedTags }) {
                         <Stack direction="row">
                             <Box minHeight={'180px'} maxHeight={'180px'} sx={{ overflowY: 'scroll' }}>
                                 <Grid2 container spacing={1} flexGrow={1}>
-                                    {map(tags, (tag) => (
-                                        <Grid2 key={tag.tagId} wrap={'wrap'}>
-                                            <TagChip
-                                                editMode={isEditMode}
-                                                toggleSelectedTag={toggleSelectedTag}
-                                                isSelected={indexOf(selectedTags, tag.tagId) !== -1}
-                                                tag={tag}
-                                                onEdit={() => {
-                                                    setTagBeingEdited(tag)
-                                                    setIsEditOpen(true)
-                                                }}
-                                                onDelete={() => {
-                                                    setTagBeingEdited(tag)
-                                                    setIsDeleteOpen(true)
-                                                }}
-                                            />
-                                        </Grid2>
-                                    ))}
+                                    {loading ? (
+                                        <Typography>Loading tags...</Typography>
+                                    ) : (
+                                        map(displayTags, (tag) => (
+                                            <Grid2 key={tag.tagId} wrap={'wrap'}>
+                                                <TagChip
+                                                    editMode={isEditMode}
+                                                    toggleSelectedTag={toggleSelectedTag}
+                                                    isSelected={indexOf(selectedTags, tag.tagId) !== -1}
+                                                    tag={tag}
+                                                    onEdit={() => {
+                                                        setTagBeingEdited(tag)
+                                                        setIsEditOpen(true)
+                                                    }}
+                                                    onDelete={() => {
+                                                        setTagBeingEdited(tag)
+                                                        setIsDeleteOpen(true)
+                                                    }}
+                                                />
+                                            </Grid2>
+                                        ))
+                                    )}
                                 </Grid2>
                             </Box>
                         </Stack>

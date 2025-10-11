@@ -4,13 +4,15 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import fs from 'fs'
 import https from 'https'
-// import http from 'http';
+import http from 'http'
 
 import { setRoutes } from './routes/index.js'
 
-const options = {
-    cert: fs.readFileSync(process.env.NODE_ENV == 'development' ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_CERT}` : process.env.PATH_TO_CERT, 'utf8'),
-    key: fs.readFileSync(process.env.NODE_ENV == 'development' ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_KEY}` : process.env.PATH_TO_KEY, 'utf8'),
+const isDev = process.env.NODE_ENV === 'development'
+// SSL options for HTTPS
+const sslOptions = {
+    cert: fs.readFileSync(isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_CERT}` : process.env.PATH_TO_CERT, 'utf8'),
+    key: fs.readFileSync(isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_KEY}` : process.env.PATH_TO_KEY, 'utf8'),
 }
 
 const app = express()
@@ -18,7 +20,7 @@ const port = '3000'
 
 app.use(
     cors({
-        origin: process.env.NODE_ENV == 'development' ? 'https://localhost:5173' : process.env.HOST_DOMAIN,
+        origin: process.env.NODE_ENV == 'development' ? 'http://localhost:5173' : process.env.HOST_DOMAIN,
         credentials: true,
     }),
 )
@@ -26,5 +28,7 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 setRoutes(app)
 
-// http.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))
-https.createServer(options, app).listen(port, () => console.log(`live on ${port} in ${process.env.NODE_ENV}`))
+// Start server based on environment
+const server = isDev ? http.createServer(app) : https.createServer(sslOptions, app)
+
+server.listen(port, () => console.log(`${isDev ? 'HTTP' : 'HTTPS'} server live on port ${port} in ${process.env.NODE_ENV}`))
