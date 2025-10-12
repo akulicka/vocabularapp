@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 
 import { PARTS_OF_SPEECH } from '../../enum/word.js'
-import { verifycookie } from '../../util/cookie.js'
+import { verifycookie } from '../../util/cookie.ts'
 import db from '../../../db/models/index.cjs'
 // import multer from 'multer';
 

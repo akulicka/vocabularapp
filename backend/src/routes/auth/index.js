@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import argon2 from 'argon2'
 
-import { signtoken } from '../../util/cookie.js'
+import { signtoken } from '../../util/cookie.ts'
 import db from '../../../db/models/index.cjs'
 
 const authorize_user = async (email, password) => {

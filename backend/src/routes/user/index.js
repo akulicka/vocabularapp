@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import multer from 'multer'
 
 import { upload_file, download_file } from '../../helpers/storage.js'
-import { verifycookie } from '../../util/cookie.js'
+import { verifycookie } from '../../util/cookie.ts'
 import db from '../../../db/models/index.cjs'
 
 const upload = multer()
