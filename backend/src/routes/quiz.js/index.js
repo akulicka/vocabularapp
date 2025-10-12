@@ -58,7 +58,7 @@ quiz_router.post('/start', [verifycookie], async (req, res) => {
                 { model: db.verbs },
             ],
             order: db.sequelize.random(), // Randomize word selection
-            limit: 1, // Limit to 10 questions per quiz
+            limit: 10, // Limit to 10 questions per quiz
         })
 
         if (words.length === 0) {

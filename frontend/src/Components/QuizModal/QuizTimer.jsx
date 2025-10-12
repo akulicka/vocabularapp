@@ -64,7 +64,7 @@ function QuizTimer({
         }
     }, [isActive])
 
-    // Cleanup on unmount
+    // Cleanup on unmount TEST
     useEffect(() => stopTimer(), [])
 
     return (
