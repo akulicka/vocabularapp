@@ -1,19 +1,25 @@
-'use strict'
-const { Model } = require('sequelize')
-module.exports = (sequelize, DataTypes) => {
-    class Tag extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            Tag.belongsToMany(models.words, {
-                through: models.tagwords,
-                foreignKey: 'tagId',
-            })
-        }
+import { Model, DataTypes, Optional } from 'sequelize'
+
+interface TagAttributes {
+    tagId: string
+    tagName: string
+    createdAt?: Date
+    updatedAt?: Date
+    createdBy?: string
+}
+
+interface TagCreationAttributes extends Optional<TagAttributes, 'createdAt' | 'updatedAt'> {}
+
+class Tag extends Model<TagAttributes, TagCreationAttributes> {
+    static associate(models: any) {
+        Tag.belongsToMany(models.words, {
+            through: models.tagwords,
+            foreignKey: 'tagId',
+        })
     }
+}
+
+export default (sequelize: any) => {
     Tag.init(
         {
             tagId: {
@@ -30,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             createdBy: {
                 type: DataTypes.STRING,
                 references: {
-                    model: sequelize.models.User,
+                    model: 'users',
                     key: 'userId',
                 },
             },
@@ -40,5 +46,6 @@ module.exports = (sequelize, DataTypes) => {
             modelName: 'tags',
         },
     )
+
     return Tag
 }

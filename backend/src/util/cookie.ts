@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { validate } from 'uuid'
 import { Request, Response, NextFunction } from 'express'
 
-import db from '../../db/models/index.cjs'
+import db from '../../db/models/index.js'
 
 const secretkey = process.env.TOKEN_SECRET!
 

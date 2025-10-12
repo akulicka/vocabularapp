@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { PARTS_OF_SPEECH } from '../../enum/word.js'
 import { verifycookie } from '../../util/cookie.ts'
-import db from '../../../db/models/index.cjs'
+import db from '../../../db/models/index.js'
 // import multer from 'multer';
 
 // const upload = multer()

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     development: {
         username: 'db_app',
         password: '&yn<X9Mb5hHZb)F5/&(]',

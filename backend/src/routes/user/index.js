@@ -4,7 +4,7 @@ import multer from 'multer'
 
 import { upload_file, download_file } from '../../helpers/storage.js'
 import { verifycookie } from '../../util/cookie.ts'
-import db from '../../../db/models/index.cjs'
+import db from '../../../db/models/index.js'
 
 const upload = multer()
 const user_router = Router()

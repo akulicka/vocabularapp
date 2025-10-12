@@ -1,17 +1,24 @@
-'use strict'
-const { Model } = require('sequelize')
-module.exports = (sequelize, DataTypes) => {
-    class Token extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // models.List.belongsTo(User)
-            // User.hasMany(models.List)
-        }
+import { Model, DataTypes, Optional } from 'sequelize'
+
+interface TokenAttributes {
+    tokenId: string
+    userId?: string
+    createdAt?: Date
+    updatedAt?: Date
+    tokenClass?: string
+    payload?: any
+}
+
+interface TokenCreationAttributes extends Optional<TokenAttributes, 'userId' | 'createdAt' | 'updatedAt' | 'tokenClass' | 'payload'> {}
+
+class Token extends Model<TokenAttributes, TokenCreationAttributes> {
+    static associate(models: any) {
+        // models.List.belongsTo(User)
+        // User.hasMany(models.List)
     }
+}
+
+export default (sequelize: any) => {
     Token.init(
         {
             userId: {
@@ -38,5 +45,6 @@ module.exports = (sequelize, DataTypes) => {
             modelName: 'tokens',
         },
     )
+
     return Token
 }

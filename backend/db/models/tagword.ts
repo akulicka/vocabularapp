@@ -1,19 +1,20 @@
-'use strict'
-const { Model } = require('sequelize')
-module.exports = (sequelize, DataTypes) => {
-    class TagWord extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate() {
-            // List.belongsTo(models.User)
-            // List.hasMany(models.ListItem)
-            // models.ListItem.belongsTo(List)
-            // models.User.hasMany(List)
-        }
+import { Model, DataTypes } from 'sequelize'
+
+interface TagWordAttributes {
+    wordId: string
+    tagId: string
+}
+
+class TagWord extends Model<TagWordAttributes> {
+    static associate() {
+        // List.belongsTo(models.User)
+        // List.hasMany(models.ListItem)
+        // models.ListItem.belongsTo(List)
+        // models.User.hasMany(List)
     }
+}
+
+export default (sequelize: any) => {
     TagWord.init(
         {
             wordId: {
@@ -41,5 +42,6 @@ module.exports = (sequelize, DataTypes) => {
             modelName: 'tagwords',
         },
     )
+
     return TagWord
 }

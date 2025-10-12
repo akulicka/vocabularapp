@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 
-import db from '../../../db/models/index.cjs'
+import db from '../../../db/models/index.js'
 import sendMessage from '../../helpers/email.js'
 
 const VERIFY_TOKEN_CLASS = 'VERIFY'

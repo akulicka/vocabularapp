@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { verifycookie } from '../../util/cookie.ts'
-import db from '../../../db/models/index.cjs'
+import db from '../../../db/models/index.js'
 
 const quiz_router = Router()
 
