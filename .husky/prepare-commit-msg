@@ -1,0 +1,3 @@
+
+echo "generating commit message"
+aicommit2 -e -g 3 || exit 1

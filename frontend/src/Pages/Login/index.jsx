@@ -38,8 +38,8 @@ function Login() {
             <Typography textAlign={'center'} variant={'h1'}>
                 Login
             </Typography>
-            <TextField fullWidth id="myfield" label="email" variant="filled" margin="dense" onChange={(e) => update(e?.target?.value, form.password)} />
-            <TextField fullWidth id="myfield" label="password" variant="filled" margin="dense" type="password" onChange={(e) => update(form.email, e?.target?.value)} />
+            <TextField fullWidth id="email" label="email" variant="filled" margin="dense" onChange={(e) => update(e?.target?.value, form.password)} />
+            <TextField fullWidth id="password" label="password" variant="filled" margin="dense" type="password" onChange={(e) => update(form.email, e?.target?.value)} />
             <Stack spacing={1} width="100%" direction={'row'}>
                 {/* <Box flexGrow={1} > */}
                 <Button fullWidth variant={'contained'} onClick={submit}>

@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             createdAt: DataTypes.DATE,
             updatedAt: DataTypes.DATE,
             tokenClass: DataTypes.STRING,
+            payload: {
+                type: DataTypes.JSON,
+                allowNull: true,
+            },
         },
         {
             sequelize,
