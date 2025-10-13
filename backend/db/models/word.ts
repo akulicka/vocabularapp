@@ -38,6 +38,7 @@ class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
         Word.belongsToMany(models.tags, {
             through: 'tagwords',
             foreignKey: 'wordId',
+            timestamps: false,
         })
     }
 }

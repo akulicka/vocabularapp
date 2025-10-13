@@ -3,35 +3,43 @@ import { PARTS_OF_SPEECH } from '../enum/word.js'
 import db from '../../db/models/index.js'
 import { CreateWordRequest, UpdateWordRequest, WordDTO } from '../types/word.js'
 import { withTransaction } from './helpers/transaction.js'
-import { mapToWordDTO } from './helpers/mapper.js'
+import tag from '../../db/models/tag.js'
 
 export async function getAllWords(): Promise<WordDTO[]> {
     const words = await db.words.findAll({
         include: [{ model: db.nouns }, { model: db.verbs }, { model: db.tags, through: { attributes: [] } }],
         benchmark: true,
     })
-    return words.map(mapToWordDTO)
-}
-
-export async function createWord(data: CreateWordRequest, userId: string): Promise<WordDTO> {
-    return withTransaction(async (transaction) => {
-        const wordId = uuidv4()
-        const word = await createBaseWord(wordId, data, userId, transaction)
-        await createPartOfSpeechExtension(word, data, transaction)
-        await word.setTags(data.wordTags, { transaction })
-
-        return await fetchCompleteWord(wordId)
+    return words.map((word) => {
+        return {
+            ...word.get(),
+            tags: Array.isArray(word.get('tags')) ? word.get('tags') : [],
+        } as WordDTO
     })
 }
 
+export async function createWord(data: CreateWordRequest, userId: string): Promise<WordDTO> {
+    const wordId = uuidv4()
+
+    await withTransaction(async (transaction) => {
+        const word = await createBaseWord(wordId, data, userId, transaction)
+        await createPartOfSpeechExtension(word, data, transaction)
+        await word.setTags(data.wordTags, { transaction })
+    })
+
+    // Fetch the complete word after transaction commits
+    return await fetchCompleteWord(wordId)
+}
+
 export async function updateWord(wordId: string, data: UpdateWordRequest): Promise<WordDTO> {
-    return withTransaction(async (transaction) => {
-        const word = await db.words.findOne({ where: { wordId } })
+    await withTransaction(async (transaction) => {
+        const word = await db.words.findOne({
+            where: { wordId },
+        })
         if (!word) throw new Error('word not found')
 
         let verb = await word.getVerb()
         let noun = await word.getNoun()
-
         switch (data.wordSpeechPart) {
             case PARTS_OF_SPEECH.NOUN:
                 if (verb) {
@@ -77,9 +85,10 @@ export async function updateWord(wordId: string, data: UpdateWordRequest): Promi
         word.arabic = data.wordArabic
         word.partOfSpeech = data.wordSpeechPart
         await word.save({ transaction })
-
-        return await fetchCompleteWord(wordId)
     })
+
+    // Fetch the complete word after transaction commits
+    return await fetchCompleteWord(wordId)
 }
 
 export async function deleteWord(wordId: string): Promise<void> {
@@ -92,7 +101,6 @@ export async function deleteWord(wordId: string): Promise<void> {
 
         const verb = await word.getVerb()
         if (verb) await verb.destroy({ transaction })
-
         await word.setTags([], { transaction })
         await word.destroy({ transaction })
     })
@@ -143,16 +151,49 @@ async function createPartOfSpeechExtension(word: any, data: CreateWordRequest, t
     }
 }
 
+// async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
+//     const word = await db.words.findOne({
+//         where: { wordId },
+//         include: [
+//             { model: db.nouns, required: false },
+//             { model: db.verbs, required: false },
+//             { model: db.tags, through: { attributes: [] } },
+//         ],
+//     })
+//     if (!word) throw new Error('word not found')
+//     const wordData = word.get()
+//     const nounData = await word.getNoun()
+//     const verbData = await word.getVerb()
+//     const tags = await word.getTags()
+//     const wordResult: any = {
+//         ...wordData,
+//         tags: Array.isArray(tags) ? tags.map((tag) => tag.get()) : [],
+//     }
+//     if (nounData) {
+//         wordResult.noun = nounData.get()
+//     }
+//     if (verbData) {
+//         wordResult.verb = verbData.get()
+//     }
+//     return wordResult as WordDTO
+// }
 async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
     const word = await db.words.findOne({
         where: { wordId },
-        include: [
-            { model: db.nouns, required: false },
-            { model: db.verbs, required: false },
-            { model: db.tags, through: { attributes: [] } },
-        ],
     })
-
     if (!word) throw new Error('word not found')
-    return mapToWordDTO(word)
+
+    const wordData = word.get()
+    const nounData = await word.getNoun()
+    const verbData = await word.getVerb()
+    const tags = (await word.getTags()).map((tag) => tag.get()) // err if empty?
+    const returnObj: WordDTO = {
+        ...wordData,
+        tags,
+    }
+
+    if (nounData) returnObj.noun = nounData.get()
+    if (verbData) returnObj.verb = verbData.get()
+
+    return returnObj
 }

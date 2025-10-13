@@ -15,6 +15,7 @@ class Tag extends Model<InferAttributes<Tag>, InferCreationAttributes<Tag>> {
         Tag.belongsToMany(models.words, {
             through: 'tagwords',
             foreignKey: 'tagId',
+            timestamps: false,
         })
     }
 }
