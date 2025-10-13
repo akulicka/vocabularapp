@@ -1,9 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import { PARTS_OF_SPEECH } from '../enum/word.js'
-import db from '../../db/models/index.js'
-import { CreateWordRequest, UpdateWordRequest, WordDTO } from '../types/word.js'
-import { withTransaction } from './helpers/transaction.js'
-import tag from '../../db/models/tag.js'
+import db from '@db/models/index.js'
+import { CreateWordRequest, UpdateWordRequest, WordDTO, PARTS_OF_SPEECH } from '@types'
+import { withTransaction } from '@util/transaction.js'
 
 export async function getAllWords(): Promise<WordDTO[]> {
     const words = await db.words.findAll({

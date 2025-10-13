@@ -1,8 +1,8 @@
-import AuthRouter from './auth/index.js'
-import TokenRouter from './token/index.js'
-import UserRouter from './user/index.js'
-import WordRouter from './word/index.js'
-import QuizRouter from './quiz.js/index.js'
+import AuthRouter from '@/routes/auth/index.js'
+import TokenRouter from '@/routes/token/index.js'
+import UserRouter from '@/routes/user/index.js'
+import WordRouter from '@/routes/word/index.js'
+import QuizRouter from '@/routes/quiz.js/index.js'
 
 export const setRoutes = (app) => {
     app.use('/user', UserRouter)

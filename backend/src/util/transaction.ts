@@ -1,4 +1,4 @@
-import db from '../../../db/models/index.js'
+import db from '@db/models/index.js'
 
 export async function withTransaction<T>(callback: (transaction: any) => Promise<T>): Promise<T> {
     const transaction = await db.sequelize.transaction()

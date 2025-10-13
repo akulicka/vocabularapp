@@ -6,7 +6,7 @@ import fs from 'fs'
 import https from 'https'
 import http from 'http'
 
-import { setRoutes } from './routes/index.js'
+import { setRoutes } from '@/routes/index.js'
 
 const isDev = process.env.NODE_ENV === 'development'
 // SSL options for HTTPS

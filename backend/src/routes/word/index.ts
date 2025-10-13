@@ -1,11 +1,9 @@
 import { Router, Request, Response } from 'express'
 
-import { verifycookie } from '../../util/cookie.js'
-import { CreateWordRequest, UpdateWordRequest } from '../../types/word.js'
-import { CreateTagRequest, UpdateTagRequest } from '../../types/tag.js'
-import { AuthenticatedRequest } from '../../types/user.js'
-import * as wordService from '../../services/wordService.js'
-import * as tagService from '../../services/tagService.js'
+import { verifycookie } from '@util'
+import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest, AuthenticatedRequest } from '@types'
+import * as wordService from '@services/word.js'
+import * as tagService from '@services/tag.js'
 
 interface WordQueryRequest extends AuthenticatedRequest {
     query: AuthenticatedRequest['query'] & {

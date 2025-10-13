@@ -2,10 +2,10 @@ import { Router, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import multer from 'multer'
 
-import { upload_file, download_file } from '../../helpers/storage.js'
-import { verifycookie } from '../../util/cookie.js'
-import db from '../../../db/models/index.js'
-import { FileUploadRequest, FilesUploadRequest, AuthenticatedRequest } from '../../types/user.js'
+import { upload_file, download_file } from '@util/storage.js'
+import { AuthenticatedRequest, FileUploadRequest, FilesUploadRequest } from '@types'
+import { verifycookie } from '@util/cookie.js'
+import db from '@db/models/index.js'
 
 const upload = multer()
 const user_router = Router()
