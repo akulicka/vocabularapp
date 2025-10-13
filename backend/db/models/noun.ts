@@ -1,15 +1,15 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { WordAttributes } from './word'
 
-interface NounAttributes {
-    wordId: string
-    nounType?: string
-    gender?: string
-    brokenPlural?: string
-}
+class Noun extends Model<InferAttributes<Noun>, InferCreationAttributes<Noun>> {
+    declare wordId: string
+    declare nounType: string | null
+    declare gender: string | null
+    declare brokenPlural: string | null
 
-interface NounCreationAttributes extends Optional<NounAttributes, 'nounType' | 'gender' | 'brokenPlural'> {}
+    // Association methods
+    declare getWord: BelongsToGetAssociationMixin<Model<WordAttributes>>
 
-class Noun extends Model<NounAttributes, NounCreationAttributes> {
     static associate(models: any) {
         Noun.belongsTo(models.words, {
             foreignKey: {
@@ -20,7 +20,7 @@ class Noun extends Model<NounAttributes, NounCreationAttributes> {
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof Noun => {
     Noun.init(
         {
             wordId: {
@@ -44,3 +44,7 @@ export default (sequelize: any) => {
 
     return Noun
 }
+
+export type NounModel = typeof Noun
+export type NounAttributes = InferAttributes<Noun>
+export type NounCreationAttributes = InferCreationAttributes<Noun>

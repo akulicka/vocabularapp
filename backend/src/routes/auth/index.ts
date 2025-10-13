@@ -4,48 +4,25 @@ import argon2 from 'argon2'
 
 import { signtoken } from '../../util/cookie.js'
 import db from '../../../db/models/index.js'
-
-// Types
-interface LoginRequest {
-    email: string
-    password: string
-}
-
-interface RegisterRequest {
-    email: string
-    password: string
-    username: string
-}
-
-interface AuthResponse {
-    verified: boolean
-    userId: string
-}
-
-interface User {
-    userId: string
-    email: string
-    password: string
-    username?: string
-    verified?: boolean
-}
+import { LoginRequest, RegisterRequest, AuthResponse } from '../../types/auth.js'
+import { UserAttributes } from '../../../db/models/user.js'
 
 // Helper function
-const authorize_user = async (email: string, password: string): Promise<User> => {
+const authorize_user = async (email: string, password: string): Promise<UserAttributes> => {
     const user = await db.users.findOne({ where: { email } })
     if (!user) throw new Error('mismatch password or email')
 
-    console.log('🔍 Found user:', user, user.email)
+    console.log('🔍 Found user:', user, (user as any).email)
 
     // Check if password hash exists and is valid
-    if (!user.password || user.password.trim() === '') {
+    if (!(user as any).password || (user as any).password.trim() === '') {
         throw new Error('Invalid password hash')
     }
 
-    const match = await argon2.verify(user.password, password)
+    const match = await argon2.verify((user as any).password, password)
     if (!match) throw new Error('mismatch password or email')
 
-    return user
+    return user as any
 }
 
 const auth_router = Router()
@@ -122,7 +99,7 @@ auth_router.post('/register', async (req: Request<{}, AuthResponse, RegisterRequ
 
         await user.save()
 
-        const { verified, userId } = user
+        const { verified, userId } = user as any
 
         res.send({
             verified: verified || process.env.VERIFY_EMAIL === 'false',

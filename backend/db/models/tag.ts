@@ -1,25 +1,25 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { WordAttributes } from './word'
 
-interface TagAttributes {
-    tagId: string
-    tagName: string
-    createdAt?: Date
-    updatedAt?: Date
-    createdBy?: string
-}
+class Tag extends Model<InferAttributes<Tag>, InferCreationAttributes<Tag>> {
+    declare tagId: string
+    declare tagName: string
+    declare createdAt: CreationOptional<Date>
+    declare updatedAt: CreationOptional<Date>
+    declare createdBy: string | null
 
-interface TagCreationAttributes extends Optional<TagAttributes, 'createdAt' | 'updatedAt'> {}
-
-class Tag extends Model<TagAttributes, TagCreationAttributes> {
+    // Association methods
+    declare getWords: BelongsToManyGetAssociationsMixin<Model<WordAttributes>>
+    declare setWords: BelongsToManySetAssociationsMixin<Model<WordAttributes>, any>
     static associate(models: any) {
         Tag.belongsToMany(models.words, {
-            through: models.tagwords,
+            through: 'tagwords',
             foreignKey: 'tagId',
         })
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof Tag => {
     Tag.init(
         {
             tagId: {
@@ -49,3 +49,7 @@ export default (sequelize: any) => {
 
     return Tag
 }
+
+export type TagModel = typeof Tag
+export type TagAttributes = InferAttributes<Tag>
+export type TagCreationAttributes = InferCreationAttributes<Tag>

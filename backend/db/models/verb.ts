@@ -1,15 +1,15 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes } from 'sequelize'
+import { WordAttributes } from './word'
 
-interface VerbAttributes {
-    wordId: string
-    verbForm?: string
-    irregularityClass?: string
-    tense?: string
-}
+class Verb extends Model<InferAttributes<Verb>, InferCreationAttributes<Verb>> {
+    declare wordId: string
+    declare verbForm: string | null
+    declare irregularityClass: string | null
+    declare tense: string | null
 
-interface VerbCreationAttributes extends Optional<VerbAttributes, 'verbForm' | 'irregularityClass' | 'tense'> {}
+    // Association methods
+    declare getWord: BelongsToGetAssociationMixin<Model<WordAttributes>>
 
-class Verb extends Model<VerbAttributes, VerbCreationAttributes> {
     static associate(models: any) {
         Verb.belongsTo(models.words, {
             foreignKey: {
@@ -20,7 +20,7 @@ class Verb extends Model<VerbAttributes, VerbCreationAttributes> {
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof Verb => {
     Verb.init(
         {
             wordId: {
@@ -44,3 +44,7 @@ export default (sequelize: any) => {
 
     return Verb
 }
+
+export type VerbModel = typeof Verb
+export type VerbAttributes = InferAttributes<Verb>
+export type VerbCreationAttributes = InferCreationAttributes<Verb>

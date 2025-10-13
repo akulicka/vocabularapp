@@ -1,26 +1,36 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { TokenAttributes } from './token'
+import { QuizResultAttributes } from './quiz_results'
 
-interface UserAttributes {
-    userId: string
-    username?: string
-    email?: string
-    password?: string
-    profile_image?: string
-    verified?: boolean
-    createdAt?: Date
-    updatedAt?: Date
-}
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+    declare userId: string
+    declare username: string
+    declare email: string
+    declare password: string
+    declare profile_image: string | null
+    declare verified: boolean | null
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'username' | 'email' | 'password' | 'profile_image' | 'verified' | 'createdAt' | 'updatedAt'> {}
+    // Association methods
+    declare getTokens: HasManyGetAssociationsMixin<Model<TokenAttributes>>
+    declare getQuizResults: HasManyGetAssociationsMixin<Model<QuizResultAttributes>>
 
-class User extends Model<UserAttributes, UserCreationAttributes> {
     static associate(models: any) {
-        // models.List.belongsTo(User)
-        // User.hasMany(models.List)
+        User.hasMany(models.tokens, {
+            foreignKey: {
+                name: 'userId',
+                allowNull: false,
+            },
+        })
+        User.hasMany(models.quizResults, {
+            foreignKey: {
+                name: 'userId',
+                allowNull: false,
+            },
+        })
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof User => {
     console.log('🔧 Initializing User model...')
 
     User.init(
@@ -46,3 +56,7 @@ export default (sequelize: any) => {
 
     return User
 }
+
+export type UserModel = typeof User
+export type UserAttributes = InferAttributes<User>
+export type UserCreationAttributes = InferCreationAttributes<User>

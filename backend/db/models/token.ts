@@ -1,24 +1,28 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { UserAttributes } from './user'
 
-interface TokenAttributes {
-    tokenId: string
-    userId?: string
-    createdAt?: Date
-    updatedAt?: Date
-    tokenClass?: string
-    payload?: any
-}
+class Token extends Model<InferAttributes<Token>, InferCreationAttributes<Token>> {
+    declare tokenId: string
+    declare userId: string
+    declare tokenClass: string
+    declare payload: any | null
+    declare createdAt: CreationOptional<Date>
+    declare updatedAt: CreationOptional<Date>
 
-interface TokenCreationAttributes extends Optional<TokenAttributes, 'userId' | 'createdAt' | 'updatedAt' | 'tokenClass' | 'payload'> {}
+    // Association methods
+    declare getUser: BelongsToGetAssociationMixin<Model<UserAttributes>>
 
-class Token extends Model<TokenAttributes, TokenCreationAttributes> {
     static associate(models: any) {
-        // models.List.belongsTo(User)
-        // User.hasMany(models.List)
+        Token.belongsTo(models.users, {
+            foreignKey: {
+                name: 'userId',
+                allowNull: false,
+            },
+        })
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof Token => {
     Token.init(
         {
             userId: {
@@ -48,3 +52,7 @@ export default (sequelize: any) => {
 
     return Token
 }
+
+export type TokenModel = typeof Token
+export type TokenAttributes = InferAttributes<Token>
+export type TokenCreationAttributes = InferCreationAttributes<Token>

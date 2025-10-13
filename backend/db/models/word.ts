@@ -1,20 +1,27 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, HasOneGetAssociationMixin, HasOneCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { NounAttributes } from './noun'
+import { VerbAttributes } from './verb'
+import { TagAttributes } from './tag'
 
-interface WordAttributes {
-    wordId: string
-    english: string
-    arabic: string
-    root?: string
-    partOfSpeech?: string
-    img?: string
-    createdAt?: Date
-    updatedAt?: Date
-    createdBy?: string
-}
+class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
+    declare wordId: string
+    declare english: string
+    declare arabic: string
+    declare root: string | null
+    declare partOfSpeech: string | null
+    declare img: string | null
+    declare createdAt: CreationOptional<Date>
+    declare updatedAt: CreationOptional<Date>
+    declare createdBy: string | null
 
-interface WordCreationAttributes extends Optional<WordAttributes, 'wordId' | 'createdAt' | 'updatedAt'> {}
+    // Association methods
+    declare getNoun: HasOneGetAssociationMixin<Model<NounAttributes>>
+    declare createNoun: HasOneCreateAssociationMixin<Model<NounAttributes>>
+    declare getVerb: HasOneGetAssociationMixin<Model<VerbAttributes>>
+    declare createVerb: HasOneCreateAssociationMixin<Model<VerbAttributes>>
+    declare getTags: BelongsToManyGetAssociationsMixin<Model<TagAttributes>>
+    declare setTags: BelongsToManySetAssociationsMixin<Model<TagAttributes>, any>
 
-class Word extends Model<WordAttributes, WordCreationAttributes> {
     static associate(models: any) {
         Word.hasOne(models.nouns, {
             foreignKey: {
@@ -29,13 +36,13 @@ class Word extends Model<WordAttributes, WordCreationAttributes> {
             },
         })
         Word.belongsToMany(models.tags, {
-            through: models.tagwords,
+            through: 'tagwords',
             foreignKey: 'wordId',
         })
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof Word => {
     Word.init(
         {
             wordId: {
@@ -72,3 +79,7 @@ export default (sequelize: any) => {
 
     return Word
 }
+
+export type WordModel = typeof Word
+export type WordAttributes = InferAttributes<Word>
+export type WordCreationAttributes = InferCreationAttributes<Word>

@@ -1,20 +1,20 @@
-import { Model, DataTypes, Optional } from 'sequelize'
+import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { UserAttributes } from './user'
 
-interface QuizResultAttributes {
-    resultId: string
-    userId: string
-    selectedTags?: any
-    totalQuestions: number
-    correctAnswers: number
-    completedAt: Date
-    wordResults?: any
-    createdAt?: Date
-    updatedAt?: Date
-}
+export class QuizResult extends Model<InferAttributes<QuizResult>, InferCreationAttributes<QuizResult>> {
+    declare resultId: string
+    declare userId: string
+    declare selectedTags: any | null
+    declare totalQuestions: number
+    declare correctAnswers: number
+    declare completedAt: Date
+    declare wordResults: any | null
+    declare createdAt: CreationOptional<Date>
+    declare updatedAt: CreationOptional<Date>
 
-interface QuizResultCreationAttributes extends Optional<QuizResultAttributes, 'selectedTags' | 'wordResults' | 'createdAt' | 'updatedAt'> {}
+    // Association methods
+    declare getUser: BelongsToGetAssociationMixin<Model<UserAttributes>>
 
-class QuizResult extends Model<QuizResultAttributes, QuizResultCreationAttributes> {
     static associate(models: any) {
         QuizResult.belongsTo(models.users, {
             foreignKey: {
@@ -25,7 +25,7 @@ class QuizResult extends Model<QuizResultAttributes, QuizResultCreationAttribute
     }
 }
 
-export default (sequelize: any) => {
+export default (sequelize: any): typeof QuizResult => {
     QuizResult.init(
         {
             resultId: {
@@ -63,6 +63,8 @@ export default (sequelize: any) => {
                 type: DataTypes.JSON,
                 allowNull: true,
             },
+            createdAt: DataTypes.DATE,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,
@@ -72,3 +74,7 @@ export default (sequelize: any) => {
 
     return QuizResult
 }
+
+export type QuizResultModel = typeof QuizResult
+export type QuizResultAttributes = InferAttributes<QuizResult>
+export type QuizResultCreationAttributes = InferCreationAttributes<QuizResult>
