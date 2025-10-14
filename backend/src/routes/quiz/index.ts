@@ -1,8 +1,9 @@
 import { Router, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { verifycookie } from '@util/cookie'
+import { validateBody, validateQuery, validateParams } from '@/util/validation.js'
 import db from '@db/models/index.js'
-import { QuizQuestion, QuizData, QuizAnswer, WordResult, QuizResult, AuthenticatedRequest } from '@types'
+import { QuizQuestion, QuizData, QuizAnswer, WordResult, QuizResult, AuthenticatedRequest, StartQuizRequest, SubmitQuizRequest, QuizHistoryQuery, StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@types'
 import { getWordsByTags } from '@/services/word'
 import { Op } from 'sequelize'
 
@@ -35,7 +36,7 @@ const cleanupExpiredQuizTokens = async (): Promise<void> => {
 setInterval(cleanupExpiredQuizTokens, 5 * 60 * 1000)
 
 // POST /quiz/start - Start a new quiz with selected tags
-quiz_router.post('/start', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
+quiz_router.post('/start', [verifycookie, validateBody(StartQuizRequestSchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { selectedTags } = req.body
@@ -98,7 +99,7 @@ quiz_router.post('/start', [verifycookie], async (req: AuthenticatedRequest, res
 })
 
 // POST /quiz/submit - Submit quiz answers and get results
-quiz_router.post('/submit', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
+quiz_router.post('/submit', [verifycookie, validateBody(SubmitQuizRequestSchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         console.log('Quiz submit route hit')
         const { userId } = req.query.user
@@ -245,7 +246,7 @@ quiz_router.get('/results/:resultId', [verifycookie], async (req: AuthenticatedR
 })
 
 // GET /quiz/history - Get user's quiz history
-quiz_router.get('/history', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
+quiz_router.get('/history', [verifycookie, validateQuery(QuizHistoryQuerySchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { page = 1, limit = 10 } = req.query
