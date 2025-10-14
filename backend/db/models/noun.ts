@@ -46,5 +46,6 @@ export default (sequelize: any): typeof Noun => {
 }
 
 export type NounModel = typeof Noun
+export type NounInstance = Noun
 export type NounAttributes = InferAttributes<Noun>
 export type NounCreationAttributes = InferCreationAttributes<Noun>

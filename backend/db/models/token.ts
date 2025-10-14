@@ -54,5 +54,6 @@ export default (sequelize: any): typeof Token => {
 }
 
 export type TokenModel = typeof Token
+export type TokenInstance = Token
 export type TokenAttributes = InferAttributes<Token>
 export type TokenCreationAttributes = InferCreationAttributes<Token>

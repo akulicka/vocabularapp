@@ -52,5 +52,6 @@ export default (sequelize: any): typeof Tag => {
 }
 
 export type TagModel = typeof Tag
+export type TagInstance = Tag
 export type TagAttributes = InferAttributes<Tag>
 export type TagCreationAttributes = InferCreationAttributes<Tag>

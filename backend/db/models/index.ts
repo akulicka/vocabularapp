@@ -11,13 +11,13 @@ sequelize = new Sequelize(dbConfig.database || 'vocabular', dbConfig.username ||
 })
 
 // Import model factories and types
-import userFactory, { UserModel } from './user'
-import tagFactory, { TagModel } from './tag'
-import wordFactory, { WordModel } from './word'
-import nounFactory, { NounModel } from './noun'
-import verbFactory, { VerbModel } from './verb'
-import tokenFactory, { TokenModel } from './token'
-import quizResultFactory, { QuizResultModel } from './quiz_results'
+import userFactory, { UserModel, UserInstance } from './user'
+import tagFactory, { TagModel, TagInstance } from './tag'
+import wordFactory, { WordModel, WordInstance } from './word'
+import nounFactory, { NounModel, NounInstance } from './noun'
+import verbFactory, { VerbModel, VerbInstance } from './verb'
+import tokenFactory, { TokenModel, TokenInstance } from './token'
+import quizResultFactory, { QuizResultModel, QuizResultInstance } from './quiz_results'
 
 // Initialize models with explicit type annotations
 const User: UserModel = userFactory(sequelize)
@@ -67,5 +67,7 @@ QuizResult.associate(db)
 //         model.associate(db)
 //     }
 // })
+// Export instance types for proper typing in services
+export type { UserInstance, TagInstance, WordInstance, NounInstance, VerbInstance, TokenInstance, QuizResultInstance }
 
 export default db

@@ -82,5 +82,6 @@ export default (sequelize: any): typeof Word => {
 }
 
 export type WordModel = typeof Word
+export type WordInstance = Word
 export type WordAttributes = InferAttributes<Word>
 export type WordCreationAttributes = InferCreationAttributes<Word>

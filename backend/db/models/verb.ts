@@ -46,5 +46,6 @@ export default (sequelize: any): typeof Verb => {
 }
 
 export type VerbModel = typeof Verb
+export type VerbInstance = Verb
 export type VerbAttributes = InferAttributes<Verb>
 export type VerbCreationAttributes = InferCreationAttributes<Verb>

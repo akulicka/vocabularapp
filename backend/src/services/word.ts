@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
-import db from '@db/models/index.js'
-import { CreateWordRequest, UpdateWordRequest, WordDTO, PARTS_OF_SPEECH } from '@types'
+import db, { WordInstance } from '@db/models/index.js'
+import { CreateWordRequest, UpdateWordRequest, WordDTO, TagDTO, PARTS_OF_SPEECH } from '@types'
 import { withTransaction } from '@util/transaction.js'
+import { NounAttributes } from '@db/models/noun'
+import { VerbAttributes } from '@db/models/verb'
 
 export async function getAllWords(): Promise<WordDTO[]> {
     const words = await db.words.findAll({
@@ -175,23 +177,54 @@ async function createPartOfSpeechExtension(word: any, data: CreateWordRequest, t
 //     }
 //     return wordResult as WordDTO
 // }
-async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
-    const word = await db.words.findOne({
+export async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
+    const word: WordInstance | null = await db.words.findOne({
         where: { wordId },
     })
     if (!word) throw new Error('word not found')
-
     const wordData = word.get()
-    const nounData = await word.getNoun()
-    const verbData = await word.getVerb()
-    const tags = (await word.getTags()).map((tag) => tag.get()) // err if empty?
-    const returnObj: WordDTO = {
-        ...wordData,
-        tags,
+    const noun = await word.getNoun()
+    const verb = await word.getVerb()
+    const tags = await word.getTags()
+
+    const dto: WordDTO = {
+        wordId: wordData.wordId,
+        english: wordData.english,
+        arabic: wordData.arabic,
+        root: wordData.root,
+        partOfSpeech: wordData.partOfSpeech,
+        tags: tags.map((tag) => tag.get() as TagDTO),
+        img: wordData.img,
     }
+    if (noun) dto.noun = noun.get() as NounAttributes
+    if (verb) dto.verb = verb.get() as VerbAttributes
+    return dto
+}
 
-    if (nounData) returnObj.noun = nounData.get()
-    if (verbData) returnObj.verb = verbData.get()
-
-    return returnObj
+export async function getWordsByTags(tags: string[], limit: number): Promise<WordDTO[]> {
+    const words: WordInstance[] = await db.words.findAll({
+        include: [{ model: db.tags, through: { attributes: [] }, where: { tagId: tags } }, { model: db.nouns }, { model: db.verbs }],
+        limit,
+    })
+    const wordsDTO = await Promise.all(
+        words.map(async (word: WordInstance) => {
+            const wordData = word.get()
+            const noun = await word.getNoun()
+            const verb = await word.getVerb()
+            const tags = await word.getTags()
+            const dto: WordDTO = {
+                wordId: wordData.wordId,
+                english: wordData.english,
+                arabic: wordData.arabic,
+                root: wordData.root,
+                partOfSpeech: wordData.partOfSpeech,
+                tags: tags.map((tag) => tag.get() as TagDTO),
+                img: wordData.img,
+            }
+            if (noun) dto.noun = noun.get() as NounAttributes
+            if (verb) dto.verb = verb.get() as VerbAttributes
+            return dto
+        }),
+    )
+    return wordsDTO
 }

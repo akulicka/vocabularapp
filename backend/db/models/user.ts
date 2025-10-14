@@ -58,5 +58,6 @@ export default (sequelize: any): typeof User => {
 }
 
 export type UserModel = typeof User
+export type UserInstance = User
 export type UserAttributes = InferAttributes<User>
 export type UserCreationAttributes = InferCreationAttributes<User>

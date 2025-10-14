@@ -1,12 +1,15 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { verifycookie } from '@util/cookie'
 import db from '@db/models/index.js'
+import { QuizQuestion, QuizData, QuizAnswer, WordResult, QuizResult, AuthenticatedRequest } from '@types'
+import { getWordsByTags } from '@/services/word'
+import { Op } from 'sequelize'
 
 const quiz_router = Router()
 
 // Cleanup expired quiz tokens (run periodically)
-const cleanupExpiredQuizTokens = async () => {
+const cleanupExpiredQuizTokens = async (): Promise<void> => {
     try {
         const QUIZ_TIMEOUT_MINUTES = 10 // Quiz expires after 10 minutes
         const cutoffTime = new Date(Date.now() - QUIZ_TIMEOUT_MINUTES * 60 * 1000)
@@ -15,7 +18,7 @@ const cleanupExpiredQuizTokens = async () => {
             where: {
                 tokenClass: 'QUIZ',
                 createdAt: {
-                    [db.Sequelize.Op.lt]: cutoffTime,
+                    [Op.lt]: cutoffTime,
                 },
             },
         })
@@ -23,8 +26,8 @@ const cleanupExpiredQuizTokens = async () => {
         if (deletedCount > 0) {
             console.log(`Cleaned up ${deletedCount} expired quiz tokens`)
         }
-    } catch (err) {
-        console.log('Error cleaning up expired quiz tokens:', err.message)
+    } catch (err: unknown) {
+        console.log('Error cleaning up expired quiz tokens:', err instanceof Error ? err.message : 'Unknown error')
     }
 }
 
@@ -32,7 +35,7 @@ const cleanupExpiredQuizTokens = async () => {
 setInterval(cleanupExpiredQuizTokens, 5 * 60 * 1000)
 
 // POST /quiz/start - Start a new quiz with selected tags
-quiz_router.post('/start', [verifycookie], async (req, res) => {
+quiz_router.post('/start', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { selectedTags } = req.body
@@ -46,21 +49,9 @@ quiz_router.post('/start', [verifycookie], async (req, res) => {
             where: { userId, tokenClass: 'QUIZ' },
         })
 
-        // Get words that match the selected tags
-        const words = await db.words.findAll({
-            include: [
-                {
-                    model: db.tags,
-                    where: { tagId: selectedTags },
-                    through: { attributes: [] },
-                },
-                { model: db.nouns },
-                { model: db.verbs },
-            ],
-            order: db.sequelize.random(), // Randomize word selection
-            limit: 10, // Limit to 10 questions per quiz
-        })
-
+        // Use word service to get words that match the selected tags
+        const words = await getWordsByTags(selectedTags, 10)
+        console.log('Words:', words)
         if (words.length === 0) {
             return res.status(400).send({ error: 'No words found for selected tags' })
         }
@@ -73,8 +64,8 @@ quiz_router.post('/start', [verifycookie], async (req, res) => {
             root: word.root, // Include root field for user input
             partOfSpeech: word.partOfSpeech,
             // Include additional properties based on part of speech
-            ...(word.noun && { noun: word.noun }),
-            ...(word.verb && { verb: word.verb }),
+            ...((word as any).noun && { noun: (word as any).noun }),
+            ...((word as any).verb && { verb: (word as any).verb }),
         }))
 
         // Generate unique quiz ID
@@ -98,14 +89,16 @@ quiz_router.post('/start', [verifycookie], async (req, res) => {
         })
 
         res.send(quizData)
-    } catch (err) {
-        console.log('Quiz start error:', err.message)
-        res.status(500).send({ error: err.message })
+        return
+    } catch (err: unknown) {
+        console.log('Quiz start error:', err instanceof Error ? err.message : 'Unknown error')
+        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        return
     }
 })
 
 // POST /quiz/submit - Submit quiz answers and get results
-quiz_router.post('/submit', [verifycookie], async (req, res) => {
+quiz_router.post('/submit', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
     try {
         console.log('Quiz submit route hit')
         const { userId } = req.query.user
@@ -150,16 +143,21 @@ quiz_router.post('/submit', [verifycookie], async (req, res) => {
 
         // Calculate results
         let correctAnswers = 0
-        const wordResults = []
+        const wordResults: WordResult[] = []
 
         answers.forEach((answer) => {
             const word = wordMap.get(answer.wordId)
             if (!word) {
                 wordResults.push({
                     wordId: answer.wordId,
+                    english: '',
+                    arabic: '',
+                    root: null,
                     correct: false,
                     userAnswer: answer.userAnswer,
                     correctAnswer: null,
+                    partOfSpeech: null,
+                    skipped: false,
                     error: 'Word not found',
                 })
                 return
@@ -212,14 +210,16 @@ quiz_router.post('/submit', [verifycookie], async (req, res) => {
         }
 
         res.send(result)
-    } catch (err) {
-        console.log('Quiz submit error:', err.message)
-        res.status(500).send({ error: err.message })
+        return
+    } catch (err: unknown) {
+        console.log('Quiz submit error:', err instanceof Error ? err.message : 'Unknown error')
+        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        return
     }
 })
 
 // GET /quiz/results/:resultId - Get specific quiz result
-quiz_router.get('/results/:resultId', [verifycookie], async (req, res) => {
+quiz_router.get('/results/:resultId', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { resultId } = req.params
@@ -236,25 +236,28 @@ quiz_router.get('/results/:resultId', [verifycookie], async (req, res) => {
         }
 
         res.send(quizResult)
-    } catch (err) {
-        console.log('Quiz results error:', err.message)
-        res.status(500).send({ error: err.message })
+        return
+    } catch (err: unknown) {
+        console.log('Quiz results error:', err instanceof Error ? err.message : 'Unknown error')
+        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        return
     }
 })
 
 // GET /quiz/history - Get user's quiz history
-quiz_router.get('/history', [verifycookie], async (req, res) => {
+quiz_router.get('/history', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { page = 1, limit = 10 } = req.query
-
-        const offset = (page - 1) * limit
+        const pageNum = typeof page === 'string' ? parseInt(page, 10) : typeof page === 'number' ? page : 1
+        const limitNum = typeof limit === 'string' ? parseInt(limit, 10) : typeof limit === 'number' ? limit : 10
+        const offset = (pageNum - 1) * limitNum
 
         const { count, rows: quizResults } = await db.quizResults.findAndCountAll({
             where: { userId },
             order: [['completedAt', 'DESC']],
-            limit: parseInt(limit),
-            offset: parseInt(offset),
+            limit: limitNum,
+            offset: offset,
             attributes: ['resultId', 'selectedTags', 'totalQuestions', 'correctAnswers', 'completedAt'],
         })
 
@@ -262,16 +265,17 @@ quiz_router.get('/history', [verifycookie], async (req, res) => {
             quizResults,
             pagination: {
                 total: count,
-                page: parseInt(page),
-                limit: parseInt(limit),
-                totalPages: Math.ceil(count / limit),
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(count / limitNum),
             },
         }
 
         res.send(result)
-    } catch (err) {
-        console.log('Quiz history error:', err.message)
-        res.status(500).send({ error: err.message })
+        return
+    } catch (err: unknown) {
+        console.log('Quiz history error:', err instanceof Error ? err.message : 'Unknown error')
+        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
     }
 })
 

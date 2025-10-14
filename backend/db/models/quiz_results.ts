@@ -76,5 +76,6 @@ export default (sequelize: any): typeof QuizResult => {
 }
 
 export type QuizResultModel = typeof QuizResult
+export type QuizResultInstance = QuizResult
 export type QuizResultAttributes = InferAttributes<QuizResult>
 export type QuizResultCreationAttributes = InferCreationAttributes<QuizResult>
