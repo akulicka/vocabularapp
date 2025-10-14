@@ -3,8 +3,9 @@ import { v4 as uuidv4 } from 'uuid'
 import argon2 from 'argon2'
 
 import { signtoken } from '@/util/cookie.js'
+import { validateBody } from '@/util/validation.js'
 import db from '@db/models/index.js'
-import { LoginRequest, RegisterRequest, AuthResponse } from '@types'
+import { LoginRequest, RegisterRequest, AuthResponse, LoginRequestSchema, RegisterRequestSchema } from '@types'
 import { UserAttributes } from '@db/models/user.js'
 
 // Helper function
@@ -28,7 +29,7 @@ const authorize_user = async (email: string, password: string): Promise<UserAttr
 const auth_router = Router()
 
 // POST /auth/verify
-auth_router.post('/verify', async (req: Request<{}, AuthResponse, LoginRequest>, res: Response) => {
+auth_router.post('/verify', validateBody(LoginRequestSchema), async (req: Request<{}, AuthResponse, LoginRequest>, res: Response) => {
     try {
         const user = await authorize_user(req.body.email, req.body.password)
         const { verified, userId } = user
@@ -44,7 +45,7 @@ auth_router.post('/verify', async (req: Request<{}, AuthResponse, LoginRequest>,
 })
 
 // POST /auth/login
-auth_router.post('/login', async (req: Request<{}, void, LoginRequest>, res: Response) => {
+auth_router.post('/login', validateBody(LoginRequestSchema), async (req: Request<{}, void, LoginRequest>, res: Response) => {
     try {
         const user = await authorize_user(req.body.email, req.body.password)
         if (!user) throw new Error('mismatch password or email')
@@ -78,7 +79,7 @@ auth_router.post('/logout', (req: Request, res: Response) => {
 })
 
 // POST /auth/register
-auth_router.post('/register', async (req: Request<{}, AuthResponse, RegisterRequest>, res: Response) => {
+auth_router.post('/register', validateBody(RegisterRequestSchema), async (req: Request<{}, AuthResponse, RegisterRequest>, res: Response) => {
     try {
         const { email, password, username } = req.body
 

@@ -1,10 +1,10 @@
 import { Router, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 
+import { validateBody } from '@/util/validation.js'
 import db from '@db/models/index.js'
 import sendMessage from '@util/email.js'
-
-const VERIFY_TOKEN_CLASS = 'VERIFY'
+import { CreateVerifyTokenRequest, ValidateVerifyTokenRequest, CreateVerifyTokenRequestSchema, ValidateVerifyTokenRequestSchema, VERIFY_TOKEN_CLASS } from '@types'
 
 interface User {
     userId: string
@@ -30,7 +30,7 @@ const create_db_token = async (user: User, token_class: string): Promise<Token> 
 
 const token_router = Router()
 
-token_router.post('/create-verify-token', async (req: Request, res: Response) => {
+token_router.post('/create-verify-token', validateBody(CreateVerifyTokenRequestSchema), async (req: Request, res: Response) => {
     try {
         const { userId } = req.body
         const user = await db.users.findOne({ where: { userId } })
@@ -45,7 +45,7 @@ token_router.post('/create-verify-token', async (req: Request, res: Response) =>
     }
 })
 
-token_router.post('/validate-verify-token', async (req: Request, res: Response) => {
+token_router.post('/validate-verify-token', validateBody(ValidateVerifyTokenRequestSchema), async (req: Request, res: Response) => {
     try {
         const token_lifetime_minutes = 0.5
         const { tokenId, userId } = req.body

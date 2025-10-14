@@ -182,11 +182,21 @@ export async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
         where: { wordId },
     })
     if (!word) throw new Error('word not found')
+    return await buildWordDTO(word)
+}
+
+export async function getWordsByTags(tags: string[], limit: number): Promise<WordDTO[]> {
+    const words: WordInstance[] = await db.words.findAll({
+        include: [{ model: db.tags, through: { attributes: [] }, where: { tagId: tags } }, { model: db.nouns }, { model: db.verbs }],
+        limit,
+    })
+    return await Promise.all(words.map(async (word: WordInstance) => buildWordDTO(word)))
+}
+const buildWordDTO = async (word: WordInstance): Promise<WordDTO> => {
     const wordData = word.get()
     const noun = await word.getNoun()
     const verb = await word.getVerb()
     const tags = await word.getTags()
-
     const dto: WordDTO = {
         wordId: wordData.wordId,
         english: wordData.english,
@@ -199,32 +209,4 @@ export async function fetchCompleteWord(wordId: string): Promise<WordDTO> {
     if (noun) dto.noun = noun.get() as NounAttributes
     if (verb) dto.verb = verb.get() as VerbAttributes
     return dto
-}
-
-export async function getWordsByTags(tags: string[], limit: number): Promise<WordDTO[]> {
-    const words: WordInstance[] = await db.words.findAll({
-        include: [{ model: db.tags, through: { attributes: [] }, where: { tagId: tags } }, { model: db.nouns }, { model: db.verbs }],
-        limit,
-    })
-    const wordsDTO = await Promise.all(
-        words.map(async (word: WordInstance) => {
-            const wordData = word.get()
-            const noun = await word.getNoun()
-            const verb = await word.getVerb()
-            const tags = await word.getTags()
-            const dto: WordDTO = {
-                wordId: wordData.wordId,
-                english: wordData.english,
-                arabic: wordData.arabic,
-                root: wordData.root,
-                partOfSpeech: wordData.partOfSpeech,
-                tags: tags.map((tag) => tag.get() as TagDTO),
-                img: wordData.img,
-            }
-            if (noun) dto.noun = noun.get() as NounAttributes
-            if (verb) dto.verb = verb.get() as VerbAttributes
-            return dto
-        }),
-    )
-    return wordsDTO
 }
