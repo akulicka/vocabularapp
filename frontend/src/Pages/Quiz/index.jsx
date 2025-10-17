@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import TagList from '../../Components/TagList'
-import { error, success } from '../../Util/notify'
+import TagList from '@components/TagList'
+import { error, success } from '@util/notify'
 import { Stack } from '@mui/material'
-import { useStartQuiz, useSubmitQuiz } from '../../Api/quiz'
-import { useTags } from '../../Api/words'
-import QuizModal from '../../Components/QuizModal'
+import { useStartQuiz, useSubmitQuiz } from '@api/quiz'
+import { useTags } from '@api/words'
+import QuizModal from '@components/QuizModal'
 
 function Quiz() {
     const [selectedTags, setSelectedTags] = useState([])

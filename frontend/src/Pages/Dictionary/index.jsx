@@ -9,12 +9,12 @@ import map from 'lodash/map'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
-import { success, error } from '../../Util/notify.jsx'
-import { WordChip } from '../../Components/Chip'
-import Dialog from '../../Components/Dialog/index.jsx'
+import { success, error } from '@util/notify'
+import { WordChip } from '@components/Chip'
+import Dialog from '@components/Dialog/index.jsx'
 import IconButton from '@mui/material/IconButton'
-import request from '../../Api/request'
-import WordFormDialog from '../../Components/WordForm/index.jsx'
+import request from '@api/request'
+import WordFormDialog from '@components/WordForm/index.jsx'
 
 function Dictionary() {
     const [isEditMode, setIsEditmode] = useState(false)

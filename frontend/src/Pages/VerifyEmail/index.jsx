@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import request from '../../Api/request'
-import { error } from '../../Util/notify.jsx'
+import request from '@api/request'
+import { error } from '@util/notify'
 
 export function VerifyPrompt() {
     const { userId } = useParams()

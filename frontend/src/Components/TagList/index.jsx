@@ -15,10 +15,10 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import without from 'lodash/without'
 
-import { success, error } from '../../Util/notify'
+import { success, error } from '@util/notify'
 import { TagChip } from '../Chip'
 import Dialog from '../Dialog'
-import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '../../Api/words'
+import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '@api/words'
 
 // TODO - limit to 5 tags
 function TagList({ selectedTags, setSelectedTags, tags, isLoading }) {

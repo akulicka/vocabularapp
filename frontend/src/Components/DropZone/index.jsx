@@ -7,7 +7,7 @@ import map from 'lodash/map'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 
-import request from '../../Api/request'
+import request from '@api/request'
 
 // TODO:
 /* 

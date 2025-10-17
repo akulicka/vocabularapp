@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-import { error } from '../../Util/notify'
-import Request from '../../Api/request'
+import { error } from '@util/notify'
+import Request from '@api/request'
 
 function Register() {
     const [form, setForm] = useState({ username: '', email: '', password: '', repeatpassword: '' })

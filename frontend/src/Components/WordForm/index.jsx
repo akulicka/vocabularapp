@@ -9,11 +9,11 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from '../../Enum/word.jsx'
-import { success, error } from '../../Util/notify.jsx'
-import Dialog from '../../Components/Dialog/index.jsx'
-import request from '../../Api/request'
-import TagList from '../TagList/index.jsx'
+import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from '@enum/word'
+import { success, error } from '@util/notify'
+import Dialog from '@components/Dialog/index.jsx'
+import request from '@api/request'
+import TagList from '@components/TagList/index.jsx'
 
 function NounForm({ nounProps, setNounProps }) {
     return (

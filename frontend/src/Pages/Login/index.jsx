@@ -5,8 +5,8 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-import { error } from '../../Util/notify.jsx'
-import Request from '../../Api/request'
+import { error } from '@util/notify'
+import Request from '@api/request'
 
 function Login() {
     const [form, setForm] = useState({ email: '', password: '' })

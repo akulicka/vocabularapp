@@ -6,7 +6,7 @@ import QuizQuestion from './QuizQuestion'
 import QuizFeedback from './QuizFeedback'
 import QuizInput from './QuizInput'
 import QuizTimer from './QuizTimer'
-import { useStartQuiz } from '../../Api/quiz'
+import { useStartQuiz } from '@api/quiz'
 
 // Custom transition for word sliding
 const WordTransition = forwardRef(function Transition(props, ref) {

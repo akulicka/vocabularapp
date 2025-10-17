@@ -16,8 +16,8 @@ import MUIMenu from '@mui/material/Menu'
 import MUIMenuList from '@mui/material/MenuList'
 import MUIMenuItem from '@mui/material/MenuItem'
 
-import { error, success } from '../../Util/notify'
-import request from '../../Api/request'
+import { error, success } from '@util/notify'
+import request from '@api/request'
 
 function ImgPreview({ pic }) {
     const url = URL.createObjectURL(pic)
