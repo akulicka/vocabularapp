@@ -3,6 +3,7 @@ import { makeStyles } from '@mui/styles'
 import Edit from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 import MUIChip from '@mui/material/Chip'
+import { TagDTO, WordDTO } from '@shared/types'
 
 const useStyles = makeStyles({
     chipRoot: {
@@ -21,7 +22,11 @@ const useStyles = makeStyles({
     },
 })
 
-function EditIcon({ onEdit }) {
+interface EditIconProps {
+    onEdit: () => void
+}
+
+function EditIcon({ onEdit }: EditIconProps) {
     return (
         <IconButton size="small" disableRipple onClick={onEdit}>
             <Edit />
@@ -29,12 +34,27 @@ function EditIcon({ onEdit }) {
     )
 }
 
-function Chip({ editMode, onDelete, onEdit, ...chipProps }) {
+interface ChipProps {
+    editMode?: boolean
+    onDelete?: () => void
+    onEdit?: () => void
+    [key: string]: any // For spreading additional props to MUIChip
+}
+
+function Chip({ editMode, onDelete, onEdit, ...chipProps }: ChipProps) {
     const classes = useStyles()
     return <MUIChip {...chipProps} classes={{ root: classes.chipRoot }} onDelete={editMode ? onDelete : undefined} icon={editMode ? <EditIcon onEdit={onEdit} /> : undefined} />
 }
 
-export function TagChip({ tag, editMode, toggleSelectedTag, isSelected, ...chipProps }) {
+interface TagChipProps {
+    tag: TagDTO
+    editMode?: boolean
+    toggleSelectedTag: (tagId: string) => boolean
+    isSelected?: boolean
+    [key: string]: any // For spreading additional props to Chip
+}
+
+export function TagChip({ tag, editMode, toggleSelectedTag, isSelected, ...chipProps }: TagChipProps) {
     const [selected, setSelected] = useState(isSelected)
     return (
         <Chip
@@ -54,7 +74,13 @@ export function TagChip({ tag, editMode, toggleSelectedTag, isSelected, ...chipP
     )
 }
 
-export function WordChip({ word, editMode, ...chipProps }) {
+interface WordChipProps {
+    word: WordDTO
+    editMode?: boolean
+    [key: string]: any // For spreading additional props to Chip
+}
+
+export function WordChip({ word, editMode, ...chipProps }: WordChipProps) {
     const [alt, setAlt] = useState(false)
     return <Chip {...chipProps} editMode={editMode} label={alt ? word.arabic : word.english} onClick={editMode ? undefined : () => setAlt(!alt)} />
 }
