@@ -1,5 +1,15 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { LinearProgress, Typography, Box } from '@mui/material'
+
+interface QuizTimerProps {
+    duration?: number // milliseconds
+    isActive?: boolean
+    answeredCount?: number
+    totalQuestions?: number
+    onTimeUp?: () => void
+    showTimeRemaining?: boolean
+    showProgress?: boolean
+}
 
 function QuizTimer({
     duration = 120000, // 2 minutes default
@@ -9,10 +19,10 @@ function QuizTimer({
     onTimeUp,
     showTimeRemaining = true,
     showProgress = true,
-}) {
+}: QuizTimerProps) {
     const [progress, setProgress] = useState(100)
     const [endTime, setEndTime] = useState(0)
-    const [timer, setTimer] = useState(null)
+    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
 
     // Derive remaining time from progress
     const remaining = Math.ceil((progress / 100) * (duration / 1000))

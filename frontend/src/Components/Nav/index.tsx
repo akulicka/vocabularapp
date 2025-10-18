@@ -13,26 +13,36 @@ import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import MUIMenu from '@mui/material/Menu'
-import MUIMenuList from '@mui/material/MenuList'
+// import MUIMenuList from '@mui/material/MenuList'
 import MUIMenuItem from '@mui/material/MenuItem'
 
 import { error, success } from '@util/notify'
 import request from '@api/request'
 
-function ImgPreview({ pic }) {
+interface ImgPreviewProps {
+    pic: Blob
+}
+
+function ImgPreview({ pic }: ImgPreviewProps) {
     const url = URL.createObjectURL(pic)
     return <Avatar alt="profile" src={url} onLoad={() => URL.revokeObjectURL(url)} />
 }
 
-function AppBar({ logout, user, ...props }) {
-    const [file, setFile] = useState()
-    const [pic, setPic] = useState()
+interface AppBarProps {
+    logout: () => void
+    user: any // TODO: Type this properly with user type
+    children?: React.ReactNode
+}
+
+function AppBar({ logout, user, ...props }: AppBarProps) {
+    const [file, setFile] = useState<File | undefined>()
+    const [pic, setPic] = useState<Blob | undefined>()
     const [open, setOpen] = useState(false)
-    const [anchor, setAnchor] = useState()
+    const [anchor, setAnchor] = useState<HTMLElement | undefined>()
 
     const navigate = useNavigate()
-    const onDrop = useCallback((acceptedFile) => {
-        setFile(acceptedFile)
+    const onDrop = useCallback((acceptedFile: File[]) => {
+        setFile(acceptedFile[0])
     }, [])
     const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
@@ -44,7 +54,7 @@ function AppBar({ logout, user, ...props }) {
     useEffect(() => {
         const callGetPic = async () => await getPic()
         if (user) callGetPic()
-        else setPic()
+        else setPic(undefined)
     }, [user])
 
     const getPic = async () => {
@@ -56,13 +66,13 @@ function AppBar({ logout, user, ...props }) {
                 setPic(blob)
             }
         } catch (err) {
-            error(`Error retrieving profile pic: ${err.message}`)
+            error(`Error retrieving profile pic: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
     }
 
     const onSubmit = async () => {
         try {
-            const response = await request.postForm(
+            await request.postForm(
                 'user/img',
                 {
                     avatar: file,
@@ -72,7 +82,7 @@ function AppBar({ logout, user, ...props }) {
             await getPic()
             success('avatar changed')
         } catch (err) {
-            error(err.message)
+            error(err instanceof Error ? err.message : 'Unknown error')
         }
     }
     return (
@@ -102,7 +112,7 @@ function AppBar({ logout, user, ...props }) {
                                     <input {...getInputProps()} />
                                     {pic ? <ImgPreview pic={pic} /> : <AccountCircle />}
                                 </IconButton>
-                                <Button color={'secondary'} variant="h3" onClick={logout}>
+                                <Button color={'secondary'} variant="text" onClick={logout}>
                                     {' '}
                                     Logout{' '}
                                 </Button>
@@ -115,7 +125,7 @@ function AppBar({ logout, user, ...props }) {
                     anchorEl={anchor}
                     onClose={() => {
                         setOpen(false)
-                        setAnchor()
+                        setAnchor(undefined)
                     }}
                 >
                     <MUIMenuItem onClick={() => navigate('/')}>Dictionary</MUIMenuItem>

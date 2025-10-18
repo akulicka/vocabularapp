@@ -1,6 +1,19 @@
 import { Box, Typography, Button } from '@mui/material'
 
-function QuizFeedback({ showFeedback, feedbackData, onNext }) {
+export interface FeedbackData {
+    isCorrect: boolean
+    userAnswer: string
+    correctAnswer: string
+    arabicWithTashkeel: string
+}
+
+interface QuizFeedbackProps {
+    showFeedback: boolean
+    feedbackData: FeedbackData | null
+    onNext: () => void
+}
+
+function QuizFeedback({ showFeedback, feedbackData, onNext }: QuizFeedbackProps) {
     if (!showFeedback || !feedbackData) {
         return null
     }

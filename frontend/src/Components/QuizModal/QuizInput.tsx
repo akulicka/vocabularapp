@@ -6,11 +6,18 @@ import 'simple-keyboard/build/css/index.css'
 import KeyboardIcon from '@mui/icons-material/Keyboard'
 import KeyboardHideIcon from '@mui/icons-material/KeyboardHide'
 
-function QuizInput({ currentAnswer, setCurrentAnswer, onKeyPress, disabled = false }) {
+interface QuizInputProps {
+    currentAnswer: string
+    setCurrentAnswer: (answer: string) => void
+    onKeyPress: (event: { key: string }) => void
+    disabled?: boolean
+}
+
+function QuizInput({ currentAnswer, setCurrentAnswer, onKeyPress, disabled = false }: QuizInputProps) {
     const [showKeyboard, setShowKeyboard] = useState(true)
-    const inputRef = useRef(null)
-    const keyboardRef = useRef(null)
-    const keyboardInstanceRef = useRef(null)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const keyboardRef = useRef<HTMLDivElement>(null)
+    const keyboardInstanceRef = useRef<SimpleKeyboard | null>(null)
 
     // Initialize keyboard
     useEffect(() => {
@@ -43,11 +50,11 @@ function QuizInput({ currentAnswer, setCurrentAnswer, onKeyPress, disabled = fal
         }
     }, [currentAnswer])
 
-    const handleKeyboardChange = (input) => {
+    const handleKeyboardChange = (input: string) => {
         setCurrentAnswer(input)
     }
 
-    const handleKeyboardKeyPress = (button) => {
+    const handleKeyboardKeyPress = (button: string) => {
         if (button === '{enter}') {
             onKeyPress({ key: 'Enter' })
         }

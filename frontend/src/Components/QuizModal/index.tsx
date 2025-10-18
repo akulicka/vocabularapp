@@ -1,26 +1,34 @@
 import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogTitle, Box, Button, Stack } from '@mui/material'
-import { forwardRef } from 'react'
-import { Slide } from '@mui/material'
-import QuizQuestion from './QuizQuestion'
-import QuizFeedback from './QuizFeedback'
-import QuizInput from './QuizInput'
-import QuizTimer from './QuizTimer'
+// import { forwardRef } from 'react'
+// import { Slide } from '@mui/material'
+import QuizQuestion from '@components/QuizModal/QuizQuestion'
+import QuizFeedback from '@components/QuizModal/QuizFeedback'
+import QuizInput from '@components/QuizModal/QuizInput'
+import QuizTimer from '@components/QuizModal/QuizTimer'
+import { FeedbackData } from '@components/QuizModal/QuizFeedback'
 import { useStartQuiz } from '@api/quiz'
-
+import { QuizData, QuizAnswer /*, QuizQuestion as QuizQuestionType */ } from '@shared/types'
 // Custom transition for word sliding
-const WordTransition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="left" ref={ref} {...props} />
-})
+// const WordTransition = forwardRef<HTMLDivElement, any>(function Transition(props, ref) {
+//     return <Slide direction="left" ref={ref} {...props}>{props.children}</Slide>
+// })
 
-function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
+interface QuizModalProps {
+    open: boolean
+    onClose: () => void
+    selectedTags: string[]
+    onQuizComplete: (answers: QuizAnswer[], quizData: QuizData) => void
+}
+
+function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-    const [answers, setAnswers] = useState({}) // wordId -> { userAnswer, isCorrect, skipped }
+    const [answers, setAnswers] = useState<Record<string, QuizAnswer>>({}) // wordId -> QuizAnswer
     const [currentAnswer, setCurrentAnswer] = useState('')
     const [showFeedback, setShowFeedback] = useState(false)
-    const [feedbackData, setFeedbackData] = useState(null)
+    const [feedbackData, setFeedbackData] = useState<FeedbackData | null>(null)
     const [timerActive, setTimerActive] = useState(false)
-    const [quizData, setQuizData] = useState(null)
+    const [quizData, setQuizData] = useState<QuizData | null>(null)
 
     // TanStack Query hooks
     const startQuizMutation = useStartQuiz()
@@ -73,15 +81,15 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
     }, [open, selectedTags])
 
     // Simple helper - get answer for current question
-    const getCurrentAnswer = () => answers[currentQuestion?.wordId]
+    // const getCurrentAnswer = (): QuizAnswer | undefined => answers[currentQuestion?.wordId]
 
     // Check if quiz is complete
-    const isQuizComplete = () => {
-        return quizData?.questions?.every((q) => answers[q.wordId])
+    const isQuizComplete = (): boolean => {
+        return quizData?.questions?.every((q) => answers[q.wordId]) ?? false
     }
 
     // Get next question to show
-    const getNextQuestion = () => {
+    const getNextQuestion = (): number | null => {
         // First, find incorrect answers to repeat
         // for (const question of quizData.questions) {
         //     const answer = answers[question.wordId]
@@ -91,9 +99,11 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
         // }
 
         // Then, find unanswered questions
-        for (let i = 0; i < quizData.questions.length; i++) {
-            if (!answers[quizData.questions[i].wordId]) {
-                return i
+        if (quizData?.questions) {
+            for (let i = 0; i < quizData.questions.length; i++) {
+                if (!answers[quizData.questions[i].wordId]) {
+                    return i
+                }
             }
         }
 
@@ -101,13 +111,14 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
     }
 
     const handleAnswerSubmit = () => {
-        if (!currentAnswer.trim()) return
+        if (!currentAnswer.trim() || !currentQuestion) return
 
-        const isCorrect = currentAnswer.trim().toLowerCase() === currentQuestion.root.toLowerCase()
+        const isCorrect = currentAnswer.trim().toLowerCase() === (currentQuestion.root?.toLowerCase() ?? '')
 
         setAnswers((prev) => ({
             ...prev,
             [currentQuestion.wordId]: {
+                wordId: currentQuestion.wordId,
                 userAnswer: currentAnswer.trim(),
                 isCorrect,
                 skipped: false,
@@ -118,16 +129,19 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
         setFeedbackData({
             isCorrect,
             userAnswer: currentAnswer.trim(),
-            correctAnswer: currentQuestion.root,
+            correctAnswer: currentQuestion.root ?? '',
             arabicWithTashkeel: currentQuestion.arabic,
         })
         setShowFeedback(true)
     }
 
     const handleSkipQuestion = () => {
+        if (!currentQuestion) return
+
         setAnswers((prev) => ({
             ...prev,
             [currentQuestion.wordId]: {
+                wordId: currentQuestion.wordId,
                 userAnswer: '',
                 isCorrect: false,
                 skipped: true,
@@ -141,12 +155,9 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
         setFeedbackData(null)
         setCurrentAnswer('')
 
-        if (isQuizComplete()) {
+        if (isQuizComplete() && quizData) {
             // Convert answers object to array format for backend
-            const answersArray = Object.entries(answers).map(([wordId, answer]) => ({
-                wordId,
-                ...answer,
-            }))
+            const answersArray = Object.values(answers)
 
             setTimerActive(false)
             onQuizComplete(answersArray, quizData)
@@ -159,7 +170,7 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
         }
     }
 
-    const handleKeyPress = (event) => {
+    const handleKeyPress = (event: { key: string }) => {
         if (event.key === 'Enter') {
             handleAnswerSubmit()
         }
@@ -190,11 +201,10 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }) {
                     totalQuestions={quizData.totalQuestions}
                     onTimeUp={() => {
                         // Auto-submit when time expires
-                        const answersArray = Object.entries(answers).map(([wordId, answer]) => ({
-                            wordId,
-                            ...answer,
-                        }))
-                        onQuizComplete(answersArray, quizData)
+                        if (quizData) {
+                            const answersArray = Object.values(answers)
+                            onQuizComplete(answersArray, quizData)
+                        }
                     }}
                     showTimeRemaining={true}
                     showProgress={true}

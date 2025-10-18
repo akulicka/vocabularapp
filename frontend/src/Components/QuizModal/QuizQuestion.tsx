@@ -1,6 +1,11 @@
 import { Box, Typography } from '@mui/material'
+import { QuizQuestion as QuizQuestionType } from '@shared/types'
 
-function QuizQuestion({ currentQuestion }) {
+interface QuizQuestionProps {
+    currentQuestion: QuizQuestionType
+}
+
+function QuizQuestion({ currentQuestion }: QuizQuestionProps) {
     return (
         <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography
