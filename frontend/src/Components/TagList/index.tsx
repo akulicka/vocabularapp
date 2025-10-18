@@ -16,14 +16,22 @@ import Typography from '@mui/material/Typography'
 import without from 'lodash/without'
 
 import { success, error } from '@util/notify'
-import { TagChip } from '../Chip'
-import Dialog from '../Dialog'
+import { TagChip } from '@components/Chip'
+import Dialog from '@components/Dialog'
 import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '@api/words'
+import { TagDTO } from '@shared/types'
 
 // TODO - limit to 5 tags
-function TagList({ selectedTags, setSelectedTags, tags, isLoading }) {
-    const [tagName, setTagName] = useState()
-    const [tagBeingEdited, setTagBeingEdited] = useState()
+interface TagListProps {
+    selectedTags: string[]
+    setSelectedTags: (tags: string[]) => void
+    tags?: TagDTO[]
+    isLoading?: boolean
+}
+
+function TagList({ selectedTags, setSelectedTags, tags, isLoading }: TagListProps) {
+    const [tagName, setTagName] = useState<string>('')
+    const [tagBeingEdited, setTagBeingEdited] = useState<TagDTO | null>(null)
     const [isOpen, setIsOpen] = useState(false)
     const [isEditOpen, setIsEditOpen] = useState(false)
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
@@ -46,11 +54,13 @@ function TagList({ selectedTags, setSelectedTags, tags, isLoading }) {
             setIsOpen(false)
             setTagName('')
         } catch (err) {
-            error(`error creating tag: ${err.message}`)
+            error(`error creating tag: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
     }
 
     const submitEditTag = async () => {
+        if (!tagBeingEdited) return
+
         try {
             await updateTagMutation.mutateAsync({
                 tagId: tagBeingEdited.tagId,
@@ -60,23 +70,25 @@ function TagList({ selectedTags, setSelectedTags, tags, isLoading }) {
             setIsEditOpen(false)
             setTagName('')
         } catch (err) {
-            error(`error editing tag: ${err.message}`)
+            error(`error editing tag: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
     }
 
     const submitDeleteTag = async () => {
+        if (!tagBeingEdited) return
+
         try {
             await deleteTagMutation.mutateAsync(tagBeingEdited.tagId)
-            setSelectedTags([...filter(selectedTags, (selectedTag) => selectedTag.tagId != tagBeingEdited.tagId)])
+            setSelectedTags([...filter(selectedTags, (selectedTag) => selectedTag !== tagBeingEdited.tagId)])
             success(`successfully deleted tag: ${tagBeingEdited.tagName}`)
             setIsDeleteOpen(false)
         } catch (err) {
-            error(`error deleting tag: ${err.message}`)
+            error(`error deleting tag: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
     }
 
     const toggleSelectedTag = useCallback(
-        (tagId) => {
+        (tagId: string) => {
             const filtered = without(selectedTags, tagId)
             const add = filtered.length === selectedTags.length
             setSelectedTags(filtered.length === selectedTags.length ? [...selectedTags, tagId] : filtered)

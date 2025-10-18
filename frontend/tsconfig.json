@@ -17,15 +17,15 @@
     "isolatedModules": true,
     "noEmit": true,
     "paths": {
-      "@util": ["./src/Util"],
-      "@enum": ["./src/Enum"],
-      "@routes/*": ["./src/Routes"],
-      "@api/*": ["./src/Api"],
-      "@components/*": ["./src/Components"],
-      "@shared/types": ["../shared/dist/types"],
-      "@shared/types/*": ["../shared/dist/types/*"],
-      "@shared/schemas": ["../shared/dist/schemas"],
-      "@shared/schemas/*": ["../shared/dist/schemas/*"]
+      "@util/*": ["./src/Util/*"],
+      "@enum/*": ["./src/Enum/*"],
+      "@routes/*": ["./src/Routes/*"],
+      "@api/*": ["./src/Api/*"],
+      "@components/*": ["./src/Components/*"],
+      "@shared/types": ["../shared/types"],
+      "@shared/types/*": ["../shared/types/*"],
+      "@shared/schemas": ["../shared/schemas"],
+      "@shared/schemas/*": ["../shared/schemas/*"]
     }
   },
   "include": [

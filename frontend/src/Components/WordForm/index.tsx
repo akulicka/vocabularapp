@@ -9,13 +9,57 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
-import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB } from '@enum/word'
+import { PARTS_OF_SPEECH, TYPES_OF_NOUN, GENDERS, TENSES_OF_VERB, IRREGULARITIES_OF_VERB, FORMS_OF_VERB, WordDTO } from '@shared/types'
+import { CreateWordRequestSchema, UpdateWordRequestSchema } from '@shared/schemas'
 import { success, error } from '@util/notify'
-import Dialog from '@components/Dialog/index.jsx'
+import Dialog from '@components/Dialog'
 import request from '@api/request'
-import TagList from '@components/TagList/index.jsx'
+import TagList from '@components/TagList'
+import { validate } from '@api/validation'
 
-function NounForm({ nounProps, setNounProps }) {
+// Type definitions for form props
+interface NounProps {
+    nounType: string
+    nounGender: string
+    nounBrokenPlural: string
+}
+
+interface VerbProps {
+    verbIrregularity: string
+    verbForm: string
+    verbTense: string
+}
+
+interface WordProps {
+    wordEnglish: string
+    wordArabic: string
+    wordSpeechPart: string
+}
+
+interface NounFormProps {
+    nounProps: NounProps
+    setNounProps: (props: NounProps) => void
+}
+
+interface VerbFormProps {
+    verbProps: VerbProps
+    setVerbProps: (props: VerbProps) => void
+}
+
+interface WordFormProps {
+    wordProps: WordProps
+    setWordProps: (props: WordProps) => void
+    changeSpeechPart: (speechPart: string) => void
+}
+
+interface WordFormDialogProps {
+    word?: WordDTO
+    updateWords: (word: WordDTO) => void
+    open: boolean
+    onClose: () => void
+}
+
+function NounForm({ nounProps, setNounProps }: NounFormProps) {
     return (
         <Stack spacing={1}>
             <Stack spacing={1} direction="row">
@@ -51,7 +95,7 @@ function NounForm({ nounProps, setNounProps }) {
     )
 }
 
-function VerbForm({ verbProps, setVerbProps }) {
+function VerbForm({ verbProps, setVerbProps }: VerbFormProps) {
     return (
         <Stack spacing={1} direction="row">
             <Select id="verbIrregularity" fullWidth value={verbProps.verbIrregularity} onChange={(e) => setVerbProps({ ...verbProps, verbIrregularity: e.target.value })}>
@@ -89,7 +133,7 @@ function VerbForm({ verbProps, setVerbProps }) {
     )
 }
 
-function WordForm({ wordProps, setWordProps, changeSpeechPart }) {
+function WordForm({ wordProps, setWordProps, changeSpeechPart }: WordFormProps) {
     return (
         <Stack width="100%" spacing={1} flexGrow={1}>
             <Stack spacing={1} width="100%" flexGrow={'inherit'} direction={'row'}>
@@ -108,7 +152,7 @@ function WordForm({ wordProps, setWordProps, changeSpeechPart }) {
     )
 }
 
-function WordFormDialog({ word, updateWords, open, onClose }) {
+function WordFormDialog({ word, updateWords, open, onClose }: WordFormDialogProps) {
     const INITIAL_NOUN_PROPS = useMemo(() => {
         return {
             nounType: word?.noun?.nounType || TYPES_OF_NOUN.DEFINITE_NOUN,
@@ -136,10 +180,10 @@ function WordFormDialog({ word, updateWords, open, onClose }) {
 
     const INITAL_TAGS = useMemo(() => (word ? map(word.tags, (tag) => tag.tagId) : []), [word])
 
-    const [nounProps, setNounProps] = useState(INITIAL_NOUN_PROPS)
-    const [verbProps, setVerbProps] = useState(INITIAL_VERB_PROPS)
-    const [wordProps, setWordProps] = useState(INITIAL_WORD_PROPS)
-    const [tags, setTags] = useState(INITAL_TAGS)
+    const [nounProps, setNounProps] = useState<NounProps>(INITIAL_NOUN_PROPS)
+    const [verbProps, setVerbProps] = useState<VerbProps>(INITIAL_VERB_PROPS)
+    const [wordProps, setWordProps] = useState<WordProps>(INITIAL_WORD_PROPS)
+    const [tags, setTags] = useState<string[]>(INITAL_TAGS)
 
     useEffect(() => setNounProps(INITIAL_NOUN_PROPS), [INITIAL_NOUN_PROPS])
     useEffect(() => setVerbProps(INITIAL_VERB_PROPS), [INITIAL_VERB_PROPS])
@@ -151,7 +195,7 @@ function WordFormDialog({ word, updateWords, open, onClose }) {
     // useEffect(() => console.log('verbProps', verbProps), [verbProps])
     // useEffect(() => console.log('tags', tags), [tags])
 
-    const changeSpeechPart = (wordSpeechPart) => {
+    const changeSpeechPart = (wordSpeechPart: string) => {
         switch (wordSpeechPart) {
             case PARTS_OF_SPEECH.NOUN:
                 setVerbProps(INITIAL_VERB_PROPS)
@@ -167,7 +211,7 @@ function WordFormDialog({ word, updateWords, open, onClose }) {
     }
 
     const submitProps = useMemo(() => {
-        const props = { ...wordProps, wordTags: tags }
+        const props: any = { ...wordProps, wordTags: tags }
         switch (wordProps.wordSpeechPart) {
             case PARTS_OF_SPEECH.NOUN:
                 props.nounProps = nounProps
@@ -181,15 +225,23 @@ function WordFormDialog({ word, updateWords, open, onClose }) {
 
     const submit = useCallback(async () => {
         try {
+            // Validate the form data before submission
+            const validation = word ? validate(UpdateWordRequestSchema, { ...submitProps, wordId: word.wordId }) : validate(CreateWordRequestSchema, submitProps)
+
+            if (!validation.isValid) {
+                error(`Validation failed: ${validation.errors?.[0] || 'Unknown validation error'}`)
+                return
+            }
+
             const result = word ? await request.put('/words', { ...submitProps, wordId: word.wordId }) : await request.post('/words', submitProps)
-            // console.log(submitProps.wordEnglish)
+
             success(`successfully ${word ? 'edited' : 'added'} word: ${submitProps.wordEnglish}`)
             updateWords(result.data)
             onClose()
         } catch (err) {
-            error(`error ${word ? 'editing' : 'adding'} word ${submitProps.wordEnglish}: ${err.message}`)
+            error(`error ${word ? 'editing' : 'adding'} word ${submitProps.wordEnglish}: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
-    }, [submitProps])
+    }, [submitProps, word, updateWords, onClose])
 
     return (
         <Dialog title={`${word ? 'Edit' : 'New'}  Word`} submitLabel="Submit" open={open} onClose={onClose} onSubmit={submit}>
