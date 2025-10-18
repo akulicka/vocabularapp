@@ -1,7 +1,9 @@
 #!/bin/sh
 
 . "$(dirname "$0")/_/husky.sh"
+echo "linting shared"
+cd shared && npx lint-staged || exit 1
 echo "linting frontend"
-cd frontend && npx lint-staged || exit 1
+cd ../frontend && npx lint-staged || exit 1
 echo "linting backend"
 cd ../backend && npx lint-staged || exit 1

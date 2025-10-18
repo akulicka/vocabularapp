@@ -10,8 +10,9 @@ import {
     TagDTO,
     // CreateTagRequest,
     // UpdateTagRequest
-} from '@vocabularapp/shared-types/dist/types'
-import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@vocabularapp/shared-types/dist/schemas'
+    // AuthenticatedRequest,
+} from '@shared/types'
+import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@shared/schemas'
 
 // Words API functions with validation
 export const wordsApi = {
@@ -38,6 +39,8 @@ export const wordsApi = {
     updateWord: async (wordId: string, wordData: unknown): Promise<WordDTO> => {
         // Validate input data before sending
         const validation = validate(UpdateWordRequestSchema, wordData)
+        console.log('validation', validation)
+        console.log('wordData', wordData)
         if (!validation.isValid) {
             throw new Error(validation.errors?.[0] || 'Validation failed')
         }

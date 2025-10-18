@@ -3,6 +3,7 @@
     "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
@@ -15,8 +16,8 @@
     "resolveJsonModule": true
   },
   "include": [
-    "types/**/*",
-    "schemas/**/*"
+    "./types/**/*",
+    "./schemas/**/*"
   ],
   "exclude": [
     "node_modules",

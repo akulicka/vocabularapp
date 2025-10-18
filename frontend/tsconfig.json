@@ -4,6 +4,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "baseUrl": ".",
     "jsx": "react-jsx",
     "strict": false,
     "noImplicitAny": false,
@@ -21,16 +22,16 @@
       "@routes/*": ["./src/Routes"],
       "@api/*": ["./src/Api"],
       "@components/*": ["./src/Components"],
-      "@shared/types": ["../../shared/types"],
-      "@shared/types/*": ["../../shared/types/*"],
-      "@shared/schemas": ["../../shared/schemas"],
-      "@shared/schemas/*": ["../../shared/schemas/*"]
+      "@shared/types": ["../shared/dist/types"],
+      "@shared/types/*": ["../shared/dist/types/*"],
+      "@shared/schemas": ["../shared/dist/schemas"],
+      "@shared/schemas/*": ["../shared/dist/schemas/*"]
     }
   },
   "include": [
-    "src/**/*",
-    "vite.config.ts",
-    "eslint.config.js"
+    "./src/**/*",
+    "./vite.config.ts",
+    "./eslint.config.js"
   ],
   "exclude": [
     "node_modules",

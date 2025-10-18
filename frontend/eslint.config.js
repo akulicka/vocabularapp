@@ -45,7 +45,7 @@ export default defineConfig([
     },
     // TypeScript/TSX files
     {
-        files: ['**/*.{ts,tsx}'],
+        files: ['src/**/*.{ts,tsx}'],
         languageOptions: {
             globals: globals.browser,
             parser: tsParser,
@@ -53,7 +53,6 @@ export default defineConfig([
                 ecmaFeatures: {
                     jsx: true,
                 },
-                project: './tsconfig.json',
             },
         },
         plugins: {

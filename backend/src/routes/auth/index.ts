@@ -2,11 +2,11 @@ import { Router, Request, Response } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import argon2 from 'argon2'
 
-import { signtoken } from '@/util/cookie.js'
-import { validateBody } from '@/util/validation.js'
-import db from '@db/models/index.js'
+import { signtoken } from '@util/cookie'
+import { validateBody } from '@util/validation'
+import db from '@db/models/index'
 import { LoginRequest, RegisterRequest, AuthResponse, LoginRequestSchema, RegisterRequestSchema } from '@types'
-import { UserAttributes } from '@db/models/user.js'
+import { UserAttributes } from '@db/models/user'
 
 // Helper function
 const authorize_user = async (email: string, password: string): Promise<UserAttributes> => {

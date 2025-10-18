@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 // import mkcert from 'vite-plugin-mkcert'
 import path from 'path'
 import { fileURLToPath } from 'url'
-
 // https://vite.dev/config/
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -20,8 +19,8 @@ export default defineConfig({
             '@routes': path.resolve(__dirname, './src/Routes'),
             '@api': path.resolve(__dirname, './src/Api'),
             '@components': path.resolve(__dirname, './src/Components'),
-            '@shared/types': path.resolve(__dirname, '../../shared/types'),
-            '@shared/schemas': path.resolve(__dirname, '../../shared/schemas'),
+            '@shared/types': path.resolve(__dirname, '../shared/types'),
+            '@shared/schemas': path.resolve(__dirname, '../shared/schemas'),
         },
     },
 })

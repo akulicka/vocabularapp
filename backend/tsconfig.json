@@ -3,16 +3,20 @@
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["src/*"],
-      "@db/*": ["db/*"],
-      "@types": ["src/types/index.ts"],
-      "@types/*": ["src/types/*"],
-      "@services": ["src/services/index.ts"],
-      "@services/*": ["src/services/*"],
-      "@util": ["src/util/index.ts"],
-      "@util/*": ["src/util/*"]
+      "@/*": ["./*"],
+      "@db/*": ["../db/*"],
+      "@routes/*": ["./routes/*"],
+      "@services/*": ["./services/*"],
+      "@util/*": ["./util/*"],
+      "@types/*": ["./types/*"],
+      "@routes": ["./routes/index.ts"],
+      "@services": ["./services/index.ts"],
+      "@util": ["./util/index.ts"],
+      "@types": ["./types/index.ts"],
+      "@shared/types": ["../../shared/dist/types"],
+      "@shared/schemas": ["../../shared/dist/schemas"],
     },
     "allowJs": true,
     "checkJs": false,
@@ -39,8 +43,8 @@
     "types": ["node"]
   },
   "include": [
-    "src/**/*",
-    "db/**/*.ts"
+    "./src/**/*",
+    "./db/**/*.ts"
   ],
   "exclude": [
     "node_modules",
