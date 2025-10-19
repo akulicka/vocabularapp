@@ -5,11 +5,13 @@ import { useCookies } from 'react-cookie'
 import { CssBaseline } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 import { error } from './Util/notify'
 import AppBar from './Components/Nav'
 import request from './Api/request'
 import Routes from './Routes'
+import { AuthenticatedUser } from '@shared/types/auth'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -22,7 +24,7 @@ const queryClient = new QueryClient({
 
 function App() {
     // const [auth, setAuth] = useState(false)
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState<AuthenticatedUser | null>(null)
     const navigate = useNavigate()
     const [cookies] = useCookies()
     useEffect(() => {
@@ -30,13 +32,13 @@ function App() {
             function (response) {
                 return response
             },
-            function (err) {
-                if (err.status === 403) {
+            function (err: AxiosError) {
+                if (err.response?.status === 403) {
                     error('Session Expired')
                     logout()
                 } else {
                     const reason = err.response?.data || err.message
-                    return Promise.reject(new Error(reason))
+                    return Promise.reject(new Error(reason as string))
                 }
             },
         )
@@ -58,11 +60,11 @@ function App() {
 
     const logout = async () => {
         await request.post('logout')
-        setUser()
+        setUser(null)
         // setAuth(false)
         navigate('/')
     }
-    const authorize = (user) => {
+    const authorize = (user: AuthenticatedUser) => {
         setUser(user)
         // setAuth(true)
         navigate(`/quiz`)
@@ -73,7 +75,7 @@ function App() {
             <Stack spacing={2} flexGrow={1}>
                 <CssBaseline />
                 <AppBar logout={logout} user={user} />
-                <Routes flexGrow={1} user={user} />
+                <Routes user={user} />
                 <ToastContainer />
             </Stack>
         </QueryClientProvider>

@@ -6,10 +6,15 @@ import Login from '../Pages/Login'
 import Quiz from '../Pages/Quiz'
 import Register from '../Pages/Register'
 import { Verify, VerifyPrompt } from '../Pages/VerifyEmail'
+import { AuthenticatedUser } from '@shared/types/auth'
 
 /*TODO - Lazy loading, api progress indicator */
 
-function Routes({ user }) {
+interface RoutesProps {
+    user: AuthenticatedUser | null
+}
+
+function Routes({ user }: RoutesProps) {
     return (
         <Box width="80%" alignItems={'center'} height="100vh" flexGrow={1} alignSelf="center">
             {user ? (
