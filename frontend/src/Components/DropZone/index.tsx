@@ -16,26 +16,35 @@ import request from '@api/request'
 
 */
 
-function ImgPreview({ file }) {
+interface ImgPreviewProps {
+    file: File
+}
+
+function ImgPreview({ file }: ImgPreviewProps) {
     const url = URL.createObjectURL(file)
     return <Box component="img" sx={{ maxHeight: 100, maxWidth: 100, minHeight: 100, minWidth: 100 }} src={url} onLoad={() => URL.revokeObjectURL(url)} />
 }
-function PreviewList({ files }) {
+
+interface PreviewListProps {
+    files: File[]
+}
+
+function PreviewList({ files }: PreviewListProps) {
     return (
         <Stack direction="row">
             {' '}
-            {map(files, (file) => (
-                <ImgPreview file={file} />
+            {map(files, (file, index) => (
+                <ImgPreview key={index} file={file} />
             ))}
         </Stack>
     )
 }
 
 function DropZone() {
-    const [files, setFiles] = useState([])
+    const [files, setFiles] = useState<File[]>([])
     const onSubmit = async () => {
         try {
-            const response = await request.postForm(
+            await request.postForm(
                 'user/files',
                 {
                     'files[]': files,
@@ -43,12 +52,12 @@ function DropZone() {
                 { timeout: 5000 },
             )
         } catch (err) {
-            console.log(err.message)
+            console.log(err instanceof Error ? err.message : 'Unknown error')
         }
     }
 
     const onDrop = useCallback(
-        (acceptedFiles) => {
+        (acceptedFiles: File[]) => {
             const newFiles = [...files, ...acceptedFiles]
             setFiles(newFiles)
         },
