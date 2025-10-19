@@ -5,7 +5,8 @@ import argon2 from 'argon2'
 import { signtoken } from '@util/cookie'
 import { validateBody } from '@util/validation'
 import db from '@db/models/index'
-import { LoginRequest, RegisterRequest, AuthResponse, LoginRequestSchema, RegisterRequestSchema } from '@types'
+import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@shared/schemas'
+import { AuthResponse } from '@shared/types'
 import { UserAttributes } from '@db/models/user'
 
 // Helper function
