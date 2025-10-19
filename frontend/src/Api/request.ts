@@ -1,4 +1,5 @@
-import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import Axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios'
+import { ApiError } from './types'
 
 // Extend ImportMeta interface for Vite environment variables
 declare global {
@@ -13,19 +14,6 @@ declare global {
 const isDev = import.meta.env.DEV
 const protocol = isDev ? 'http' : 'https'
 const baseURL = `${protocol}://${import.meta.env.VITE_URL}:3000/`
-
-// API Response types
-export interface ApiResponse<T = any> {
-    data: T
-    message?: string
-    success?: boolean
-}
-
-export interface ApiError {
-    message: string
-    error?: string
-    details?: any[]
-}
 
 const request: AxiosInstance = Axios.create({
     baseURL,
@@ -66,14 +54,3 @@ request.interceptors.response.use(
 )
 
 export default request
-
-// Type-safe wrapper functions
-export const api = {
-    get: <T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => request.get(url, config).then((res) => res.data),
-
-    post: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => request.post(url, data, config).then((res) => res.data),
-
-    put: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => request.put(url, data, config).then((res) => res.data),
-
-    delete: <T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => request.delete(url, config).then((res) => res.data),
-}
