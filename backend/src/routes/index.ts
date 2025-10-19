@@ -1,9 +1,9 @@
 import { Application } from 'express'
-import AuthRouter from '@/routes/auth/index.js'
-import TokenRouter from '@/routes/token/index.js'
-import UserRouter from '@/routes/user/index.js'
-import WordRouter from '@/routes/word/index.js'
-import QuizRouter from '@/routes/quiz/index.js'
+import AuthRouter from '@routes/auth/index'
+import TokenRouter from '@routes/token/index'
+import UserRouter from '@routes/user/index'
+import WordRouter from '@routes/word/index'
+import QuizRouter from '@routes/quiz/index'
 
 export const setRoutes = (app: Application): void => {
     app.use('/user', UserRouter)

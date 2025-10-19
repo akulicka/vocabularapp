@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "strict": false,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "paths": {
+      "@util/*": ["./src/Util/*"],
+      "@enum/*": ["./src/Enum/*"],
+      "@routes/*": ["./src/Routes/*"],
+      "@api/*": ["./src/Api/*"],
+      "@components/*": ["./src/Components/*"],
+      "@shared/types": ["../shared/types"],
+      "@shared/types/*": ["../shared/types/*"],
+      "@shared/schemas": ["../shared/schemas"],
+      "@shared/schemas/*": ["../shared/schemas/*"]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./vite.config.ts",
+    "./eslint.config.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

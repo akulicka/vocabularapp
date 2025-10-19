@@ -2,7 +2,9 @@ import { Router, Request, Response } from 'express'
 
 import { verifycookie } from '@util'
 import { validateBody, validateQuery } from '@/util/validation.js'
-import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest, AuthenticatedRequest, CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@types'
+import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest } from '@shared/types'
+import { AuthenticatedRequest } from '@types'
+import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@shared/schemas'
 import * as wordService from '@services/word.js'
 import * as tagService from '@services/tag.js'
 

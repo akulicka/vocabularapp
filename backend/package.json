@@ -1,16 +1,17 @@
 {
-      "lint-staged": {
-            "*.{js,jsx,ts,tsx}": [
-                  "eslint --fix",
-                  "prettier --write"
-            ]
-      },
+"lint-staged": {
+  "*.{js,jsx,ts,tsx}": [
+    "eslint --fix", 
+    "prettier --write"
+  ]
+},
       "scripts": {
-            "development": "NODE_ENV=development tsx src/index.js",
-            "test": "NODE_ENV=test tsx src/index.js",
-            "production": "NODE_ENV=production node dist/index.js",
+            "development": "NODE_ENV=development tsx src/index.ts",
+            "test": "NODE_ENV=test tsx src/index.ts",
+            "production": "NODE_ENV=production node dist/src/index.js",
             "build": "tsc",
-            "type-check": "tsc --noEmit"
+            "type-check": "tsc --noEmit",
+            "lint": "eslint ."
       },
       "type": "module",
       "dependencies": {

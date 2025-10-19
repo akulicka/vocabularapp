@@ -5,7 +5,7 @@ import configPrettier from 'eslint-config-prettier/flat'
 
 export default defineConfig([
     {
-        files: ['**/*.{js, mjs}'],
+        files: ['src/**/*.{js, mjs}'],
         plugins: { js },
         extends: ['js/recommended'],
         rules: {
@@ -13,7 +13,7 @@ export default defineConfig([
             ...configPrettier.rules,
         },
     },
-    { files: ['**/*.{js, mjs}'], languageOptions: { globals: globals.node } },
+    { files: ['src/**/*.{js, mjs}'], languageOptions: { globals: globals.node } },
     {
         files: ['db/models/**/*.cjs'],
         languageOptions: {
