@@ -8,28 +8,29 @@ import Grid2 from '@mui/material/Grid2'
 import map from 'lodash/map'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
 
 import { success, error } from '@util/notify'
 import { WordChip } from '@components/Chip'
 import Dialog from '@components/Dialog/index.jsx'
-import IconButton from '@mui/material/IconButton'
-import request from '@api/request'
+import { api } from '@api/types'
 import WordFormDialog from '@components/WordForm/index.jsx'
+import { type WordDTO } from '@shared/types/word'
 
 function Dictionary() {
-    const [isEditMode, setIsEditmode] = useState(false)
-    const [isFormOpen, setIsFormOpen] = useState(false)
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-    const [wordBeingEdited, setWordBeingEdited] = useState()
-    const [words, setWords] = useState([])
+    const [isEditMode, setIsEditmode] = useState<boolean>(false)
+    const [isFormOpen, setIsFormOpen] = useState<boolean>(false)
+    const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
+    const [wordBeingEdited, setWordBeingEdited] = useState<WordDTO | undefined>()
+    const [words, setWords] = useState<WordDTO[]>([])
 
     //refresh words - TODO - paginate
     const getWords = async () => {
         try {
-            const results = await request.get('/words')
-            setWords(results?.data || [])
+            const results = await api.get<WordDTO[]>('/words')
+            setWords(results || [])
         } catch (err) {
-            error('error getting words: ', err.message)
+            error('error getting words: ' + (err instanceof Error ? err.message : 'Unknown error'))
         }
     }
 
@@ -40,7 +41,7 @@ function Dictionary() {
 
     //called from wordformdialog on successful add/edit with payload of added/edited word from API
     const updateWords = useCallback(
-        (newWord) => {
+        (newWord: WordDTO) => {
             if (wordBeingEdited) {
                 if (wordBeingEdited.wordId !== newWord.wordId) {
                     console.log('error updating wordlist:  wordbeingedited id does not match returned id')
@@ -60,15 +61,20 @@ function Dictionary() {
     )
 
     const deleteWord = useCallback(async () => {
+        if (!wordBeingEdited) return
+
         try {
-            const results = await request.delete(`/words?wordId=${wordBeingEdited.wordId}`)
+            await api.delete(`/words?wordId=${wordBeingEdited.wordId}`)
             const filteredWords = filter(words, (word) => word.wordId !== wordBeingEdited.wordId)
-            if (filteredWords.length === words.length) console.log('error updating wordlist:  returned id not found in word list')
-            else setWords(filteredWords)
+            if (filteredWords.length === words.length) {
+                console.log('error updating wordlist:  returned id not found in word list')
+            } else {
+                setWords(filteredWords)
+            }
             success(`Successfully deleted ${wordBeingEdited.english}`)
             setIsDeleteOpen(false)
         } catch (err) {
-            error(`Error Deleting ${wordBeingEdited.english}: ${err.message}`)
+            error(`Error Deleting ${wordBeingEdited.english}: ${err instanceof Error ? err.message : 'Unknown error'}`)
         }
     }, [words, wordBeingEdited])
 
@@ -106,7 +112,7 @@ function Dictionary() {
                         <Stack>
                             <IconButton
                                 onClick={() => {
-                                    setWordBeingEdited()
+                                    setWordBeingEdited(undefined)
                                     setIsFormOpen(true)
                                 }}
                             >
@@ -124,4 +130,5 @@ function Dictionary() {
         </>
     )
 }
+
 export default Dictionary

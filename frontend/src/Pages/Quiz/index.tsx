@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useState } from 'react'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import { Stack } from '@mui/material'
+
 import TagList from '@components/TagList'
 import { error, success } from '@util/notify'
-import { Stack } from '@mui/material'
-import { useStartQuiz, useSubmitQuiz } from '@api/quiz'
+import { useSubmitQuiz } from '@api/quiz'
 import { useTags } from '@api/words'
 import QuizModal from '@components/QuizModal'
+import { type QuizData, type QuizAnswer } from '@shared/types/quiz'
 
 function Quiz() {
-    const [selectedTags, setSelectedTags] = useState([])
-    const [modalOpen, setModalOpen] = useState(false)
+    const [selectedTags, setSelectedTags] = useState<string[]>([])
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-    // TanStack Query hooks
     const { data: tags, isLoading: tagsLoading } = useTags()
     const submitQuizMutation = useSubmitQuiz()
 
@@ -26,23 +26,23 @@ function Quiz() {
         setModalOpen(true)
     }
 
-    const handleQuizComplete = async (quizAnswers, quizData) => {
+    const handleQuizComplete = async (quizAnswers: QuizAnswer[], quizData: QuizData) => {
         if (!quizData || !quizAnswers || quizAnswers.length === 0) {
             error('No quiz data or answers to submit')
             return
         }
-
+        // TODO - test - zod undefined instead of array
         try {
             const result = await submitQuizMutation.mutateAsync({
                 quizId: quizData.quizId,
                 answers: quizAnswers,
-                timeSpent: 120000, // Timer will handle actual time calculation
+                timeSpent: 120000,
             })
 
             success(`Quiz completed! Score: ${result.correctAnswers}/${result.totalQuestions}`)
             setModalOpen(false)
         } catch (err) {
-            error('Failed to submit quiz: ' + err.message)
+            error('Failed to submit quiz: ' + (err instanceof Error ? err.message : 'Unknown error'))
         }
     }
 

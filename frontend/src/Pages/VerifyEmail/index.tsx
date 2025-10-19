@@ -3,21 +3,33 @@ import { useParams, useNavigate } from 'react-router'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import request from '@api/request'
+import { api } from '@api/types'
 import { error } from '@util/notify'
 
+interface VerifyTokenResponse {
+    response: string
+}
+
 export function VerifyPrompt() {
-    const { userId } = useParams()
+    const { userId } = useParams<{ userId: string }>()
+
     const sendToken = async () => {
+        if (!userId) {
+            error('User ID is required')
+            return
+        }
+
         try {
-            const result = await request.post('token/create-verify-token', { userId })
+            await api.post('token/create-verify-token', { userId })
         } catch (err) {
-            error(err.message)
+            error(err instanceof Error ? err.message : 'Failed to send verification token')
         }
     }
+
     useEffect(() => {
         sendToken()
-    }, [])
+    }, [userId])
+
     return (
         <>
             <Typography textAlign={'center'} variant={'h1'}>
@@ -32,22 +44,29 @@ export function VerifyPrompt() {
 }
 
 export function Verify() {
-    const { userId, tokenId } = useParams()
-    const [valid, setValid] = useState(false)
+    const { userId, tokenId } = useParams<{ userId: string; tokenId: string }>()
+    const [valid, setValid] = useState<boolean>(false)
     const navigate = useNavigate()
+
     useEffect(() => {
         const getToken = async () => {
+            if (!userId || !tokenId) {
+                error('User ID and Token ID are required')
+                return
+            }
+
             try {
-                const result = await request.post('token/validate-verify-token', { userId, tokenId })
+                const result = await api.post<VerifyTokenResponse>('token/validate-verify-token', { userId, tokenId })
                 if (result) {
-                    setValid(result?.data?.response === 'verified')
+                    setValid(result.response === 'verified')
                 }
             } catch (err) {
-                error(err.message)
+                error(err instanceof Error ? err.message : 'Failed to validate token')
             }
         }
         getToken()
-    }, [])
+    }, [userId, tokenId])
+
     return (
         <>
             <Typography textAlign={'center'} variant={'h1'}>
