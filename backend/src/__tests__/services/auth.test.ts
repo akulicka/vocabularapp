@@ -6,6 +6,7 @@ import { signtoken } from '@util/cookie.js'
 import * as tokenService from '@services/token.js'
 import { LoginRequest, RegisterRequest } from '@types'
 import { UserAttributes } from '@db/models/user'
+import { mockUserId, mockEmail, mockPassword, mockHashedPassword, mockJwtToken, mockUser, createMockUser, createMockRegisterRequest, createMockLoginRequest } from '../mocks/index.js'
 
 // Mock dependencies
 vi.mock('@db/models/index.js', () => ({
@@ -35,21 +36,6 @@ vi.mock('@services/token.js', () => ({
 }))
 
 describe('Auth Service', () => {
-    const mockUserId = uuidv4()
-    const mockEmail = 'test@example.com'
-    const mockPassword = 'testpassword123'
-    const mockHashedPassword = 'hashedpassword123'
-    const mockToken = 'mock-jwt-token'
-
-    const mockUser: UserAttributes = {
-        userId: mockUserId,
-        username: 'testuser',
-        email: mockEmail,
-        password: mockHashedPassword,
-        profile_image: null,
-        verified: true,
-    }
-
     beforeEach(() => {
         vi.clearAllMocks()
     })
@@ -112,23 +98,22 @@ describe('Auth Service', () => {
 
     describe('registerUser', () => {
         it('should register new user successfully', async () => {
-            const registerData: RegisterRequest = {
-                email: mockEmail,
-                password: mockPassword,
-                username: 'newuser',
-            }
+            const registerData = createMockRegisterRequest({ username: 'newuser' })
 
-            const mockNewUser = {
-                ...mockUser,
+            const mockNewUser = createMockUser({
                 userId: uuidv4(),
                 username: 'newuser',
                 verified: false,
-                save: vi.fn().mockResolvedValue({ ...mockUser, username: 'newuser' }),
+            })
+
+            const mockUserInstance = {
+                ...mockNewUser,
+                save: vi.fn().mockResolvedValue({ ...mockNewUser }),
             }
 
             vi.mocked(db.users.findOne).mockResolvedValueOnce(null) // No existing user
             vi.mocked(argon2.hash).mockResolvedValue(mockHashedPassword)
-            vi.mocked(db.users.build).mockReturnValue(mockNewUser as any)
+            vi.mocked(db.users.build).mockReturnValue(mockUserInstance as any)
 
             // Check if user exists
             const existingUser = await db.users.findOne({ where: { email: mockEmail } })
@@ -154,15 +139,11 @@ describe('Auth Service', () => {
                 password: mockHashedPassword,
                 email: mockEmail,
             })
-            expect(mockNewUser.save).toHaveBeenCalled()
+            expect(mockUserInstance.save).toHaveBeenCalled()
         })
 
         it('should reject registration with existing email', async () => {
-            const registerData: RegisterRequest = {
-                email: mockEmail,
-                password: mockPassword,
-                username: 'newuser',
-            }
+            const registerData = createMockRegisterRequest({ username: 'newuser' })
 
             vi.mocked(db.users.findOne).mockResolvedValue(mockUser as any)
 
@@ -174,11 +155,7 @@ describe('Auth Service', () => {
         })
 
         it('should hash password during registration', async () => {
-            const registerData: RegisterRequest = {
-                email: mockEmail,
-                password: mockPassword,
-                username: 'newuser',
-            }
+            const registerData = createMockRegisterRequest({ username: 'newuser' })
 
             vi.mocked(argon2.hash).mockResolvedValue(mockHashedPassword)
 
@@ -191,11 +168,11 @@ describe('Auth Service', () => {
 
     describe('generateAuthToken', () => {
         it('should generate JWT token for authenticated user', async () => {
-            vi.mocked(signtoken).mockReturnValue(mockToken)
+            vi.mocked(signtoken).mockReturnValue(mockJwtToken)
 
             const token = signtoken(mockUserId)
 
-            expect(token).toBe(mockToken)
+            expect(token).toBe(mockJwtToken)
             expect(signtoken).toHaveBeenCalledWith(mockUserId)
         })
 
@@ -203,12 +180,12 @@ describe('Auth Service', () => {
             const anotherUserId = uuidv4()
             const anotherToken = 'another-jwt-token'
 
-            vi.mocked(signtoken).mockReturnValueOnce(mockToken).mockReturnValueOnce(anotherToken)
+            vi.mocked(signtoken).mockReturnValueOnce(mockJwtToken).mockReturnValueOnce(anotherToken)
 
             const token1 = signtoken(mockUserId)
             const token2 = signtoken(anotherUserId)
 
-            expect(token1).toBe(mockToken)
+            expect(token1).toBe(mockJwtToken)
             expect(token2).toBe(anotherToken)
             expect(signtoken).toHaveBeenCalledTimes(2)
         })

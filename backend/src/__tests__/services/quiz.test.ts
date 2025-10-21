@@ -2,70 +2,12 @@ import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { createQuizToken, validateQuizToken, startQuiz, submitQuiz, getQuizResult, getQuizHistory, cleanupExpiredQuizTokens } from '@services/quiz.js'
 import db from '@db/models/index.js'
 import { StartQuizRequest, SubmitQuizRequest, QuizData, QuizQuestion, QuizAnswer, WordResult, QuizResult, QUIZ_TOKEN_CLASS } from '@types'
+import { mockUserId, mockTokenId, mockQuizId, mockStartQuizRequest, mockSubmitQuizRequest, mockQuizData, mockQuizResult, createMockToken, createMockWord, createMockQuizData, createMockQuizResult, createMockStartQuizRequest } from '../mocks/index.js'
 
 // Mock dependencies
 vi.mock('@db/models/index.js')
 
 describe('Quiz Service', () => {
-    const mockUserId = 'test-user-id'
-    const mockTokenId = 'test-token-id'
-    const mockQuizId = 'test-quiz-id'
-
-    const mockStartQuizRequest: StartQuizRequest = {
-        selectedTags: ['tag1', 'tag2'],
-        questionCount: 5,
-    }
-
-    const mockQuizData: QuizData = {
-        quizId: mockQuizId,
-        tokenId: mockTokenId,
-        questions: [
-            {
-                questionId: 'q1',
-                wordId: 'w1',
-                word: 'test',
-                partOfSpeech: 'noun',
-                question: 'What is the meaning of "test"?',
-                options: ['option1', 'option2', 'option3', 'option4'],
-                correctAnswer: 0,
-            },
-        ],
-        totalQuestions: 1,
-        timeLimit: 300,
-    }
-
-    const mockSubmitQuizRequest: SubmitQuizRequest = {
-        quizId: mockQuizId,
-        tokenId: mockTokenId,
-        answers: [
-            {
-                questionId: 'q1',
-                selectedAnswer: 0,
-                timeSpent: 30,
-            },
-        ],
-    }
-
-    const mockQuizResult: QuizResult = {
-        quizId: mockQuizId,
-        userId: mockUserId,
-        totalQuestions: 1,
-        correctAnswers: 1,
-        totalTime: 30,
-        score: 100,
-        completedAt: new Date(),
-        wordResults: [
-            {
-                wordId: 'w1',
-                word: 'test',
-                correct: true,
-                selectedAnswer: 0,
-                correctAnswer: 0,
-                timeSpent: 30,
-            },
-        ],
-    }
-
     beforeEach(() => {
         vi.clearAllMocks()
     })
@@ -76,12 +18,11 @@ describe('Quiz Service', () => {
 
     describe('createQuizToken', () => {
         it('should create a quiz token successfully', async () => {
-            const mockToken = {
+            const mockToken = createMockToken({
                 tokenId: mockTokenId,
                 userId: mockUserId,
                 tokenClass: QUIZ_TOKEN_CLASS,
-                save: vi.fn().mockResolvedValue({}),
-            }
+            })
 
             vi.mocked(db.tokens.build).mockReturnValue(mockToken as any)
 
@@ -108,12 +49,12 @@ describe('Quiz Service', () => {
 
     describe('validateQuizToken', () => {
         it('should validate a valid quiz token', async () => {
-            const mockToken = {
+            const mockToken = createMockToken({
                 tokenId: mockTokenId,
                 userId: mockUserId,
                 tokenClass: QUIZ_TOKEN_CLASS,
                 createdAt: new Date(),
-            }
+            })
 
             vi.mocked(db.tokens.findOne).mockResolvedValue(mockToken as any)
 
@@ -156,29 +97,13 @@ describe('Quiz Service', () => {
 
     describe('startQuiz', () => {
         it('should start a quiz successfully', async () => {
-            const mockWords = [
-                {
-                    get: vi.fn().mockImplementation((key: string) => {
-                        const data = {
-                            wordId: 'w1',
-                            english: 'test',
-                            arabic: 'اختبار',
-                            root: 'root',
-                            partOfSpeech: 'noun',
-                            noun: { meaning: 'option1' },
-                            verb: null,
-                        }
-                        return data[key as keyof typeof data]
-                    }),
-                },
-            ]
+            const mockWords = [createMockWord()]
 
-            const mockToken = {
+            const mockToken = createMockToken({
                 tokenId: mockTokenId,
                 userId: mockUserId,
                 tokenClass: QUIZ_TOKEN_CLASS,
-                save: vi.fn().mockResolvedValue({}),
-            }
+            })
 
             vi.mocked(db.tokens.destroy).mockResolvedValue(1)
             vi.mocked(db.words.findAll).mockResolvedValue(mockWords as any)
@@ -196,10 +121,7 @@ describe('Quiz Service', () => {
         })
 
         it('should throw error when no tags selected', async () => {
-            const invalidRequest: StartQuizRequest = {
-                selectedTags: [],
-                questionCount: 5,
-            }
+            const invalidRequest = createMockStartQuizRequest({ selectedTags: [] })
 
             await expect(startQuiz(mockUserId, invalidRequest)).rejects.toThrow('At least one tag must be selected')
         })
@@ -238,30 +160,16 @@ describe('Quiz Service', () => {
                 startedAt: new Date(),
             }
 
-            const mockToken = {
+            const mockToken = createMockToken({
                 tokenId: mockQuizId,
                 userId: mockUserId,
                 tokenClass: QUIZ_TOKEN_CLASS,
                 payload: mockQuizData,
-                destroy: vi.fn().mockResolvedValue({}),
-            }
+            })
 
-            const mockWord = {
-                get: vi.fn().mockImplementation((key: string) => {
-                    const data = {
-                        wordId: 'w1',
-                        english: 'test',
-                        arabic: 'اختبار',
-                        root: 'root',
-                        partOfSpeech: 'noun',
-                        noun: { meaning: 'option1' },
-                        verb: null,
-                    }
-                    return data[key as keyof typeof data]
-                }),
-            }
+            const mockWord = createMockWord()
 
-            const mockQuizResult = {
+            const mockQuizResult = createMockQuizResult({
                 quizId: mockQuizId,
                 userId: mockUserId,
                 totalQuestions: 1,
@@ -270,10 +178,9 @@ describe('Quiz Service', () => {
                 score: 100,
                 completedAt: new Date(),
                 wordResults: [],
-                save: vi.fn().mockResolvedValue({}),
-            }
+            })
 
-            vi.mocked(db.tokens.findOne).mockResolvedValue(mockToken as any)
+            vi.mocked(db.tokens.findOne).mockImplementation(async () => mockToken)
             vi.mocked(db.words.findOne).mockResolvedValue(mockWord as any)
             vi.mocked(db.quizResults.build).mockReturnValue(mockQuizResult as any)
 
@@ -321,30 +228,16 @@ describe('Quiz Service', () => {
                 startedAt: new Date(),
             }
 
-            const mockToken = {
+            const mockToken = createMockToken({
                 tokenId: mockQuizId,
                 userId: mockUserId,
                 tokenClass: QUIZ_TOKEN_CLASS,
                 payload: mockQuizData,
-                destroy: vi.fn().mockResolvedValue({}),
-            }
+            })
 
-            const mockWord = {
-                get: vi.fn().mockImplementation((key: string) => {
-                    const data = {
-                        wordId: 'w1',
-                        english: 'test',
-                        arabic: 'اختبار',
-                        root: 'root',
-                        partOfSpeech: 'noun',
-                        noun: { meaning: 'option1' },
-                        verb: null,
-                    }
-                    return data[key as keyof typeof data]
-                }),
-            }
+            const mockWord = createMockWord()
 
-            const mockQuizResult = {
+            const mockQuizResult = createMockQuizResult({
                 quizId: mockQuizId,
                 userId: mockUserId,
                 totalQuestions: 2,
@@ -353,10 +246,9 @@ describe('Quiz Service', () => {
                 score: 50,
                 completedAt: new Date(),
                 wordResults: [],
-                save: vi.fn().mockResolvedValue({}),
-            }
+            })
 
-            vi.mocked(db.tokens.findOne).mockResolvedValue(mockToken as any)
+            vi.mocked(db.tokens.findOne).mockImplementation(async () => mockToken)
             vi.mocked(db.words.findOne).mockResolvedValue(mockWord as any)
             vi.mocked(db.quizResults.build).mockReturnValue(mockQuizResult as any)
 
