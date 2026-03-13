@@ -32,68 +32,41 @@ export const createMockWordResult = (overrides: Partial<WordResult> = {}): WordR
 // Quiz data mock
 export const createMockQuizData = (overrides: Partial<QuizData> = {}): QuizData => ({
     quizId: mockQuizId,
-    tokenId: 'test-token-id',
     questions: [createMockQuizQuestion()],
+    selectedTags: ['tag1', 'tag2'],
     totalQuestions: 1,
-    timeLimit: 300,
+    startedAt: new Date(),
     ...overrides,
 })
 
 // Quiz result mock
-export const createMockQuizResult = (overrides: Partial<QuizResult> = {}): QuizResult & { save: any } => ({
+export const createMockQuizResult = (overrides: Partial<QuizResult> = {}): QuizResult => ({
     quizId: mockQuizId,
     userId: 'test-user-id',
     totalQuestions: 1,
     correctAnswers: 1,
-    totalTime: 30,
     score: 100,
     completedAt: new Date(),
     wordResults: [createMockWordResult()],
-    save: vi.fn().mockResolvedValue({}),
     ...overrides,
 })
 
-// Start quiz request mock
+// Request mocks
 export const createMockStartQuizRequest = (overrides: Partial<StartQuizRequest> = {}): StartQuizRequest => ({
     selectedTags: ['tag1', 'tag2'],
-    questionCount: 5,
     ...overrides,
 })
 
-// Submit quiz request mock
 export const createMockSubmitQuizRequest = (overrides: Partial<SubmitQuizRequest> = {}): SubmitQuizRequest => ({
     quizId: mockQuizId,
-    tokenId: 'test-token-id',
-    answers: [
-        {
-            questionId: mockQuestionId,
-            selectedAnswer: 0,
-            timeSpent: 30,
-        },
-    ],
+    answers: [{ wordId: mockWordId, userAnswer: 'answer1', isCorrect: true }],
     timeSpent: 30,
+    selectedTags: ['tag1'],
     ...overrides,
 })
 
-// Word mock for database
-export const createMockWord = (overrides = {}) => ({
-    get: vi.fn().mockImplementation((key: string) => {
-        const data = {
-            wordId: mockWordId,
-            english: 'test',
-            arabic: 'اختبار',
-            root: 'root',
-            partOfSpeech: 'noun',
-            noun: { meaning: 'A procedure for evaluation' },
-            verb: null,
-            ...overrides,
-        }
-        return data[key as keyof typeof data]
-    }),
-})
-
-// Common quiz variations
-export const mockQuizData = createMockQuizData()
-export const mockQuizResult = createMockQuizResult()
+// Default request mocks
 export const mockStartQuizRequest = createMockStartQuizRequest()
 export const mockSubmitQuizRequest = createMockSubmitQuizRequest()
+export const mockQuizData = createMockQuizData()
+export const mockQuizResult = createMockQuizResult()

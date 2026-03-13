@@ -1,95 +1,104 @@
 import { vi } from 'vitest'
 
+// Common database model methods
+const createModelMethods = () => ({
+    findOne: vi.fn(),
+    findAll: vi.fn(),
+    build: vi.fn(),
+    create: vi.fn(),
+    destroy: vi.fn(),
+    findAndCountAll: vi.fn(),
+})
+
+// Sequelize instance methods for model instances
+const createInstanceMethods = () => ({
+    get: vi.fn(),
+    set: vi.fn(),
+    save: vi.fn().mockResolvedValue({}),
+    destroy: vi.fn().mockResolvedValue({}),
+    update: vi.fn().mockResolvedValue({}),
+    reload: vi.fn().mockResolvedValue({}),
+    toJSON: vi.fn().mockReturnValue({}),
+    validate: vi.fn().mockResolvedValue(true),
+    // Word-specific methods
+    getNoun: vi.fn().mockResolvedValue(null),
+    getVerb: vi.fn().mockResolvedValue(null),
+    getTags: vi.fn().mockResolvedValue([]),
+    createNoun: vi.fn().mockResolvedValue({}),
+    createVerb: vi.fn().mockResolvedValue({}),
+    createTag: vi.fn().mockResolvedValue({}),
+})
+
 // Database mock factory
 export const createMockDatabase = () => ({
-    users: {
-        findOne: vi.fn(),
-        findAll: vi.fn(),
-        build: vi.fn(),
-        create: vi.fn(),
-        destroy: vi.fn(),
-    },
-    tokens: {
-        findOne: vi.fn(),
-        findAll: vi.fn(),
-        build: vi.fn(),
-        create: vi.fn(),
-        destroy: vi.fn(),
-    },
-    words: {
-        findOne: vi.fn(),
-        findAll: vi.fn(),
-        build: vi.fn(),
-        create: vi.fn(),
-        destroy: vi.fn(),
-    },
-    quizResults: {
-        findOne: vi.fn(),
-        findAll: vi.fn(),
-        build: vi.fn(),
-        create: vi.fn(),
-        destroy: vi.fn(),
+    users: createModelMethods(),
+    tokens: createModelMethods(),
+    words: createModelMethods(),
+    quizResults: createModelMethods(),
+    tags: createModelMethods(),
+    sequelize: {
+        transaction: vi.fn().mockResolvedValue({
+            commit: vi.fn().mockResolvedValue({}),
+            rollback: vi.fn().mockResolvedValue({}),
+        }),
     },
 })
 
 // Default database mock
-export const mockDatabase = createMockDatabase()
+export const defaultDatabaseMock = createMockDatabase()
 
-// Transaction mock
-export const createMockTransaction = (overrides = {}) => ({
-    commit: vi.fn().mockResolvedValue({}),
-    rollback: vi.fn().mockResolvedValue({}),
-    ...overrides,
-})
-
-// Sequelize mock
-export const createMockSequelize = (overrides = {}) => ({
-    transaction: vi.fn().mockImplementation((callback) => {
-        const mockTransaction = createMockTransaction()
-        return callback(mockTransaction)
-    }),
-    ...overrides,
-})
-
-// File upload mock
-export const createMockFile = (overrides = {}) => ({
-    originalname: 'test.jpg',
-    buffer: Buffer.from('fake-image-data'),
-    mimetype: 'image/jpeg',
-    ...overrides,
-})
-
-// Multiple files mock
-export const createMockFiles = (count = 2) =>
-    Array.from({ length: count }, (_, i) =>
-        createMockFile({
-            originalname: `file${i + 1}.jpg`,
-            buffer: Buffer.from(`fake-data-${i + 1}`),
+// Helper to create mock instances with proper methods
+export const createMockInstance = (data: any = {}) => {
+    const instance = {
+        ...data,
+        get: vi.fn().mockImplementation((key?: string) => {
+            if (key) {
+                return data[key]
+            }
+            return data
         }),
-    )
+        set: vi.fn(),
+        save: vi.fn().mockResolvedValue({}),
+        destroy: vi.fn().mockResolvedValue({}),
+        update: vi.fn().mockResolvedValue({}),
+        reload: vi.fn().mockResolvedValue({}),
+        toJSON: vi.fn().mockReturnValue({}),
+        validate: vi.fn().mockResolvedValue(true),
+        // Word-specific methods
+        getNoun: vi.fn().mockResolvedValue(null),
+        getVerb: vi.fn().mockResolvedValue(null),
+        getTags: vi.fn().mockResolvedValue([]),
+        setTags: vi.fn().mockResolvedValue({}),
+        setWords: vi.fn().mockResolvedValue({}),
+        createNoun: vi.fn().mockResolvedValue({}),
+        createVerb: vi.fn().mockResolvedValue({}),
+        createTag: vi.fn().mockResolvedValue({}),
+    }
 
-// Express request mock
-export const createMockRequest = (overrides = {}) => ({
-    body: {},
-    query: {},
-    params: {},
-    file: null,
-    files: null,
+    return instance
+}
+
+// Word mock factory
+export const createMockWord = (overrides = {}) => ({
+    wordId: 'test-word-id',
+    english: 'test',
+    arabic: 'اختبار',
+    root: 'root',
+    partOfSpeech: 'noun',
+    noun: { meaning: 'option1' },
+    verb: null,
     ...overrides,
 })
 
-// Express response mock
-export const createMockResponse = (overrides = {}) => ({
-    status: vi.fn().mockReturnThis(),
-    json: vi.fn().mockReturnThis(),
-    send: vi.fn().mockReturnThis(),
-    cookie: vi.fn().mockReturnThis(),
-    clearCookie: vi.fn().mockReturnThis(),
-    ...overrides,
-})
-
-// Express next function mock
-export const createMockNext = () => vi.fn()
-
-// Middleware mock
-export const createMockMiddleware = (implementation?: Function) => vi.fn().mockImplementation(implementation || ((req: any, res: any, next: any) => next()))
+// Helper to reset all mocks
+export const resetDatabaseMocks = () => {
+    Object.values(defaultDatabaseMock).forEach((model) => {
+        if (typeof model === 'object' && model !== null) {
+            Object.values(model).forEach((method) => {
+                if (typeof method === 'function' && 'mockClear' in method) {
+                    method.mockClear()
+                }
+            })
+        }
+    })
+}

@@ -1,21 +1,16 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import request from 'supertest'
 import express from 'express'
 import wordRouter from '@routes/word/index.js'
 import * as wordService from '@services/word.js'
 import * as tagService from '@services/tag.js'
-import { verifycookie } from '@util/cookie.js'
-import { validateBody } from '@util/validation.js'
+import { verifycookie } from '@util'
 import { CreateWordRequest, UpdateWordRequest, PARTS_OF_SPEECH } from '@types'
 
 // Mock dependencies
 vi.mock('@services/word.js')
 vi.mock('@services/tag.js')
-vi.mock('@util/cookie.js')
-vi.mock('@util/validation.js')
-
-// Mock validation middleware
-vi.mocked(validateBody).mockImplementation(() => (req: any, res: any, next: any) => next())
+vi.mock('@util')
 
 // Mock cookie verification middleware
 vi.mocked(verifycookie).mockImplementation(async (req: any, res: any, next: any) => {
@@ -32,16 +27,14 @@ vi.mocked(verifycookie).mockImplementation(async (req: any, res: any, next: any)
 
 describe('Word Routes', () => {
     let app: express.Application
+    const mockWordId = '660e8400-e29b-41d4-a716-446655440000'
+    const mockTagId = '770e8400-e29b-41d4-a716-446655440000'
 
     beforeEach(() => {
         app = express()
         app.use(express.json())
         app.use('/api/words', wordRouter)
         vi.clearAllMocks()
-    })
-
-    afterEach(() => {
-        vi.restoreAllMocks()
     })
 
     describe('GET /api/words', () => {
@@ -81,7 +74,7 @@ describe('Word Routes', () => {
                 wordEnglish: 'book',
                 wordArabic: 'كتاب',
                 wordSpeechPart: PARTS_OF_SPEECH.NOUN,
-                wordTags: ['tag-1'],
+                wordTags: [mockTagId],
                 nounProps: {
                     nounType: 'INDEFINITE_NOUN',
                     nounGender: 'MALE',
@@ -131,11 +124,11 @@ describe('Word Routes', () => {
     describe('PUT /api/words', () => {
         it('should update an existing word', async () => {
             const updateRequest: UpdateWordRequest = {
-                wordId: 'word-1',
+                wordId: mockWordId,
                 wordEnglish: 'updated book',
                 wordArabic: 'كتاب محدث',
                 wordSpeechPart: PARTS_OF_SPEECH.NOUN,
-                wordTags: ['tag-1'],
+                wordTags: [mockTagId],
                 nounProps: {
                     nounType: 'DEFINITE_NOUN',
                     nounGender: 'FEMALE',
@@ -158,12 +151,12 @@ describe('Word Routes', () => {
             const response = await request(app).put('/api/words').send(updateRequest).expect(200)
 
             expect(response.body).toEqual(mockUpdatedWord)
-            expect(wordService.updateWord).toHaveBeenCalledWith('word-1', updateRequest)
+            expect(wordService.updateWord).toHaveBeenCalledWith(mockWordId, updateRequest)
         })
 
         it('should handle update errors', async () => {
             const updateRequest: UpdateWordRequest = {
-                wordId: 'word-1',
+                wordId: mockWordId,
                 wordEnglish: 'updated book',
                 wordArabic: 'كتاب محدث',
                 wordSpeechPart: PARTS_OF_SPEECH.NOUN,
@@ -268,7 +261,7 @@ describe('Word Routes', () => {
     describe('PUT /api/words/tag', () => {
         it('should update a tag', async () => {
             const updateTagRequest = {
-                tagId: 'tag-1',
+                tagId: mockTagId,
                 tagName: 'updated-tag',
             }
 
@@ -282,12 +275,12 @@ describe('Word Routes', () => {
             const response = await request(app).put('/api/words/tag').send(updateTagRequest).expect(200)
 
             expect(response.body).toEqual(mockUpdatedTag)
-            expect(tagService.updateTag).toHaveBeenCalledWith('tag-1', 'updated-tag')
+            expect(tagService.updateTag).toHaveBeenCalledWith(mockTagId, 'updated-tag')
         })
 
         it('should handle tag update errors', async () => {
             const updateTagRequest = {
-                tagId: 'tag-1',
+                tagId: mockTagId,
                 tagName: 'updated-tag',
             }
 

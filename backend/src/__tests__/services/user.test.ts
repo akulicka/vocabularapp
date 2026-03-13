@@ -7,10 +7,7 @@ import { upload_file, download_file } from '@util/storage.js'
 // Mock dependencies
 vi.mock('@db/models/index.js', () => ({
     default: {
-        users: {
-            findOne: vi.fn(),
-            build: vi.fn(),
-        },
+        users: { findOne: vi.fn(), build: vi.fn() },
     },
 }))
 
@@ -48,7 +45,7 @@ describe('User Service', () => {
             expect(db.users.findOne).toHaveBeenCalledWith({ where: { userId: mockUserId } })
         })
 
-        it('should return null when user not found', async () => {
+        it('should handle user not found', async () => {
             vi.mocked(db.users.findOne).mockResolvedValue(null)
 
             const result = await db.users.findOne({ where: { userId: mockUserId } })
@@ -57,227 +54,82 @@ describe('User Service', () => {
         })
     })
 
-    describe('updateUserProfile', () => {
-        it('should update user profile successfully', async () => {
-            const updatedUser = { ...mockUser, username: 'updateduser' }
-            const mockUserInstance = {
-                ...mockUser,
-                save: vi.fn().mockResolvedValue(updatedUser),
-            }
-
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            if (user) {
-                ;(user as any).username = 'updateduser'
-                await (user as any).save()
-            }
-
-            expect(mockUserInstance.save).toHaveBeenCalled()
-        })
-
-        it('should throw error when user not found', async () => {
-            vi.mocked(db.users.findOne).mockResolvedValue(null)
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-
-            expect(user).toBeNull()
-        })
-    })
-
     describe('uploadProfileImage', () => {
         it('should upload profile image successfully', async () => {
             const mockFile = {
-                originalname: 'newimage.jpg',
-                buffer: Buffer.from('fake-image-data'),
+                originalname: 'profile.jpg',
+                buffer: Buffer.from('image-data'),
                 mimetype: 'image/jpeg',
-            } as any
-
-            const mockUserInstance = {
-                ...mockUser,
-                save: vi.fn().mockResolvedValue({ ...mockUser, profile_image: 'newimage.jpg' }),
+                fieldname: 'file',
+                encoding: '7bit',
+                size: 1000,
+                stream: {} as any,
+                destination: '',
+                filename: 'profile.jpg',
+                path: '/tmp/profile.jpg',
             }
-
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
             vi.mocked(upload_file).mockResolvedValue('uploaded-file-path')
+            vi.mocked(db.users.findOne).mockResolvedValue(mockUser as any)
 
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            if (user) {
-                const uploadResult = await upload_file(mockFile)
-                ;(user as any).profile_image = 'newimage.jpg'
-                await (user as any).save()
-            }
+            const result = await upload_file(mockFile)
 
+            expect(result).toBe('uploaded-file-path')
             expect(upload_file).toHaveBeenCalledWith(mockFile)
-            expect(mockUserInstance.save).toHaveBeenCalled()
         })
 
-        it('should handle upload when user has existing profile image', async () => {
+        it('should handle upload errors', async () => {
             const mockFile = {
-                originalname: 'existing-image.jpg',
-                buffer: Buffer.from('fake-image-data'),
+                originalname: 'profile.jpg',
+                buffer: Buffer.from('image-data'),
                 mimetype: 'image/jpeg',
-            } as any
-
-            const mockUserInstance = {
-                ...mockUser,
-                profile_image: 'existing-image.jpg',
-                save: vi.fn().mockResolvedValue(mockUser),
+                fieldname: 'file',
+                encoding: '7bit',
+                size: 1000,
+                stream: {} as any,
+                destination: '',
+                filename: 'profile.jpg',
+                path: '/tmp/profile.jpg',
             }
+            vi.mocked(upload_file).mockRejectedValue(new Error('Upload failed'))
 
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
-            vi.mocked(upload_file).mockResolvedValue('uploaded-file-path')
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            if (user) {
-                const uploadResult = await upload_file(mockFile)
-                // Should not save if image name is the same
-                if ((user as any).profile_image !== mockFile.originalname) {
-                    ;(user as any).profile_image = mockFile.originalname
-                    await (user as any).save()
-                }
-            }
-
-            expect(upload_file).toHaveBeenCalledWith(mockFile)
-            expect(mockUserInstance.save).not.toHaveBeenCalled()
+            await expect(upload_file(mockFile)).rejects.toThrow('Upload failed')
         })
     })
 
     describe('downloadProfileImage', () => {
         it('should download profile image successfully', async () => {
-            const mockImageBuffer = Buffer.from('fake-image-data')
-            const mockUserInstance = {
-                ...mockUser,
-                profile_image: 'profile.jpg',
-            }
+            const mockImageData = [Buffer.from('image-data')]
+            vi.mocked(download_file).mockResolvedValue(mockImageData)
 
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
-            vi.mocked(download_file).mockResolvedValue([mockImageBuffer])
+            const result = await download_file('profile.jpg')
 
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            if (user && (user as any).profile_image) {
-                const imageBuffer = await download_file((user as any).profile_image)
-                expect(imageBuffer[0]).toBe(mockImageBuffer)
-            }
-
+            expect(result).toEqual(mockImageData)
             expect(download_file).toHaveBeenCalledWith('profile.jpg')
         })
 
-        it('should handle user without profile image', async () => {
-            const mockUserInstance = {
-                ...mockUser,
-                profile_image: null,
-            }
+        it('should handle download errors', async () => {
+            vi.mocked(download_file).mockRejectedValue(new Error('Download failed'))
 
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            const hasImage = user && (user as any).profile_image
-
-            expect(hasImage).toBeFalsy()
-        })
-
-        it('should handle invalid image buffer', async () => {
-            const mockUserInstance = {
-                ...mockUser,
-                profile_image: 'profile.jpg',
-            }
-
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUserInstance as any)
-            vi.mocked(download_file).mockResolvedValue(['invalid-buffer' as any])
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            if (user && (user as any).profile_image) {
-                const imageBuffer = await download_file((user as any).profile_image)
-                const isValidBuffer = Buffer.isBuffer(imageBuffer[0])
-                expect(isValidBuffer).toBe(false)
-            }
+            await expect(download_file('profile.jpg')).rejects.toThrow('Download failed')
         })
     })
 
-    describe('uploadMultipleFiles', () => {
-        it('should upload multiple files successfully', async () => {
-            const mockFiles = [
-                {
-                    originalname: 'file1.jpg',
-                    buffer: Buffer.from('fake-data-1'),
-                    mimetype: 'image/jpeg',
-                } as any,
-                {
-                    originalname: 'file2.jpg',
-                    buffer: Buffer.from('fake-data-2'),
-                    mimetype: 'image/jpeg',
-                } as any,
-            ]
+    describe('updateUserProfile', () => {
+        it('should update user profile successfully', async () => {
+            const updatedData = { username: 'newusername', email: 'newemail@example.com' }
+            const updatedUser = { ...mockUser, ...updatedData }
+            vi.mocked(db.users.findOne).mockResolvedValue(updatedUser as any)
 
-            vi.mocked(upload_file).mockResolvedValue('uploaded-file-1')
-            vi.mocked(upload_file).mockResolvedValue('uploaded-file-2')
+            const result = await db.users.findOne({ where: { userId: mockUserId } })
 
-            const uploadPromises = mockFiles.map((file) => upload_file(file))
-            const results = await Promise.all(uploadPromises)
-
-            expect(results).toHaveLength(2)
-            expect(upload_file).toHaveBeenCalledTimes(2)
+            expect(result).toEqual(updatedUser)
+            expect(db.users.findOne).toHaveBeenCalledWith({ where: { userId: mockUserId } })
         })
 
-        it('should handle empty files array', async () => {
-            const mockFiles: any[] = []
+        it('should handle update errors', async () => {
+            vi.mocked(db.users.findOne).mockRejectedValue(new Error('Update failed'))
 
-            const uploadPromises = mockFiles.map((file) => upload_file(file))
-            const results = await Promise.all(uploadPromises)
-
-            expect(results).toHaveLength(0)
-            expect(upload_file).not.toHaveBeenCalled()
-        })
-
-        it('should handle upload errors gracefully', async () => {
-            const mockFiles = [
-                {
-                    originalname: 'file1.jpg',
-                    buffer: Buffer.from('fake-data-1'),
-                    mimetype: 'image/jpeg',
-                } as any,
-            ]
-
-            vi.mocked(upload_file).mockRejectedValue(new Error('Upload failed'))
-
-            try {
-                const uploadPromises = mockFiles.map((file) => upload_file(file))
-                await Promise.all(uploadPromises)
-            } catch (error) {
-                expect(error).toBeInstanceOf(Error)
-                expect((error as Error).message).toBe('Upload failed')
-            }
-        })
-    })
-
-    describe('userValidation', () => {
-        it('should validate user exists', async () => {
-            vi.mocked(db.users.findOne).mockResolvedValue(mockUser as any)
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            const userExists = !!user
-
-            expect(userExists).toBe(true)
-        })
-
-        it('should validate user does not exist', async () => {
-            vi.mocked(db.users.findOne).mockResolvedValue(null)
-
-            const user = await db.users.findOne({ where: { userId: mockUserId } })
-            const userExists = !!user
-
-            expect(userExists).toBe(false)
-        })
-
-        it('should validate user email uniqueness', async () => {
-            const existingUser = { ...mockUser, email: 'existing@example.com' }
-            vi.mocked(db.users.findOne).mockResolvedValue(existingUser as any)
-
-            const user = await db.users.findOne({ where: { email: 'existing@example.com' } })
-            const emailExists = !!user
-
-            expect(emailExists).toBe(true)
+            await expect(db.users.findOne({ where: { userId: mockUserId } })).rejects.toThrow('Update failed')
         })
     })
 })

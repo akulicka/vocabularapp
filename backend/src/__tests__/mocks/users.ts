@@ -33,7 +33,7 @@ export const createMockUserInstance = (overrides: Partial<UserAttributes> = {}) 
     get: vi.fn().mockImplementation((key: string) => createMockUser(overrides)[key as keyof UserAttributes]),
 })
 
-// Registration request mock
+// Request mocks
 export const createMockRegisterRequest = (overrides = {}) => ({
     email: mockEmail,
     password: mockPassword,
@@ -41,7 +41,6 @@ export const createMockRegisterRequest = (overrides = {}) => ({
     ...overrides,
 })
 
-// Login request mock
 export const createMockLoginRequest = (overrides = {}) => ({
     email: mockEmail,
     password: mockPassword,

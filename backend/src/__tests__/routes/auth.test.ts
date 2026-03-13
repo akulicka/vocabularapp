@@ -3,17 +3,11 @@ import request from 'supertest'
 import express from 'express'
 import authRouter from '@routes/auth/index.js'
 import { verifyCredentials, authenticateUser, generateToken, registerUser } from '@services/auth.js'
-import { validateBody } from '@util/validation.js'
 import { LoginRequest, RegisterRequest } from '@shared/types'
 import { UserAttributes } from '@db/models/user'
 
 // Mock dependencies at module level
 vi.mock('@services/auth.js')
-vi.mock('@util/validation.js', () => ({
-    validateBody: vi.fn((schema: any) => (req: any, res: any, next: any) => {
-        next()
-    }),
-}))
 
 describe('Auth Routes', () => {
     let app: express.Application

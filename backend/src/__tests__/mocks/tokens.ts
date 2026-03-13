@@ -34,13 +34,12 @@ export const createMockTokenWithPayload = (payload: any, overrides = {}) => ({
     payload,
 })
 
-// Verification token request
+// Request mocks
 export const createMockVerifyTokenRequest = (overrides = {}) => ({
     userId: 'test-user-id',
     ...overrides,
 })
 
-// Verification token validation request
 export const createMockValidateTokenRequest = (overrides = {}) => ({
     tokenId: mockTokenId,
     userId: 'test-user-id',
