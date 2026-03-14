@@ -15,7 +15,11 @@
     "build": "tsc",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test:unit": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "zod": "^4.1.12"
@@ -24,11 +28,13 @@
     "@eslint/js": "^9.38.0",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@typescript-eslint/parser": "^8.46.1",
+    "@vitest/coverage-v8": "^2.1.8",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "lint-staged": "^16.2.4",
     "prettier": "^3.6.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
   },
   "publishConfig": {
     "access": "restricted"

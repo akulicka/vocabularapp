@@ -39,6 +39,11 @@ export async function startQuiz(userId: string, request: StartQuizRequest): Prom
         throw new Error('At least one tag must be selected')
     }
 
+    // Clean up any existing quiz tokens for this user
+    await db.tokens.destroy({
+        where: { userId, tokenClass: QUIZ_TOKEN_CLASS },
+    })
+
     // Get words with selected tags
     const words = await db.words.findAll({
         include: [
@@ -68,25 +73,45 @@ export async function startQuiz(userId: string, request: StartQuizRequest): Prom
     }))
 
     const quizId = uuidv4()
-    const tokenId = await createQuizToken(userId)
 
-    return {
+    // Create quiz data
+    const quizData = {
         quizId,
         questions,
         selectedTags,
         totalQuestions: questions.length,
         startedAt: new Date(),
     }
+
+    // Store quiz session in tokens table
+    await db.tokens.create({
+        tokenId: quizId,
+        userId,
+        tokenClass: QUIZ_TOKEN_CLASS,
+        payload: quizData,
+    })
+
+    return quizData
 }
 
 export async function submitQuiz(userId: string, request: SubmitQuizRequest): Promise<QuizResult> {
     const { quizId, answers, timeSpent } = request
 
-    // Validate quiz token
-    const isValidToken = await validateQuizToken(quizId, userId)
-    if (!isValidToken) {
-        throw new Error('Invalid or expired quiz token')
+    // Get quiz token to retrieve selectedTags
+    const token = await db.tokens.findOne({
+        where: {
+            tokenId: quizId,
+            userId,
+            tokenClass: QUIZ_TOKEN_CLASS,
+        },
+    })
+
+    if (!token) {
+        throw new Error('Quiz session not found or expired')
     }
+
+    const quizData = token.payload as any
+    const selectedTags = quizData?.selectedTags || []
 
     // Process answers and calculate results
     const wordResults: WordResult[] = []
@@ -110,8 +135,8 @@ export async function submitQuiz(userId: string, request: SubmitQuizRequest): Pr
             continue
         }
 
-        const correctAnswer = word.get('arabic')
-        const isCorrect = answer.userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim()
+        // Use the isCorrect field from the frontend instead of recalculating
+        const isCorrect = answer.isCorrect || false
 
         if (isCorrect) correctAnswers++
 
@@ -122,20 +147,19 @@ export async function submitQuiz(userId: string, request: SubmitQuizRequest): Pr
             root: word.get('root'),
             correct: isCorrect,
             userAnswer: answer.userAnswer,
-            correctAnswer,
+            correctAnswer: word.get('root'),
             partOfSpeech: word.get('partOfSpeech'),
             skipped: answer.skipped || false,
         })
     }
 
-    const score = Math.round((correctAnswers / answers.length) * 100)
     const resultId = uuidv4()
 
     // Save quiz result to database
     const quizResult = await db.quizResults.build({
         resultId,
         userId,
-        selectedTags: request.selectedTags,
+        selectedTags,
         totalQuestions: answers.length,
         correctAnswers,
         completedAt: new Date(),
@@ -144,10 +168,13 @@ export async function submitQuiz(userId: string, request: SubmitQuizRequest): Pr
 
     await quizResult.save()
 
+    // Clean up the quiz token
+    await token.destroy()
+
     return {
         resultId,
         userId,
-        selectedTags: request.selectedTags,
+        selectedTags,
         totalQuestions: answers.length,
         correctAnswers,
         completedAt: new Date(),
@@ -175,17 +202,18 @@ export async function getQuizResult(resultId: string, userId: string): Promise<Q
     }
 }
 
-export async function getQuizHistory(userId: string, page: number = 1, limit: number = 10): Promise<QuizResult[]> {
+export async function getQuizHistory(userId: string, page: number = 1, limit: number = 10): Promise<{ quizResults: QuizResult[]; pagination: any }> {
     const offset = (page - 1) * limit
 
-    const results = await db.quizResults.findAll({
+    const { count, rows: results } = await db.quizResults.findAndCountAll({
         where: { userId },
         order: [['completedAt', 'DESC']],
         limit,
         offset,
+        attributes: ['resultId', 'selectedTags', 'totalQuestions', 'correctAnswers', 'completedAt'],
     })
 
-    return results.map((result) => ({
+    const quizResults = results.map((result) => ({
         resultId: result.get('resultId') as string,
         userId: result.get('userId') as string,
         selectedTags: result.get('selectedTags') as string[],
@@ -196,6 +224,16 @@ export async function getQuizHistory(userId: string, page: number = 1, limit: nu
         createdAt: result.get('createdAt') as Date,
         updatedAt: result.get('updatedAt') as Date,
     }))
+
+    return {
+        quizResults,
+        pagination: {
+            total: count,
+            page,
+            limit,
+            totalPages: Math.ceil(count / limit),
+        },
+    }
 }
 
 export async function cleanupExpiredQuizTokens(): Promise<void> {
