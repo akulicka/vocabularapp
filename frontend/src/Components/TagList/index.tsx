@@ -19,7 +19,7 @@ import { success, error } from '@util/notify'
 import { TagChip } from '@components/Chip'
 import Dialog from '@components/Dialog'
 import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '@api/words'
-import { TagDTO } from '@shared/types'
+import { TagDTO } from '@vocabularapp/shared-types/types'
 
 // TODO - limit to 5 tags
 interface TagListProps {

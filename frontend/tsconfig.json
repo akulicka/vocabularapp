@@ -21,11 +21,7 @@
       "@enum/*": ["./src/Enum/*"],
       "@routes/*": ["./src/Routes/*"],
       "@api/*": ["./src/Api/*"],
-      "@components/*": ["./src/Components/*"],
-      "@shared/types": ["../shared/types"],
-      "@shared/types/*": ["../shared/types/*"],
-      "@shared/schemas": ["../shared/schemas"],
-      "@shared/schemas/*": ["../shared/schemas/*"]
+      "@components/*": ["./src/Components/*"]
     }
   },
   "include": [

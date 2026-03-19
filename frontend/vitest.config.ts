@@ -18,8 +18,6 @@ export default defineConfig({
             '@routes': path.resolve(__dirname, './src/Routes'),
             '@api': path.resolve(__dirname, './src/Api'),
             '@components': path.resolve(__dirname, './src/Components'),
-            '@shared/types': path.resolve(__dirname, '../shared/dist/types'),
-            '@shared/schemas': path.resolve(__dirname, '../shared/dist/schemas'),
         },
     },
     test: {

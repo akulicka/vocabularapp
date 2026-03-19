@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import { validateBody } from '@util/validation'
-import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@shared/schemas'
-import { AuthResponse } from '@shared/types'
+import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@vocabularapp/shared-types/schemas'
+import { AuthResponse } from '@vocabularapp/shared-types/types'
 import { verifyCredentials, authenticateUser, generateToken, registerUser } from '@services/auth.js'
 
 const auth_router = Router()

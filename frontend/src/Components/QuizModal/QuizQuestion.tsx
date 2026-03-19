@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { QuizQuestion as QuizQuestionType } from '@shared/types'
+import { QuizQuestion as QuizQuestionType } from '@vocabularapp/shared-types/types'
 
 interface QuizQuestionProps {
     currentQuestion: QuizQuestionType

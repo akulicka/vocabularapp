@@ -11,7 +11,7 @@ import { error } from './Util/notify'
 import AppBar from './Components/Nav'
 import request from './Api/request'
 import Routes from './Routes'
-import { AuthenticatedUser } from '@shared/types/auth'
+import { AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 
 const queryClient = new QueryClient({
     defaultOptions: {

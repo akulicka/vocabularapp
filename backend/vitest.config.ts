@@ -31,8 +31,6 @@ export default defineConfig({
             '@services': path.resolve(__dirname, './src/services'),
             '@util': path.resolve(__dirname, './src/util'),
             '@types': path.resolve(__dirname, './src/types'),
-            '@shared/types': path.resolve(__dirname, '../shared/dist/types'),
-            '@shared/schemas': path.resolve(__dirname, '../shared/dist/schemas'),
         },
     },
 })

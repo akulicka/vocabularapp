@@ -14,10 +14,11 @@ services:
     volumes:
         - ${MYSQL_DIR}:/var/lib/mysql
   backend:
-    build: 
-      context: ./backend
+    build:    
+      context: .
+      dockerfile: ./backend/Dockerfile
       args:
-        BUILD_ARG: ${BUILD_ARG}
+          BUILD_ARG: ${BUILD_ARG}
     ports:
       - "3000:3000"
     depends_on:
@@ -43,7 +44,8 @@ services:
       - ${LOCAL_GCLOUD_CREDS_DIR}:${MOUNTED_GCLOUD_CREDS_DIR}
   frontend:
     build: 
-      context: ./frontend
+      context: .
+      dockerfile: ./frontend/Dockerfile
       args:
         BUILD_ARG: ${BUILD_ARG}
     ports:

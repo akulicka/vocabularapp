@@ -7,8 +7,8 @@ import Typography from '@mui/material/Typography'
 
 import { error } from '@util/notify'
 import { api } from '@api/types'
-import { LoginRequestSchema, type LoginRequest } from '@shared/schemas/auth'
-import { type AuthResponse } from '@shared/types/auth'
+import { LoginRequestSchema, type LoginRequest } from '@vocabularapp/shared-types/schemas/auth'
+import { type AuthResponse } from '@vocabularapp/shared-types/types/auth'
 import { validate } from '@api/validation'
 
 function Login() {
