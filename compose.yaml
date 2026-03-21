@@ -50,15 +50,15 @@ services:
         BUILD_ARG: ${BUILD_ARG}
     ports:
       - "80:80"
-      - "443:443"
+    #  - "443:443"
     depends_on:
       - db
       - backend
     networks:
       default:
         ipv4_address: 172.28.0.3
-    volumes:
-      - ${LOCAL_CERT_DIR}:${MOUNTED_FRONTEND_CERT_DIR}
+    # volumes:
+    # - ${LOCAL_CERT_DIR}:${MOUNTED_FRONTEND_CERT_DIR}
 networks:
   default:
     ipam:

@@ -9,14 +9,22 @@ import http from 'http'
 import { setRoutes } from '@routes'
 
 const isDev = process.env.NODE_ENV === 'development'
-// SSL options for HTTPS
-const sslOptions: { cert: string; key: string } = {
-    cert: fs.readFileSync((isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_CERT}` : process.env.PATH_TO_CERT)!, 'utf8'),
-    key: fs.readFileSync((isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_KEY}` : process.env.PATH_TO_KEY)!, 'utf8'),
+const behindTlsProxy = process.env.BEHIND_TLS_PROXY === 'true'
+const useHttps = !isDev && !behindTlsProxy
+
+function loadSslOptions(): { cert: string; key: string } {
+    const certPath = (isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_CERT}` : process.env.PATH_TO_CERT)!
+    const keyPath = (isDev ? `${process.env.LOCAL_CERT_DIR}/${process.env.PATH_TO_KEY}` : process.env.PATH_TO_KEY)!
+    return {
+        cert: fs.readFileSync(certPath, 'utf8'),
+        key: fs.readFileSync(keyPath, 'utf8'),
+    }
 }
 
 const app: Application = express()
-const port: string = '3000'
+app.set('trust proxy', 1)
+
+const port: string = process.env.PORT ?? '3000'
 
 app.use(
     cors({
@@ -28,8 +36,6 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 setRoutes(app)
 
-// Start server based on environment
-// const server = http.createServer(app)
-const server = isDev ? http.createServer(app) : https.createServer(sslOptions, app)
+const server = useHttps ? https.createServer(loadSslOptions(), app) : http.createServer(app)
 
-server.listen(port, () => console.log(`${isDev ? 'HTTP' : 'HTTPS'} server live on port ${port} in ${process.env.NODE_ENV}`))
+server.listen(port, () => console.log(`${useHttps ? 'HTTPS' : 'HTTP'} server live on port ${port} in ${process.env.NODE_ENV}`))

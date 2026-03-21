@@ -6,14 +6,12 @@ declare global {
     interface ImportMeta {
         env: {
             DEV: boolean
-            VITE_URL: string
+            VITE_API_BASE_URL: string
         }
     }
 }
 
-const isDev = import.meta.env.DEV
-const protocol = isDev ? 'http' : 'https'
-const baseURL = `${protocol}://${import.meta.env.VITE_URL}:3000/`
+const baseURL = import.meta.env.DEV ? 'http://localhost:3000/' : import.meta.env.VITE_API_BASE_URL
 
 const request: AxiosInstance = Axios.create({
     baseURL,
