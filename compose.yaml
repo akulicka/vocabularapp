@@ -27,8 +27,11 @@ services:
       default:
         ipv4_address: 172.28.0.2
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
-      MYSQL_DATABASE: ${MYSQL_DB}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_PASS}
+      DB_NAME: ${MYSQL_DB}
       TOKEN_SECRET: ${TOKEN_SECRET}
       PATH_TO_CERT: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_CERT}
       PATH_TO_KEY: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_KEY}
