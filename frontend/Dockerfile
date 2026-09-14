@@ -12,8 +12,9 @@ RUN npm install
 RUN npm run $BUILD_ARG
 
 FROM nginx
+## removed for railway deploy
 # COPY ./frontend/proxy/nginx.conf /etc/nginx/conf.d/default.conf
-ENV PORT=80
-EXPOSE 80
+# ENV PORT=80
+# EXPOSE 80
 COPY ./frontend/proxy/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /frontend/dist /usr/share/nginx/html
