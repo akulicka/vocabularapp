@@ -2,7 +2,7 @@ services:
 # TODO DOCKER IGNORE
 # TODO - move to backend dockerfile to migrate automatically on launch, also add ENV vars to db/config/config.json
   db:
-    image: mysql
+    image: mysql:9.6
     ports:
       - 3307:3306
     environment:
@@ -38,6 +38,7 @@ services:
       VERIFY_EMAIL: ${VERIFY_EMAIL}
       IMAGE_BUCKET: ${IMAGE_BUCKET}
       STORAGE_CLOUD_PROJECT: ${STORAGE_CLOUD_PROJECT}
+      BEHIND_TLS_PROXY: ${BEHIND_TLS_PROXY}
       MAILGUN_KEY: ${MAILGUN_KEY}
       MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
       HOST_DOMAIN: ${HOST_DOMAIN}
