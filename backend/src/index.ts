@@ -32,6 +32,7 @@ const port: string = process.env.PORT ?? '3000'
 
 app.use(
     cors({
+        // HOST_DOMAIN = SPA origin (https://www.smartposting.ca), not the API host
         origin: process.env.NODE_ENV == 'development' ? 'http://localhost:5173' : process.env.HOST_DOMAIN || 'http://localhost',
         credentials: true,
     }),
