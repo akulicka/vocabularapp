@@ -1,6 +1,6 @@
 services:
 # TODO DOCKER IGNORE
-# TODO - move to backend dockerfile to migrate automatically on launch, also add ENV vars to db/config/config.json
+# TODO - also add ENV vars to db/config/config.json
 # TODO - add healthcheck to db and backend
   db:
     image: mysql:9.6

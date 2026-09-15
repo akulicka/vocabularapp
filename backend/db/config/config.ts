@@ -1,4 +1,7 @@
-export default {
+import { config } from 'process'
+
+// TODO: delete once config.cjs proven working.``
+/*export default {
     development: {
         username: process.env.DB_USER || 'db_app',
         password: process.env.DB_PASSWORD || '&yn<X9Mb5hHZb)F5/&(]',
@@ -23,7 +26,7 @@ export default {
         port: Number(process.env.DB_PORT || 3306),
         dialect: 'mysql',
     },
-}
+}*/
 
 // export default {
 //     development: {
