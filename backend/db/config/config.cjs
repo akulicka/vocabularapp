@@ -1,4 +1,4 @@
-// sequelize-cli cannot load config.ts (ESM). App still uses config.ts.
+// sequelize-cli cannot load config.ts (ESM). App loads this file via config.ts.
 function fromEnv(hostFallback, portFallback = 3306) {
     return {
         username: process.env.DB_USER,
