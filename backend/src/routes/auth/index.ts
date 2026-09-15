@@ -6,7 +6,12 @@ import { verifyCredentials, authenticateUser, generateToken, registerUser } from
 
 const auth_router = Router()
 
-const cookieBase = { path: '/', secure: true, sameSite: 'strict' as const }
+const cookieBase = {
+    path: '/',
+    secure: true,
+    sameSite: 'strict' as const,
+    ...(process.env.NODE_ENV === 'production' ? { domain: '.smartposting.ca' } : {}),
+}
 const tokenCookieOpts = { ...cookieBase, httpOnly: true, maxAge: 3600000 }
 const sessionFlagOpts = { ...cookieBase, httpOnly: false, maxAge: 3600000 }
 
