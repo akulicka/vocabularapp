@@ -10,8 +10,7 @@ export interface ApiResponse<T = any> {
 
 export interface ApiError {
     message: string
-    error?: string
-    details?: any[]
+    status?: number
 }
 
 // HTTP Method type signatures
