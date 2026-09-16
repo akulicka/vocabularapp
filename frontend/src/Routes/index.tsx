@@ -12,9 +12,10 @@ import { AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 
 interface RoutesProps {
     user: AuthenticatedUser | null
+    authorize: (user: AuthenticatedUser) => void
 }
 
-function Routes({ user }: RoutesProps) {
+function Routes({ user, authorize }: RoutesProps) {
     return (
         <Box width="80%" alignItems={'center'} height="100vh" flexGrow={1} alignSelf="center">
             {user ? (
@@ -24,8 +25,8 @@ function Routes({ user }: RoutesProps) {
                 </RouterRoutes>
             ) : (
                 <RouterRoutes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/" element={<Login authorize={authorize} />} />
+                    <Route path="/register" element={<Register authorize={authorize} />} />
                     <Route path="/:userId/verify" element={<VerifyPrompt />} />
                     <Route path="/:userId/verify/:tokenId" element={<Verify />} />
                 </RouterRoutes>

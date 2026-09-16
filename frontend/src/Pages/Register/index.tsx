@@ -6,14 +6,18 @@ import TextField from '@mui/material/TextField'
 import { error } from '@util/notify'
 import { api } from '@api/types'
 import { RegisterRequestSchema, type RegisterRequest } from '@vocabularapp/shared-types/schemas/auth'
-import { type AuthResponse } from '@vocabularapp/shared-types/types/auth'
+import { type AuthResponse, type AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 import { validate } from '@api/validation'
 
 interface RegisterForm extends RegisterRequest {
     repeatpassword: string
 }
 
-function Register() {
+interface RegisterProps {
+    authorize: (user: AuthenticatedUser) => void
+}
+
+function Register({ authorize }: RegisterProps) {
     const [form, setForm] = useState<RegisterForm>({
         username: '',
         email: '',
@@ -66,10 +70,12 @@ function Register() {
                 password: form.password,
             }
             await api.post('login', loginData)
+            const { user } = await api.get<{ user: AuthenticatedUser }>('user')
+            authorize(user)
         } catch (err) {
             error(err instanceof Error ? err.message : 'Registration failed')
         }
-    }, [form, navigate, checkForm])
+    }, [form, navigate, checkForm, authorize])
 
     return (
         <>

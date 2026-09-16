@@ -8,10 +8,14 @@ import Typography from '@mui/material/Typography'
 import { error } from '@util/notify'
 import { api } from '@api/types'
 import { LoginRequestSchema, type LoginRequest } from '@vocabularapp/shared-types/schemas/auth'
-import { type AuthResponse } from '@vocabularapp/shared-types/types/auth'
+import { type AuthResponse, type AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 import { validate } from '@api/validation'
 
-function Login() {
+interface LoginProps {
+    authorize: (user: AuthenticatedUser) => void
+}
+
+function Login({ authorize }: LoginProps) {
     const [form, setForm] = useState<LoginRequest>({ email: '', password: '' })
     const navigate = useNavigate()
 
@@ -40,10 +44,12 @@ function Login() {
             }
 
             await api.post('login', validation.data)
+            const { user } = await api.get<{ user: AuthenticatedUser }>('user')
+            authorize(user)
         } catch (err) {
             error(err instanceof Error ? err.message : 'Login failed')
         }
-    }, [form, navigate])
+    }, [form, navigate, authorize])
 
     return (
         <Stack width="100%" spacing={1} flexGrow={1}>

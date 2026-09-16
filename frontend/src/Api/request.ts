@@ -38,15 +38,12 @@ request.interceptors.response.use(
         return response
     },
     (error: AxiosError) => {
-        console.error('API Error:', error.response?.data || error.message)
-
         // Transform error to consistent format
+        const message = typeof error.response?.data === 'string' ? error.response?.data : (error.response?.data as any)?.error || 'An unexpected error occurred'
         const apiError: ApiError = {
-            message: (error.response?.data as any)?.error || error.message || 'An unexpected error occurred',
-            error: (error.response?.data as any)?.error,
-            details: (error.response?.data as any)?.details,
+            message: message,
+            status: error.response?.status,
         }
-
         return Promise.reject(apiError)
     },
 )

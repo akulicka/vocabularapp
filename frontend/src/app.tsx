@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie'
 import { CssBaseline } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { ApiError } from './Api/types'
 
 import { error } from './Util/notify'
 import AppBar from './Components/Nav'
@@ -32,14 +32,13 @@ function App() {
             function (response) {
                 return response
             },
-            function (err: AxiosError) {
-                if (err.response?.status === 403) {
+            function (err: ApiError) {
+                if (err.status === 403) {
                     error('Session Expired')
                     logout()
-                } else {
-                    const reason = err.response?.data || err.message
-                    return Promise.reject(new Error(reason as string))
+                    return Promise.reject(new Error('Session Expired'))
                 }
+                return Promise.reject(new Error(err.message))
             },
         )
 
@@ -48,15 +47,15 @@ function App() {
 
     useEffect(() => {
         const check_user = async () => {
-            if (cookies.smartposting_session) {
-                const response = await request.get('user')
-                if (response?.data?.user) {
-                    authorize(response?.data?.user)
-                } else await logout()
-            }
+            if (!cookies.smartposting_session) return
+            const response = await request.get('user')
+            if (response?.data?.user) {
+                authorize(response.data.user)
+            } else await logout()
         }
         check_user()
-    }, [cookies])
+        // Hydrate from the cookie on first load only. Login/register call authorize themselves.
+    }, [])
 
     const logout = async () => {
         await request.post('logout')
@@ -75,7 +74,7 @@ function App() {
             <Stack spacing={2} flexGrow={1}>
                 <CssBaseline />
                 <AppBar logout={logout} user={user} />
-                <Routes user={user} />
+                <Routes user={user} authorize={authorize} />
                 <ToastContainer />
             </Stack>
         </QueryClientProvider>
