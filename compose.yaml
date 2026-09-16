@@ -1,8 +1,9 @@
 services:
 # TODO DOCKER IGNORE
-# TODO - move to backend dockerfile to migrate automatically on launch, also add ENV vars to db/config/config.json
+# TODO - also add ENV vars to db/config/config.json
+# TODO - add healthcheck to db and backend
   db:
-    image: mysql
+    image: mysql:9.6
     ports:
       - 3307:3306
     environment:
@@ -14,10 +15,11 @@ services:
     volumes:
         - ${MYSQL_DIR}:/var/lib/mysql
   backend:
-    build: 
-      context: ./backend
+    build:    
+      context: .
+      dockerfile: ./backend/Dockerfile
       args:
-        BUILD_ARG: ${BUILD_ARG}
+          BUILD_ARG: ${BUILD_ARG}
     ports:
       - "3000:3000"
     depends_on:
@@ -26,14 +28,18 @@ services:
       default:
         ipv4_address: 172.28.0.2
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
-      MYSQL_DATABASE: ${MYSQL_DB}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_PASS}
+      DB_NAME: ${MYSQL_DB}
       TOKEN_SECRET: ${TOKEN_SECRET}
       PATH_TO_CERT: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_CERT}
       PATH_TO_KEY: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_KEY}
       VERIFY_EMAIL: ${VERIFY_EMAIL}
       IMAGE_BUCKET: ${IMAGE_BUCKET}
       STORAGE_CLOUD_PROJECT: ${STORAGE_CLOUD_PROJECT}
+      BEHIND_TLS_PROXY: ${BEHIND_TLS_PROXY}
       MAILGUN_KEY: ${MAILGUN_KEY}
       MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
       HOST_DOMAIN: ${HOST_DOMAIN}
@@ -43,20 +49,23 @@ services:
       - ${LOCAL_GCLOUD_CREDS_DIR}:${MOUNTED_GCLOUD_CREDS_DIR}
   frontend:
     build: 
-      context: ./frontend
+      context: .
+      dockerfile: ./frontend/Dockerfile
       args:
         BUILD_ARG: ${BUILD_ARG}
+    environment:
+      PORT: "80"
     ports:
       - "80:80"
-      - "443:443"
+    #  - "443:443"
     depends_on:
       - db
       - backend
     networks:
       default:
         ipv4_address: 172.28.0.3
-    volumes:
-      - ${LOCAL_CERT_DIR}:${MOUNTED_FRONTEND_CERT_DIR}
+    # volumes:
+    # - ${LOCAL_CERT_DIR}:${MOUNTED_FRONTEND_CERT_DIR}
 networks:
   default:
     ipam:

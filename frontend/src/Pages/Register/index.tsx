@@ -5,8 +5,8 @@ import TextField from '@mui/material/TextField'
 
 import { error } from '@util/notify'
 import { api } from '@api/types'
-import { RegisterRequestSchema, type RegisterRequest } from '@shared/schemas/auth'
-import { type AuthResponse } from '@shared/types/auth'
+import { RegisterRequestSchema, type RegisterRequest } from '@vocabularapp/shared-types/schemas/auth'
+import { type AuthResponse } from '@vocabularapp/shared-types/types/auth'
 import { validate } from '@api/validation'
 
 interface RegisterForm extends RegisterRequest {

@@ -2,9 +2,9 @@ import { Router, Request, Response } from 'express'
 
 import { verifycookie } from '@util'
 import { validateBody, validateQuery } from '@/util/validation.js'
-import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest } from '@shared/types'
+import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest } from '@vocabularapp/shared-types/types'
 import { AuthenticatedRequest } from '@types'
-import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@shared/schemas'
+import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@vocabularapp/shared-types/schemas'
 import * as wordService from '@services/word.js'
 import * as tagService from '@services/tag.js'
 

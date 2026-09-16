@@ -8,7 +8,7 @@ import { error, success } from '@util/notify'
 import { useSubmitQuiz } from '@api/quiz'
 import { useTags } from '@api/words'
 import QuizModal from '@components/QuizModal'
-import { type QuizData, type QuizAnswer } from '@shared/types/quiz'
+import { type QuizData, type QuizAnswer } from '@vocabularapp/shared-types/types/quiz'
 
 function Quiz() {
     const [selectedTags, setSelectedTags] = useState<string[]>([])

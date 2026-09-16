@@ -1,10 +1,19 @@
 import { Router, Request, Response } from 'express'
 import { validateBody } from '@util/validation'
-import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@shared/schemas'
-import { AuthResponse } from '@shared/types'
+import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@vocabularapp/shared-types/schemas'
+import { AuthResponse } from '@vocabularapp/shared-types/types'
 import { verifyCredentials, authenticateUser, generateToken, registerUser } from '@services/auth.js'
 
 const auth_router = Router()
+
+const cookieBase = {
+    path: '/',
+    secure: true,
+    sameSite: 'strict' as const,
+    ...(process.env.NODE_ENV === 'production' ? { domain: '.smartposting.ca' } : {}),
+}
+const tokenCookieOpts = { ...cookieBase, httpOnly: true, maxAge: 3600000 }
+const sessionFlagOpts = { ...cookieBase, httpOnly: false, maxAge: 3600000 }
 
 // POST /auth/verify
 auth_router.post('/verify', validateBody(LoginRequestSchema), async (req: Request<{}, AuthResponse, LoginRequest>, res: Response) => {
@@ -23,21 +32,7 @@ auth_router.post('/login', validateBody(LoginRequestSchema), async (req: Request
         const user = await authenticateUser(req.body.email, req.body.password)
         const token = await generateToken(user.userId)
 
-        res.cookie('smartposting_token', token, {
-            httpOnly: true,
-            path: '/',
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 3600000, // 1 hour
-        })
-            .cookie('smartposting_session', 'true', {
-                httpOnly: false,
-                path: '/',
-                secure: true,
-                sameSite: 'strict',
-                maxAge: 3600000, // 1 hour
-            })
-            .sendStatus(200)
+        res.cookie('smartposting_token', token, tokenCookieOpts).cookie('smartposting_session', 'true', sessionFlagOpts).sendStatus(200)
     } catch (err) {
         console.log('❌ Login error:', err)
         res.status(500).send(err instanceof Error ? err.message : 'Unknown error')
@@ -46,7 +41,9 @@ auth_router.post('/login', validateBody(LoginRequestSchema), async (req: Request
 
 // POST /auth/logout
 auth_router.post('/logout', (req: Request, res: Response) => {
-    res.clearCookie('smartposting_token').clearCookie('smartposting_session').sendStatus(200)
+    res.clearCookie('smartposting_token', { ...cookieBase, httpOnly: true })
+        .clearCookie('smartposting_session', { ...cookieBase, httpOnly: false })
+        .sendStatus(200)
 })
 
 // POST /auth/register

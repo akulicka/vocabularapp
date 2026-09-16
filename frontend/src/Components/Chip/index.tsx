@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles'
 import Edit from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 import MUIChip from '@mui/material/Chip'
-import { TagDTO, WordDTO } from '@shared/types'
+import { TagDTO, WordDTO } from '@vocabularapp/shared-types/types'
 
 const useStyles = makeStyles({
     chipRoot: {

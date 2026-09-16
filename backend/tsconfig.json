@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],
@@ -15,8 +15,6 @@
       "@services": ["./services/index.ts"],
       "@util": ["./util/index.ts"],
       "@types": ["./types/index.ts"],
-      "@shared/types": ["../../shared/dist/types"],
-      "@shared/schemas": ["../../shared/dist/schemas"],
     },
     "allowJs": true,
     "checkJs": false,
@@ -49,6 +47,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "**/*.cjs"
+    "**/*.cjs",
+    "src/__tests__/**/*"
   ]
 }

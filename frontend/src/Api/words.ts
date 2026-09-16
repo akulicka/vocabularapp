@@ -11,8 +11,8 @@ import {
     // CreateTagRequest,
     // UpdateTagRequest
     // AuthenticatedRequest,
-} from '@shared/types'
-import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@shared/schemas'
+} from '@vocabularapp/shared-types/types'
+import { CreateWordRequestSchema, UpdateWordRequestSchema, CreateTagRequestSchema, UpdateTagRequestSchema } from '@vocabularapp/shared-types/schemas'
 
 // Words API functions with validation
 export const wordsApi = {

@@ -9,8 +9,8 @@ import {
     // StartQuizRequest,
     // SubmitQuizRequest,
     QuizHistoryQuery,
-} from '@shared/types'
-import { StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@shared/schemas'
+} from '@vocabularapp/shared-types/types'
+import { StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@vocabularapp/shared-types/schemas'
 
 // Quiz API functions with validation
 export const quizApi = {

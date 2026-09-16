@@ -6,7 +6,7 @@ import Login from '../Pages/Login'
 import Quiz from '../Pages/Quiz'
 import Register from '../Pages/Register'
 import { Verify, VerifyPrompt } from '../Pages/VerifyEmail'
-import { AuthenticatedUser } from '@shared/types/auth'
+import { AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 
 /*TODO - Lazy loading, api progress indicator */
 

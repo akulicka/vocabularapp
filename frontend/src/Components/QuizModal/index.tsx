@@ -8,7 +8,7 @@ import QuizInput from '@components/QuizModal/QuizInput'
 import QuizTimer from '@components/QuizModal/QuizTimer'
 import { FeedbackData } from '@components/QuizModal/QuizFeedback'
 import { useStartQuiz } from '@api/quiz'
-import { QuizData, QuizAnswer /*, QuizQuestion as QuizQuestionType */ } from '@shared/types'
+import { QuizData, QuizAnswer /*, QuizQuestion as QuizQuestionType */ } from '@vocabularapp/shared-types/types'
 // Custom transition for word sliding
 // const WordTransition = forwardRef<HTMLDivElement, any>(function Transition(props, ref) {
 //     return <Slide direction="left" ref={ref} {...props}>{props.children}</Slide>

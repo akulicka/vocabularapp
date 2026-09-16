@@ -3,7 +3,7 @@ import request from 'supertest'
 import express from 'express'
 import authRouter from '@routes/auth/index.js'
 import { verifyCredentials, authenticateUser, generateToken, registerUser } from '@services/auth.js'
-import { LoginRequest, RegisterRequest } from '@shared/types'
+import { LoginRequest, RegisterRequest } from '@vocabularapp/shared-types/types'
 import { UserAttributes } from '@db/models/user'
 
 // Mock dependencies at module level

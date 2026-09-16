@@ -15,7 +15,7 @@ import { WordChip } from '@components/Chip'
 import Dialog from '@components/Dialog/index.jsx'
 import { api } from '@api/types'
 import WordFormDialog from '@components/WordForm/index.jsx'
-import { type WordDTO } from '@shared/types/word'
+import { type WordDTO } from '@vocabularapp/shared-types/types/word'
 
 function Dictionary() {
     const [isEditMode, setIsEditmode] = useState<boolean>(false)
