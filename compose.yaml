@@ -1,7 +1,6 @@
 services:
 # TODO DOCKER IGNORE
 # TODO - also add ENV vars to db/config/config.json
-# TODO - add healthcheck to db and backend
   db:
     image: mysql:9.6
     ports:
@@ -14,6 +13,12 @@ services:
         ipv4_address: 172.28.0.1
     volumes:
         - ${MYSQL_DIR}:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
   backend:
     build:    
       context: .
@@ -23,7 +28,14 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     networks:
       default:
         ipv4_address: 172.28.0.2
@@ -59,8 +71,8 @@ services:
       - "80:80"
     #  - "443:443"
     depends_on:
-      - db
-      - backend
+      backend:
+        condition: service_healthy
     networks:
       default:
         ipv4_address: 172.28.0.3

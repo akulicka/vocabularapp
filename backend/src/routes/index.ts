@@ -6,6 +6,7 @@ import WordRouter from '@routes/word/index'
 import QuizRouter from '@routes/quiz/index'
 
 export const setRoutes = (app: Application): void => {
+    app.get('/health', (_req, res) => res.sendStatus(200))
     app.use('/user', UserRouter)
     app.use('/token', TokenRouter)
     app.use('/words', WordRouter)
