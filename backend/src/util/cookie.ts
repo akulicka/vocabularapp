@@ -5,15 +5,13 @@ import { Request, Response, NextFunction } from 'express'
 import db from '@db/models/index.js'
 import { AuthenticatedUser } from '@types'
 
-const secretkey = process.env.TOKEN_SECRET!
-
-export const signtoken = (userId: string): string => jwt.sign({ userId }, secretkey, { expiresIn: '60m' })
+export const signtoken = (userId: string): string => jwt.sign({ userId }, process.env.TOKEN_SECRET!, { expiresIn: '60m' })
 
 export const verifycookie = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.cookies.smartposting_token) throw new Error('no authorization')
         const token = req.cookies.smartposting_token
-        const token_params = jwt.verify(token, secretkey) as jwt.JwtPayload & { userId: string }
+        const token_params = jwt.verify(token, process.env.TOKEN_SECRET!) as jwt.JwtPayload & { userId: string }
         const { userId } = token_params
         if (!userId || !validate(userId)) throw new Error('invalid token')
         const dbUser = await db.users.findOne({ where: { userId } })
