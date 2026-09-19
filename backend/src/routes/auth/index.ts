@@ -10,7 +10,7 @@ const cookieBase = {
     path: '/',
     secure: true,
     sameSite: 'strict' as const,
-    ...(process.env.NODE_ENV === 'production' ? { domain: '.smartposting.ca' } : {}),
+    ...(process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
 }
 const tokenCookieOpts = { ...cookieBase, httpOnly: true, maxAge: 3600000 }
 const sessionFlagOpts = { ...cookieBase, httpOnly: false, maxAge: 3600000 }
