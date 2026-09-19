@@ -11,12 +11,15 @@
     "build:shared": "npm run build --workspace=@vocabularapp/shared-types",
     "build:backend": "npm run build --workspace=backend",
     "build:frontend": "npm run build --workspace=frontend",
-    "type-check": "npm run type-check --workspace=frontend",
-    "lint": "npm run lint --workspace=frontend && npm run lint --workspace=backend",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
     "install:all": "npm install",
-    "test": "npm run test --workspaces",
-    "test:watch": "npm run test:watch --workspaces",
-    "test:coverage": "npm run test:coverage --workspaces",
-    "test:ui": "npm run test:ui --workspaces"
+    "test": "npm run test:unit --workspace=backend",
+    "test:unit": "npm run test:unit --workspace=backend",
+    "test:watch": "npm run test:watch --workspace=backend",
+    "test:coverage": "npm run test:coverage --workspace=backend",
+    "test:ui": "npm run test:ui --workspace=backend",
+    "ci": "npm run build:shared && npm run lint && npm run type-check --workspace=frontend && npm run test:unit && npm run build:frontend",
+    "TODO//ci": "npm run build:shared && npm run lint && npm run type-check  && npm run test:unit && npm run build:backend && npm run build:frontend"
   }
 }

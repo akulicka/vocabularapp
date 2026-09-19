@@ -6,14 +6,17 @@
   ]
 },
       "scripts": {
-            "development": "NODE_ENV=development tsx src/index.ts",
-            "test": "NODE_ENV=test tsx src/index.ts",
+            "dev": "NODE_ENV=development node --env-file-if-exists=../.env --import tsx --watch src/index.ts",
+            "wsl:dev": "DB_HOST=$(ip route show default | awk '{print $3}') NODE_ENV=development node --env-file-if-exists=../.env --import tsx --watch src/index.ts",
+            "wsl:development": "DB_HOST=$(ip route show default | awk '{print $3}') NODE_ENV=development node --env-file-if-exists=../.env --import tsx src/index.ts",
+            "development": "NODE_ENV=development node --env-file-if-exists=../.env --import tsx src/index.ts",
             "production": "NODE_ENV=production tsx src/index.ts",
+            "wsl:migrate": "DB_HOST=$(ip route show default | awk '{print $3}') NODE_ENV=development node --env-file-if-exists=../.env ./node_modules/.bin/sequelize-cli db:migrate",
             "migrate": "sequelize-cli db:migrate",
             "build": "tsc",
             "type-check": "tsc --noEmit",
             "lint": "eslint .",
-            "test:unit": "vitest",
+            "test:unit": "vitest run",
             "test:watch": "vitest --watch",
             "test:coverage": "vitest --coverage",
             "test:ui": "vitest --ui"

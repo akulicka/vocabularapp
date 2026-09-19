@@ -1,13 +1,12 @@
 services:
 # TODO DOCKER IGNORE
-# TODO - also add ENV vars to db/config/config.json
   db:
     image: mysql:9.6
     ports:
       - 3307:3306
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
-      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     networks:
       default:
         ipv4_address: 172.28.0.1
@@ -24,6 +23,7 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
       args:
+          # Compose: BUILD_ARG=development (npm run development). Dockerfile default is the same.
           BUILD_ARG: ${BUILD_ARG}
     ports:
       - "3000:3000"
@@ -40,11 +40,12 @@ services:
       default:
         ipv4_address: 172.28.0.2
     environment:
+      # Do not interpolate DB_HOST/DB_PORT from the CLI .env; this service always uses db:3306.
       DB_HOST: db
       DB_PORT: 3306
       DB_USER: root
-      DB_PASSWORD: ${MYSQL_PASS}
-      DB_NAME: ${MYSQL_DB}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
       TOKEN_SECRET: ${TOKEN_SECRET}
       PATH_TO_CERT: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_CERT}
       PATH_TO_KEY: ${MOUNTED_BACKEND_CERT_DIR}/${PATH_TO_KEY}
@@ -54,7 +55,8 @@ services:
       BEHIND_TLS_PROXY: ${BEHIND_TLS_PROXY}
       MAILGUN_KEY: ${MAILGUN_KEY}
       MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
-      HOST_DOMAIN: ${HOST_DOMAIN}
+      # SPA on nginx :80. Do not use WSL HOST_DOMAIN (Vite :5173).
+      HOST_DOMAIN: http://localhost
       GOOGLE_APPLICATION_CREDENTIALS: ${MOUNTED_GCLOUD_CREDS_DIR}/${GCLOUD_CREDS_FILE}
     volumes:
       - ${LOCAL_CERT_DIR}:${MOUNTED_BACKEND_CERT_DIR}
@@ -64,6 +66,7 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
       args:
+        # Compose: BUILD_ARG=development (vite build -m development → frontend/.env.development).
         BUILD_ARG: ${BUILD_ARG}
     environment:
       PORT: "80"
