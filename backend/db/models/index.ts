@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import config from '../config/config'
+import config from '../config/config.js'
 
 const env = process.env.NODE_ENV || 'development'
 const dbConfig = config[env as keyof typeof config]
@@ -11,13 +11,13 @@ sequelize = new Sequelize(dbConfig.database || 'vocabular', dbConfig.username ||
 })
 
 // Import model factories and types
-import userFactory, { UserModel, UserInstance } from './user'
-import tagFactory, { TagModel, TagInstance } from './tag'
-import wordFactory, { WordModel, WordInstance } from './word'
-import nounFactory, { NounModel, NounInstance } from './noun'
-import verbFactory, { VerbModel, VerbInstance } from './verb'
-import tokenFactory, { TokenModel, TokenInstance } from './token'
-import quizResultFactory, { QuizResultModel, QuizResultInstance } from './quiz_results'
+import userFactory, { UserModel, UserInstance } from './user.js'
+import tagFactory, { TagModel, TagInstance } from './tag.js'
+import wordFactory, { WordModel, WordInstance } from './word.js'
+import nounFactory, { NounModel, NounInstance } from './noun.js'
+import verbFactory, { VerbModel, VerbInstance } from './verb.js'
+import tokenFactory, { TokenModel, TokenInstance } from './token.js'
+import quizResultFactory, { QuizResultModel, QuizResultInstance } from './quiz_results.js'
 
 // Initialize models with explicit type annotations
 const User: UserModel = userFactory(sequelize)

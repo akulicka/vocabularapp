@@ -1,7 +1,7 @@
 import { Model, DataTypes, HasOneGetAssociationMixin, HasOneCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
-import { NounAttributes } from './noun'
-import { VerbAttributes } from './verb'
-import { TagAttributes } from './tag'
+import { NounAttributes } from './noun.js'
+import { VerbAttributes } from './verb.js'
+import { TagAttributes } from './tag.js'
 
 class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
     declare wordId: string

@@ -1,5 +1,5 @@
 import { Model, DataTypes, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
-import { WordAttributes } from './word'
+import { WordAttributes } from './word.js'
 
 class Tag extends Model<InferAttributes<Tag>, InferCreationAttributes<Tag>> {
     declare tagId: string
