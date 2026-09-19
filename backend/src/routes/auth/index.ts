@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { validateBody } from '@util/validation'
+import { validateBody } from '@util/validation.js'
 import { LoginRequest, RegisterRequest, LoginRequestSchema, RegisterRequestSchema } from '@vocabularapp/shared-types/schemas'
 import { AuthResponse } from '@vocabularapp/shared-types/types'
 import { verifyCredentials, authenticateUser, generateToken, registerUser } from '@services/auth.js'

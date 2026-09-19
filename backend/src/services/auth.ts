@@ -3,7 +3,7 @@ import argon2 from 'argon2'
 import db from '@db/models/index.js'
 import { signtoken } from '@util/cookie.js'
 import { LoginRequest, RegisterRequest, AuthResponse } from '@types'
-import { UserAttributes } from '@db/models/user'
+import { UserAttributes } from '@db/models/user.js'
 
 /**
  * Authenticate user with email and password

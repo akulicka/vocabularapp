@@ -1,5 +1,5 @@
 import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes } from 'sequelize'
-import { WordAttributes } from './word'
+import { WordAttributes } from './word.js'
 
 class Verb extends Model<InferAttributes<Verb>, InferCreationAttributes<Verb>> {
     declare wordId: string
