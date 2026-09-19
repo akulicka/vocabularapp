@@ -19,7 +19,6 @@
     "test:watch": "npm run test:watch --workspace=backend",
     "test:coverage": "npm run test:coverage --workspace=backend",
     "test:ui": "npm run test:ui --workspace=backend",
-    "ci": "npm run build:shared && npm run lint && npm run type-check  && npm run test:unit && npm run build:backend && npm run build:frontend",
-    "TODO//ci": "npm run build:shared && npm run lint && npm run type-check  && npm run test:unit && npm run build:backend && npm run build:frontend"
+    "ci": "npm run build:shared && npm run lint && npm run type-check  && npm run test:unit && npm run build:backend && npm run build:frontend"
   }
 }
