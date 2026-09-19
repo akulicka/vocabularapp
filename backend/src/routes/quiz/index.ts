@@ -1,10 +1,10 @@
 import { Router, Response } from 'express'
-import { verifycookie } from '@util/cookie'
+import { verifycookie } from '@util/cookie.js'
 import { validateBody, validateQuery } from '@/util/validation.js'
 import { StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@vocabularapp/shared-types/schemas'
 import { StartQuizRequest, SubmitQuizRequest } from '@vocabularapp/shared-types/types'
 import { AuthenticatedRequest } from '@types'
-import { startQuiz, submitQuiz, getQuizResult, getQuizHistory, cleanupExpiredQuizTokens } from '@/services/quiz'
+import { startQuiz, submitQuiz, getQuizResult, getQuizHistory, cleanupExpiredQuizTokens } from '@/services/quiz.js'
 
 const quiz_router = Router()
 

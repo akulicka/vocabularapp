@@ -1,5 +1,5 @@
 import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
-import { UserAttributes } from './user'
+import { UserAttributes } from './user.js'
 
 class Token extends Model<InferAttributes<Token>, InferCreationAttributes<Token>> {
     declare tokenId: string

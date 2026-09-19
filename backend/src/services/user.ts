@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import db from '@db/models/index.js'
 import { upload_file, download_file } from '@util/storage.js'
-import { UserAttributes } from '@db/models/user'
+import { UserAttributes } from '@db/models/user.js'
 
 export interface UserProfile {
     userId: string

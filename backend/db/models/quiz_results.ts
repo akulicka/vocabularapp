@@ -1,5 +1,5 @@
 import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
-import { UserAttributes } from './user'
+import { UserAttributes } from './user.js'
 
 export class QuizResult extends Model<InferAttributes<QuizResult>, InferCreationAttributes<QuizResult>> {
     declare resultId: string
