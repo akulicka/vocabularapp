@@ -120,7 +120,7 @@ The backend image runs migrations on start.
 | `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_NAME` | MySQL. Compose forces host `db` and port `3306`. |
 | `HOST_DOMAIN` | CORS origin **and** links in verification emails. Must be the SPA origin, not the API. |
 | `TOKEN_SECRET` | JWT signing |
-| `COOKIE_DOMAIN` | Leave unset locally. Prod: `.smartposting.ca` |
+| `COOKIE_DOMAIN` | Leave unset locally. Prod: `.vocabularapp.ca` |
 | `VERIFY_EMAIL` | `false` skips verification and treats users as verified |
 | `MAILGUN_KEY` / `MAILGUN_DOMAIN` | Verification emails |
 | `IMAGE_BUCKET` / `STORAGE_CLOUD_PROJECT` / `GOOGLE_APPLICATION_CREDENTIALS` | GCS avatars |
@@ -132,8 +132,8 @@ The backend image runs migrations on start.
 | File | `VITE_API_BASE_URL` |
 | --- | --- |
 | `frontend/.env.development` | `http://localhost:3000/` |
-| `frontend/.env.staging` | `https://api.preview.smartposting.ca/` |
-| `frontend/.env.production` | `https://api.smartposting.ca/` |
+| `frontend/.env.staging` | `https://api.preview.vocabularapp.ca/` |
+| `frontend/.env.production` | `https://api.vocabularapp.ca/` |
 
 ## How it works
 
@@ -213,7 +213,7 @@ GitHub merge commits live only on `main`, so a compare can show `staging` “beh
 - Frontend image: Vite build → nginx SPA (`try_files`). Port from `$PORT`.
 - Backend image: build shared, migrate, then start. TLS is at the proxy (`BEHIND_TLS_PROXY`).
 - CORS `origin` is `HOST_DOMAIN` with `credentials: true`.
-- Production SPA `https://www.smartposting.ca`, API `https://api.smartposting.ca`.
+- Production SPA `https://www.vocabularapp.ca`, API `https://api.vocabularapp.ca`.
 
 ## What I’d do next
 
