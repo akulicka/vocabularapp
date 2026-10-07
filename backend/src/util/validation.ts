@@ -36,8 +36,12 @@ const createValidator = <T extends keyof Request>(property: T, errorMessage: str
                 return
             }
 
-            // Replace request property with validated data
+            // Auth stashes the user on req.query. Keep it when replacing validated query fields.
+            const authUser = property === 'query' ? (req.query as { user?: unknown }).user : undefined
             req[property] = result.data as any
+            if (authUser !== undefined) {
+                ;(req.query as { user?: unknown }).user = authUser
+            }
             next()
         }
     }

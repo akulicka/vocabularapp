@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LinearProgress, Typography, Box } from '@mui/material'
 
 interface QuizTimerProps {
-    duration?: number // milliseconds
+    endsAt: Date | string
     isActive?: boolean
     answeredCount?: number
     totalQuestions?: number
@@ -11,80 +11,43 @@ interface QuizTimerProps {
     showProgress?: boolean
 }
 
-function QuizTimer({
-    duration = 120000, // 2 minutes default
-    isActive = false, // Parent controls when timer is active
-    answeredCount = 0,
-    totalQuestions = 0,
-    onTimeUp,
-    showTimeRemaining = true,
-    showProgress = true,
-}: QuizTimerProps) {
-    const [progress, setProgress] = useState(100)
-    const [endTime, setEndTime] = useState(0)
-    const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
+function QuizTimer({ endsAt, isActive = false, answeredCount = 0, totalQuestions = 0, onTimeUp, showTimeRemaining = true, showProgress = true }: QuizTimerProps) {
+    const endMs = new Date(endsAt).getTime()
+    const totalMs = useRef(Math.max(endMs - Date.now(), 1))
+    const [remainingMs, setRemainingMs] = useState(() => Math.max(endMs - Date.now(), 0))
+    const onTimeUpRef = useRef(onTimeUp)
+    onTimeUpRef.current = onTimeUp
 
-    // Derive remaining time from progress
-    const remaining = Math.ceil((progress / 100) * (duration / 1000))
-
-    useEffect(() => console.log('endTime', endTime), [endTime])
-    useEffect(() => console.log('progress', progress), [progress])
-    useEffect(() => console.log('isActive', isActive), [isActive])
-
-    const startTimer = () => {
-        console.log('0')
-        if (timer) return // Already running
-
-        const now = Date.now()
-        const targetEndTime = now + duration
-        setEndTime(targetEndTime)
-        const newTimer = setInterval(() => {
-            const currentTime = Date.now()
-            const timeLeft = Math.max(targetEndTime - currentTime, 0)
-            const progressPercent = Math.max((timeLeft / duration) * 100, 0)
-
-            setProgress(progressPercent)
-
-            if (timeLeft <= 0) {
-                stopTimer()
-                onTimeUp?.()
-            }
-        }, 100)
-        setTimer(newTimer)
-    }
-
-    const stopTimer = () => {
-        if (timer) {
-            clearInterval(timer)
-            // clearInterval(timerRef.current)
-            setTimer(null)
-        }
-        setProgress(0)
-    }
-
-    // Auto-start when isActive becomes true
     useEffect(() => {
-        console.log('useEffect triggered - isActive:', isActive)
-        if (isActive && !timer) {
-            console.log('Starting timer...')
-            startTimer()
-        } else if (!isActive && timer) {
-            console.log('Stopping timer...')
-            stopTimer()
-        }
-    }, [isActive])
+        if (!isActive) return
 
-    // Cleanup on unmount TEST
-    useEffect(() => stopTimer(), [])
+        const end = new Date(endsAt).getTime()
+        totalMs.current = Math.max(end - Date.now(), 1)
+        let fired = false
+
+        const tick = () => {
+            const left = Math.max(end - Date.now(), 0)
+            setRemainingMs(left)
+            if (left <= 0 && !fired) {
+                fired = true
+                onTimeUpRef.current?.()
+            }
+        }
+
+        tick()
+        const id = window.setInterval(tick, 200)
+        return () => window.clearInterval(id)
+    }, [isActive, endsAt])
+
+    const remaining = Math.ceil(remainingMs / 1000)
+    const progress = Math.max((remainingMs / totalMs.current) * 100, 0)
 
     return (
         <Box sx={{ width: '100%', mb: 2 }}>
-            {/* Quiz Progress */}
             <Typography variant="h6" sx={{ mb: 1 }}>
                 Quiz Progress: {answeredCount} / {totalQuestions}
             </Typography>
 
-            {/* Timer Display */}
             {showTimeRemaining && (
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                     Time: {remaining}s

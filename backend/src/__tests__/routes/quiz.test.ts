@@ -3,21 +3,33 @@ import request from 'supertest'
 import express from 'express'
 import quizRouter from '@routes/quiz/index.js'
 import { verifycookie } from '@util/cookie'
-import { startQuiz, submitQuiz, getQuizResult, getQuizHistory, cleanupExpiredQuizTokens } from '@/services/quiz'
-import { StartQuizRequest, SubmitQuizRequest, QuizData, QuizResult } from '@types'
+import { completeExpiredQuizzes, finishQuiz, getQuiz, getQuizHistory, QuizError, startQuiz, submitAnswer } from '@/services/quiz'
+import { GradedAnswer, QuizDetail, QuizHistoryResponse, QuizTally, StartedQuiz } from '@types'
 
 const mockUserId = '550e8400-e29b-41d4-a716-446655440000'
 const mockQuizId = '660e8400-e29b-41d4-a716-446655440000'
 const mockWordId = '770e8400-e29b-41d4-a716-446655440000'
-const mockTagId1 = '880e8400-e29b-41d4-a716-446655440000'
-const mockTagId2 = '990e8400-e29b-41d4-a716-446655440000'
+const mockTagId = '880e8400-e29b-41d4-a716-446655440000'
 
-// Mock dependencies
 vi.mock('@util/cookie')
-vi.mock('@/services/quiz')
+vi.mock('@/services/quiz', () => ({
+    startQuiz: vi.fn(),
+    submitAnswer: vi.fn(),
+    finishQuiz: vi.fn(),
+    getQuiz: vi.fn(),
+    getQuizHistory: vi.fn(),
+    completeExpiredQuizzes: vi.fn(),
+    QuizError: class QuizError extends Error {
+        status: number
+        constructor(message: string, status: number) {
+            super(message)
+            this.name = 'QuizError'
+            this.status = status
+        }
+    },
+}))
 
-// Mock cookie verification middleware
-vi.mocked(verifycookie).mockImplementation(async (req: any, res: any, next: any) => {
+vi.mocked(verifycookie).mockImplementation(async (req: any, _res: any, next: any) => {
     req.query = {
         ...req.query,
         user: {
@@ -33,59 +45,41 @@ vi.mocked(verifycookie).mockImplementation(async (req: any, res: any, next: any)
 describe('Quiz Routes', () => {
     let app: express.Application
 
-    const mockStartQuizRequest: StartQuizRequest = {
-        selectedTags: [mockTagId1, mockTagId2],
-    }
-
-    const mockQuizData: QuizData = {
+    const started: StartedQuiz = {
         quizId: mockQuizId,
-        selectedTags: [mockTagId1, mockTagId2],
-        questions: [
-            {
-                wordId: mockWordId,
-                english: 'test',
-                arabic: 'اختبار',
-                root: 'tst',
-                partOfSpeech: 'noun',
-            },
-        ],
-        totalQuestions: 1,
-        startedAt: new Date(),
+        endsAt: new Date(Date.now() + 120000),
+        words: [{ wordId: mockWordId, english: 'owl' }],
     }
 
-    const mockSubmitQuizRequest: SubmitQuizRequest = {
+    const graded: GradedAnswer = {
+        isCorrect: true,
+        userAnswer: 'owl',
+        root: 'owl',
+        arabic: 'بُوم',
+    }
+
+    const tally: QuizTally = {
         quizId: mockQuizId,
-        answers: [
-            {
-                wordId: mockWordId,
-                userAnswer: 'tst',
-                isCorrect: true,
-            },
-        ],
-        timeSpent: 30,
-        selectedTags: [mockTagId1, mockTagId2],
-    }
-
-    const mockQuizResult: QuizResult = {
-        resultId: mockQuizId,
-        userId: mockUserId,
-        selectedTags: [mockTagId1, mockTagId2],
-        totalQuestions: 1,
+        poolSize: 10,
+        answered: 1,
         correctAnswers: 1,
-        completedAt: new Date(),
-        wordResults: [
-            {
-                wordId: mockWordId,
-                english: 'test',
-                arabic: 'اختبار',
-                root: 'tst',
-                correct: true,
-                userAnswer: 'tst',
-                correctAnswer: 'tst',
-                partOfSpeech: 'noun',
-                skipped: false,
-            },
-        ],
+    }
+
+    const detail: QuizDetail = {
+        quizId: mockQuizId,
+        userId: mockUserId,
+        selectedTags: [mockTagId],
+        wordIds: [mockWordId],
+        endsAt: new Date(),
+        completedAt: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        answers: [{ wordId: mockWordId, userAnswer: 'owl', isCorrect: true, english: 'owl', arabic: 'بُوم', root: 'owl' }],
+    }
+
+    const history: QuizHistoryResponse = {
+        quizzes: [{ ...tally, selectedTags: [mockTagId], completedAt: new Date(), endsAt: new Date() }],
+        pagination: { total: 1, page: 1, limit: 10, totalPages: 1 },
     }
 
     beforeEach(() => {
@@ -96,290 +90,142 @@ describe('Quiz Routes', () => {
     })
 
     describe('POST /api/quiz/start', () => {
-        it('should start quiz successfully', async () => {
-            vi.mocked(startQuiz).mockResolvedValue(mockQuizData)
+        it('starts a quiz', async () => {
+            vi.mocked(startQuiz).mockResolvedValue(started)
 
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(200)
+            const response = await request(app)
+                .post('/api/quiz/start')
+                .send({ selectedTags: [mockTagId] })
+                .expect(200)
 
-            expect(response.body).toMatchObject({
-                ...mockQuizData,
-                startedAt: expect.any(String),
-            })
-            expect(startQuiz).toHaveBeenCalledWith(mockUserId, mockStartQuizRequest)
+            expect(response.body.quizId).toBe(mockQuizId)
+            expect(response.body.words).toEqual([{ wordId: mockWordId, english: 'owl' }])
+            expect(startQuiz).toHaveBeenCalledWith(mockUserId, { selectedTags: [mockTagId] })
         })
 
-        it('should handle quiz start errors', async () => {
-            vi.mocked(startQuiz).mockRejectedValue(new Error('Not enough words available'))
+        it('returns the quiz error status', async () => {
+            vi.mocked(startQuiz).mockRejectedValue(new QuizError('No words found for selected tags', 400))
 
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(500)
+            const response = await request(app)
+                .post('/api/quiz/start')
+                .send({ selectedTags: [mockTagId] })
+                .expect(400)
 
-            expect(response.body).toEqual({ error: 'Not enough words available' })
+            expect(response.body).toEqual({ error: 'No words found for selected tags' })
         })
 
-        it('should handle invalid request data', async () => {
-            const invalidRequest = {
-                selectedTags: [], // Invalid: empty tags
-            }
+        it('rejects an empty tag list', async () => {
+            const response = await request(app).post('/api/quiz/start').send({ selectedTags: [] }).expect(400)
 
-            const response = await request(app).post('/api/quiz/start').send(invalidRequest).expect(400)
-
-            expect(response.body).toHaveProperty('error', 'Validation failed')
-        })
-
-        it('should handle authentication errors', async () => {
-            vi.mocked(verifycookie).mockImplementationOnce(async (req: any, res: any, next: any) => {
-                res.status(403).send({ error: 'Unauthorized' })
-            })
-
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(403)
-
-            expect(response.body).toEqual({ error: 'Unauthorized' })
-        })
-
-        it('should handle unexpected errors', async () => {
-            vi.mocked(startQuiz).mockImplementation(() => {
-                throw 'String error'
-            })
-
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(500)
-
-            expect(response.body).toEqual({ error: 'Unknown error' })
+            expect(response.body.error).toBe('Validation failed')
+            expect(startQuiz).not.toHaveBeenCalled()
         })
     })
 
-    describe('POST /api/quiz/submit', () => {
-        it('should submit quiz successfully', async () => {
-            vi.mocked(submitQuiz).mockResolvedValue(mockQuizResult)
+    describe('POST /api/quiz/:quizId/answers', () => {
+        const answer = { wordId: mockWordId, userAnswer: 'owl' }
 
-            const response = await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(200)
+        it('grades one answer', async () => {
+            vi.mocked(submitAnswer).mockResolvedValue(graded)
 
-            expect(response.body).toMatchObject({
-                ...mockQuizResult,
-                completedAt: expect.any(String),
-                score: 100,
-                timeSpent: 30,
-            })
-            expect(submitQuiz).toHaveBeenCalledWith(mockUserId, mockSubmitQuizRequest)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/answers`).send(answer).expect(200)
+
+            expect(response.body).toEqual(graded)
+            expect(submitAnswer).toHaveBeenCalledWith(mockUserId, mockQuizId, answer)
         })
 
-        it('should calculate score correctly', async () => {
-            const partialResult = {
-                ...mockQuizResult,
-                totalQuestions: 4,
-                correctAnswers: 3,
-            }
+        it('rejects a late answer', async () => {
+            vi.mocked(submitAnswer).mockRejectedValue(new QuizError('Quiz has ended', 400))
 
-            vi.mocked(submitQuiz).mockResolvedValue(partialResult)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/answers`).send(answer).expect(400)
 
-            const response = await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(200)
-
-            expect(response.body.score).toBe(75) // 3/4 * 100 = 75
+            expect(response.body).toEqual({ error: 'Quiz has ended' })
         })
 
-        it('should handle quiz submission errors', async () => {
-            vi.mocked(submitQuiz).mockRejectedValue(new Error('Invalid or expired quiz token'))
+        it('rejects a duplicate answer', async () => {
+            vi.mocked(submitAnswer).mockRejectedValue(new QuizError('Word already answered', 409))
 
-            const response = await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(500)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/answers`).send(answer).expect(409)
 
-            expect(response.body).toEqual({ error: 'Invalid or expired quiz token' })
+            expect(response.body).toEqual({ error: 'Word already answered' })
         })
 
-        it('should handle invalid quiz data', async () => {
-            const invalidRequest = {
-                quizId: 'invalid-quiz',
-                answers: [],
-                timeSpent: 30,
-                selectedTags: [],
-            }
+        it('rejects a word that is not in the pool', async () => {
+            vi.mocked(submitAnswer).mockRejectedValue(new QuizError('Word is not in this quiz', 400))
 
-            const response = await request(app).post('/api/quiz/submit').send(invalidRequest).expect(400)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/answers`).send(answer).expect(400)
 
-            expect(response.body).toHaveProperty('error', 'Validation failed')
+            expect(response.body).toEqual({ error: 'Word is not in this quiz' })
         })
 
-        it('should handle authentication errors', async () => {
-            vi.mocked(verifycookie).mockImplementationOnce(async (req: any, res: any, next: any) => {
-                res.status(403).send({ error: 'Unauthorized' })
-            })
+        it('rejects an invalid quiz id', async () => {
+            const response = await request(app).post('/api/quiz/not-a-uuid/answers').send(answer).expect(400)
 
-            const response = await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(403)
-
-            expect(response.body).toEqual({ error: 'Unauthorized' })
+            expect(response.body.error).toBe('Parameter validation failed')
+            expect(submitAnswer).not.toHaveBeenCalled()
         })
     })
 
-    describe('GET /api/quiz/results/:quizId', () => {
-        it('should get quiz result successfully', async () => {
-            vi.mocked(getQuizResult).mockResolvedValue(mockQuizResult)
+    describe('POST /api/quiz/:quizId/finish', () => {
+        it('finishes a quiz', async () => {
+            vi.mocked(finishQuiz).mockResolvedValue(tally)
 
-            const response = await request(app).get(`/api/quiz/results/${mockQuizId}`).expect(200)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/finish`).expect(200)
 
-            expect(response.body).toMatchObject({
-                ...mockQuizResult,
-                completedAt: expect.any(String),
-            })
-            expect(getQuizResult).toHaveBeenCalledWith(mockQuizId, mockUserId)
+            expect(response.body).toEqual(tally)
+            expect(finishQuiz).toHaveBeenCalledWith(mockUserId, mockQuizId)
         })
 
-        it('should handle quiz result not found', async () => {
-            vi.mocked(getQuizResult).mockResolvedValue(null)
+        it('returns 404 when the quiz is missing', async () => {
+            vi.mocked(finishQuiz).mockRejectedValue(new QuizError('Quiz not found', 404))
 
-            const response = await request(app).get(`/api/quiz/results/${mockQuizId}`).expect(404)
+            const response = await request(app).post(`/api/quiz/${mockQuizId}/finish`).expect(404)
 
-            expect(response.body).toEqual({ error: 'Quiz result not found' })
+            expect(response.body).toEqual({ error: 'Quiz not found' })
+        })
+    })
+
+    describe('GET /api/quiz/:quizId', () => {
+        it('returns one quiz', async () => {
+            vi.mocked(getQuiz).mockResolvedValue(detail)
+
+            const response = await request(app).get(`/api/quiz/${mockQuizId}`).expect(200)
+
+            expect(response.body.quizId).toBe(mockQuizId)
+            expect(response.body.answers).toHaveLength(1)
+            expect(getQuiz).toHaveBeenCalledWith(mockUserId, mockQuizId)
         })
 
-        it('should handle authentication errors', async () => {
-            vi.mocked(verifycookie).mockImplementationOnce(async (req: any, res: any, next: any) => {
-                res.status(403).send({ error: 'Unauthorized' })
-            })
+        it('returns 404 when the quiz is missing', async () => {
+            vi.mocked(getQuiz).mockResolvedValue(null)
 
-            const response = await request(app).get(`/api/quiz/results/${mockQuizId}`).expect(403)
+            const response = await request(app).get(`/api/quiz/${mockQuizId}`).expect(404)
 
-            expect(response.body).toEqual({ error: 'Unauthorized' })
+            expect(response.body).toEqual({ error: 'Quiz not found' })
         })
     })
 
     describe('GET /api/quiz/history', () => {
-        it('should get quiz history successfully', async () => {
-            const mockHistory = [mockQuizResult]
-            vi.mocked(getQuizHistory).mockResolvedValue({ quizResults: mockHistory, pagination: {} })
+        it('lists finished quizzes', async () => {
+            vi.mocked(getQuizHistory).mockResolvedValue(history)
 
-            const response = await request(app).get('/api/quiz/history').expect(500)
+            const response = await request(app).get('/api/quiz/history?page=2&limit=5').expect(200)
 
-            expect(response.body.error).toContain('req.query.user')
+            expect(response.body.quizzes).toHaveLength(1)
+            expect(getQuizHistory).toHaveBeenCalledWith(mockUserId, 2, 5)
         })
 
-        it('should get quiz history with pagination', async () => {
-            const mockHistory = [mockQuizResult]
-            vi.mocked(getQuizHistory).mockResolvedValue({ quizResults: mockHistory, pagination: {} })
+        it('rejects a page below 1', async () => {
+            const response = await request(app).get('/api/quiz/history?page=0').expect(400)
 
-            const response = await request(app).get('/api/quiz/history?page=2&limit=5').expect(500)
-
-            expect(response.body.error).toContain('req.query.user')
-        })
-
-        it('should return empty history when no results', async () => {
-            vi.mocked(getQuizHistory).mockResolvedValue({ quizResults: [], pagination: {} })
-
-            const response = await request(app).get('/api/quiz/history').expect(500)
-
-            expect(response.body.error).toContain('req.query.user')
-        })
-
-        it('should handle quiz history errors', async () => {
-            vi.mocked(getQuizHistory).mockRejectedValue(new Error('Database error'))
-
-            const response = await request(app).get('/api/quiz/history').expect(500)
-
-            expect(response.body.error).toContain('req.query.user')
-        })
-
-        it('should handle authentication errors', async () => {
-            vi.mocked(verifycookie).mockImplementationOnce(async (req: any, res: any, next: any) => {
-                res.status(403).send({ error: 'Unauthorized' })
-            })
-
-            const response = await request(app).get('/api/quiz/history').expect(403)
-
-            expect(response.body).toEqual({ error: 'Unauthorized' })
+            expect(response.body.error).toBe('Query validation failed')
+            expect(getQuizHistory).not.toHaveBeenCalled()
         })
     })
 
-    describe('Service Integration', () => {
-        it('should call quiz service methods correctly', async () => {
-            vi.mocked(startQuiz).mockResolvedValue(mockQuizData)
-            vi.mocked(submitQuiz).mockResolvedValue(mockQuizResult)
-            vi.mocked(getQuizResult).mockResolvedValue(mockQuizResult)
-            vi.mocked(getQuizHistory).mockResolvedValue({ quizResults: [mockQuizResult], pagination: {} })
-
-            // Test start quiz
-            await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(200)
-
-            expect(startQuiz).toHaveBeenCalledWith(mockUserId, mockStartQuizRequest)
-
-            // Test submit quiz
-            await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(200)
-
-            expect(submitQuiz).toHaveBeenCalledWith(mockUserId, mockSubmitQuizRequest)
-
-            // Test get result
-            await request(app).get(`/api/quiz/results/${mockQuizId}`).expect(200)
-
-            expect(getQuizResult).toHaveBeenCalledWith(mockQuizId, mockUserId)
-
-            // NOTE: /history currently throws before service call because validateQuery
-            // replaces req.query and drops the auth user injected by verifycookie.
-        })
-
-        it('should handle service errors properly', async () => {
-            vi.mocked(startQuiz).mockRejectedValue(new Error('Service error'))
-
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(500)
-
-            expect(response.body).toEqual({ error: 'Service error' })
-        })
-    })
-
-    describe('Cleanup Functionality', () => {
-        it('should handle cleanup errors gracefully', async () => {
-            // Mock the cleanup function to throw an error
-            vi.mocked(cleanupExpiredQuizTokens).mockRejectedValue(new Error('Cleanup error'))
-
-            // The cleanup runs in setInterval, so we can't directly test it
-            // But we can verify the function exists and can be called
-            expect(cleanupExpiredQuizTokens).toBeDefined()
-        })
-    })
-
-    describe('Request Validation', () => {
-        it('should validate start quiz request body', async () => {
-            vi.mocked(startQuiz).mockResolvedValue(mockQuizData)
-
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(200)
-
-            expect(response.body).toMatchObject({
-                ...mockQuizData,
-                startedAt: expect.any(String),
-            })
-        })
-
-        it('should validate submit quiz request body', async () => {
-            vi.mocked(submitQuiz).mockResolvedValue(mockQuizResult)
-
-            const response = await request(app).post('/api/quiz/submit').send(mockSubmitQuizRequest).expect(200)
-
-            expect(response.body).toBeDefined()
-        })
-
-        it('should validate quiz history query parameters', async () => {
-            vi.mocked(getQuizHistory).mockResolvedValue({ quizResults: [], pagination: {} })
-
-            const response = await request(app).get('/api/quiz/history?page=1&limit=10').expect(500)
-
-            expect(response.body.error).toContain('req.query.user')
-        })
-    })
-
-    describe('Error Handling', () => {
-        it('should handle malformed request body', async () => {
-            const response = await request(app).post('/api/quiz/start').send({ invalid: 'data' }).expect(400)
-
-            expect(response.body).toHaveProperty('error', 'Validation failed')
-        })
-
-        it('should handle missing required fields', async () => {
-            const response = await request(app).post('/api/quiz/start').send({}).expect(400)
-
-            expect(response.body).toHaveProperty('error', 'Validation failed')
-        })
-
-        it('should handle database connection errors', async () => {
-            vi.mocked(startQuiz).mockRejectedValue(new Error('Database connection failed'))
-
-            const response = await request(app).post('/api/quiz/start').send(mockStartQuizRequest).expect(500)
-
-            expect(response.body).toEqual({ error: 'Database connection failed' })
+    describe('cleanup', () => {
+        it('exposes the expiry cleanup used by the interval', () => {
+            expect(completeExpiredQuizzes).toBeDefined()
         })
     })
 })
