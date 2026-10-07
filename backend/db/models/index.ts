@@ -17,7 +17,8 @@ import wordFactory, { WordModel, WordInstance } from './word.js'
 import nounFactory, { NounModel, NounInstance } from './noun.js'
 import verbFactory, { VerbModel, VerbInstance } from './verb.js'
 import tokenFactory, { TokenModel, TokenInstance } from './token.js'
-import quizResultFactory, { QuizResultModel, QuizResultInstance } from './quiz_results.js'
+import quizFactory, { QuizModel, QuizInstance } from './quiz.js'
+import answerFactory, { AnswerModel, AnswerInstance } from './answer.js'
 
 // Initialize models with explicit type annotations
 const User: UserModel = userFactory(sequelize)
@@ -26,7 +27,8 @@ const Word: WordModel = wordFactory(sequelize)
 const Noun: NounModel = nounFactory(sequelize)
 const Verb: VerbModel = verbFactory(sequelize)
 const Token: TokenModel = tokenFactory(sequelize)
-const QuizResult: QuizResultModel = quizResultFactory(sequelize)
+const Quiz: QuizModel = quizFactory(sequelize)
+const Answer: AnswerModel = answerFactory(sequelize)
 
 // Create a database interface that provides type inference for build() method
 interface Database {
@@ -38,7 +40,8 @@ interface Database {
     nouns: typeof Noun
     verbs: typeof Verb
     tokens: typeof Token
-    quizResults: typeof QuizResult
+    quizzes: typeof Quiz
+    answers: typeof Answer
 }
 
 const db: Database = {
@@ -50,7 +53,8 @@ const db: Database = {
     nouns: Noun,
     verbs: Verb,
     tokens: Token,
-    quizResults: QuizResult,
+    quizzes: Quiz,
+    answers: Answer,
 }
 
 // Set up associations
@@ -60,7 +64,8 @@ Word.associate(db)
 Noun.associate(db)
 Verb.associate(db)
 Token.associate(db)
-QuizResult.associate(db)
+Quiz.associate(db)
+Answer.associate(db)
 // Object.keys(db).forEach((modelName) => {
 //     const model = (db as any)[modelName]
 //     if (model && typeof model === 'object' && 'associate' in model && typeof model.associate === 'function') {
@@ -68,6 +73,6 @@ QuizResult.associate(db)
 //     }
 // })
 // Export instance types for proper typing in services
-export type { UserInstance, TagInstance, WordInstance, NounInstance, VerbInstance, TokenInstance, QuizResultInstance }
+export type { UserInstance, TagInstance, WordInstance, NounInstance, VerbInstance, TokenInstance, QuizInstance, AnswerInstance }
 
 export default db

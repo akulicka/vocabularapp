@@ -1,34 +1,40 @@
-import { Model, DataTypes, BelongsToGetAssociationMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { Model, DataTypes, BelongsToGetAssociationMixin, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import { UserAttributes } from './user.js'
+import { AnswerAttributes } from './answer.js'
 
-export class QuizResult extends Model<InferAttributes<QuizResult>, InferCreationAttributes<QuizResult>> {
-    declare resultId: string
+class Quiz extends Model<InferAttributes<Quiz>, InferCreationAttributes<Quiz>> {
+    declare quizId: string
     declare userId: string
-    declare selectedTags: any | null
-    declare totalQuestions: number
-    declare correctAnswers: number
-    declare completedAt: Date
-    declare wordResults: any | null
+    declare selectedTags: string[] | null
+    declare wordIds: string[]
+    declare endsAt: Date
+    declare completedAt: Date | null
     declare createdAt: CreationOptional<Date>
     declare updatedAt: CreationOptional<Date>
 
-    // Association methods
     declare getUser: BelongsToGetAssociationMixin<Model<UserAttributes>>
+    declare getAnswers: HasManyGetAssociationsMixin<Model<AnswerAttributes>>
 
     static associate(models: any) {
-        QuizResult.belongsTo(models.users, {
+        Quiz.belongsTo(models.users, {
             foreignKey: {
                 name: 'userId',
+                allowNull: false,
+            },
+        })
+        Quiz.hasMany(models.answers, {
+            foreignKey: {
+                name: 'quizId',
                 allowNull: false,
             },
         })
     }
 }
 
-export default (sequelize: any): typeof QuizResult => {
-    QuizResult.init(
+export default (sequelize: any): typeof Quiz => {
+    Quiz.init(
         {
-            resultId: {
+            quizId: {
                 type: DataTypes.STRING,
                 primaryKey: true,
                 allowNull: false,
@@ -45,22 +51,16 @@ export default (sequelize: any): typeof QuizResult => {
                 type: DataTypes.JSON,
                 allowNull: true,
             },
-            totalQuestions: {
-                type: DataTypes.INTEGER,
+            wordIds: {
+                type: DataTypes.JSON,
                 allowNull: false,
-                defaultValue: 0,
             },
-            correctAnswers: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                defaultValue: 0,
-            },
-            completedAt: {
+            endsAt: {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
-            wordResults: {
-                type: DataTypes.JSON,
+            completedAt: {
+                type: DataTypes.DATE,
                 allowNull: true,
             },
             createdAt: DataTypes.DATE,
@@ -68,14 +68,14 @@ export default (sequelize: any): typeof QuizResult => {
         },
         {
             sequelize,
-            modelName: 'quizResults',
+            modelName: 'quizzes',
         },
     )
 
-    return QuizResult
+    return Quiz
 }
 
-export type QuizResultModel = typeof QuizResult
-export type QuizResultInstance = QuizResult
-export type QuizResultAttributes = InferAttributes<QuizResult>
-export type QuizResultCreationAttributes = InferCreationAttributes<QuizResult>
+export type QuizModel = typeof Quiz
+export type QuizInstance = Quiz
+export type QuizAttributes = InferAttributes<Quiz>
+export type QuizCreationAttributes = InferCreationAttributes<Quiz>

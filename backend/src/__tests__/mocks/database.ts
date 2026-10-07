@@ -6,6 +6,7 @@ const createModelMethods = () => ({
     findAll: vi.fn(),
     build: vi.fn(),
     create: vi.fn(),
+    update: vi.fn(),
     destroy: vi.fn(),
     findAndCountAll: vi.fn(),
 })
@@ -34,7 +35,8 @@ export const createMockDatabase = () => ({
     users: createModelMethods(),
     tokens: createModelMethods(),
     words: createModelMethods(),
-    quizResults: createModelMethods(),
+    quizzes: createModelMethods(),
+    answers: createModelMethods(),
     tags: createModelMethods(),
     sequelize: {
         transaction: vi.fn().mockResolvedValue({
