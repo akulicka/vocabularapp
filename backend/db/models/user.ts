@@ -1,6 +1,6 @@
 import { Model, DataTypes, HasManyGetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import { TokenAttributes } from './token.js'
-import { QuizResultAttributes } from './quiz_results.js'
+import { QuizAttributes } from './quiz.js'
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare userId: string
@@ -13,7 +13,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
     // Association methods
     declare getTokens: HasManyGetAssociationsMixin<Model<TokenAttributes>>
-    declare getQuizResults: HasManyGetAssociationsMixin<Model<QuizResultAttributes>>
+    declare getQuizzes: HasManyGetAssociationsMixin<Model<QuizAttributes>>
 
     static associate(models: any) {
         User.hasMany(models.tokens, {
@@ -22,7 +22,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
                 allowNull: false,
             },
         })
-        User.hasMany(models.quizResults, {
+        User.hasMany(models.quizzes, {
             foreignKey: {
                 name: 'userId',
                 allowNull: false,

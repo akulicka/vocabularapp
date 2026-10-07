@@ -1,7 +1,8 @@
-import { Model, DataTypes, HasOneGetAssociationMixin, HasOneCreateAssociationMixin, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
+import { Model, DataTypes, HasOneGetAssociationMixin, HasOneCreateAssociationMixin, HasManyGetAssociationsMixin, BelongsToManyGetAssociationsMixin, BelongsToManySetAssociationsMixin, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize'
 import { NounAttributes } from './noun.js'
 import { VerbAttributes } from './verb.js'
 import { TagAttributes } from './tag.js'
+import { AnswerAttributes } from './answer.js'
 
 class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
     declare wordId: string
@@ -21,6 +22,7 @@ class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
     declare createVerb: HasOneCreateAssociationMixin<Model<VerbAttributes>>
     declare getTags: BelongsToManyGetAssociationsMixin<Model<TagAttributes>>
     declare setTags: BelongsToManySetAssociationsMixin<Model<TagAttributes>, any>
+    declare getAnswers: HasManyGetAssociationsMixin<Model<AnswerAttributes>>
 
     static associate(models: any) {
         Word.hasOne(models.nouns, {
@@ -39,6 +41,12 @@ class Word extends Model<InferAttributes<Word>, InferCreationAttributes<Word>> {
             through: 'tagwords',
             foreignKey: 'wordId',
             timestamps: false,
+        })
+        Word.hasMany(models.answers, {
+            foreignKey: {
+                name: 'wordId',
+                allowNull: false,
+            },
         })
     }
 }
