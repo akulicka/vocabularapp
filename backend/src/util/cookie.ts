@@ -22,14 +22,23 @@ export const verifycookie = async (req: Request, res: Response, next: NextFuncti
             userId: dbUser.get('userId'),
             email: dbUser.get('email'),
             verified: dbUser.get('verified') || false,
-        } as AuthenticatedUser
+            isAdmin: Boolean(dbUser.get('isAdmin')),
+        }
 
         ;(req as any).query = { ...req.query, user: authUser }
         next()
     } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error'
         console.log('err', errorMessage)
-        // todo - verified
-        res.status(403).send({ error: errorMessage })
+        res.status(401).send({ error: errorMessage })
     }
+}
+
+export const requireAdmin = (req: Request, res: Response, next: NextFunction): void => {
+    const user = (req as any).query?.user as AuthenticatedUser | undefined
+    if (!user?.isAdmin) {
+        res.status(403).send({ error: 'forbidden' })
+        return
+    }
+    next()
 }

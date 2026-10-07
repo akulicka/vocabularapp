@@ -91,7 +91,7 @@ cd frontend && npm run dev
 | SPA | http://localhost:5173 |
 | API | http://localhost:3000 (`GET /health` → 200) |
 
-Register a new user in the UI. The seed `system` user is only `createdBy` for seeded words, not a documented login.
+Register a new user in the UI to quiz and browse. Dictionary and tag edits are limited to the seeded admin: `system@admin.com` / `vocabular-admin`.
 
 ### Auth cookies on localhost
 

@@ -10,9 +10,9 @@ const user_router = Router()
 
 user_router.get('/', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const { userId, email, verified } = req.query.user
+        const { userId, email, verified, isAdmin } = req.query.user
         const username = (req.query.user as any).username
-        res.send({ user: { userId, email, username, verified } })
+        res.send({ user: { userId, email, username, verified, isAdmin } })
     } catch (err) {
         console.log('err', err instanceof Error ? err.message : 'Unknown error')
         res.sendStatus(500)

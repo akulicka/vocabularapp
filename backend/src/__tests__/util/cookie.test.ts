@@ -46,6 +46,7 @@ describe('Cookie Utility', () => {
                 userId: mockUserId,
                 email: 'test@example.com',
                 verified: true,
+                isAdmin: true,
             })
 
             mockReq.cookies.smartposting_token = mockToken
@@ -54,7 +55,7 @@ describe('Cookie Utility', () => {
 
             await verifycookie(mockReq, mockRes, mockNext)
 
-            expect(mockReq.query.user).toEqual({ userId: mockUserId, email: 'test@example.com', verified: true })
+            expect(mockReq.query.user).toEqual({ userId: mockUserId, email: 'test@example.com', verified: true, isAdmin: true })
             expect(mockNext).toHaveBeenCalled()
             expect(mockRes.status).not.toHaveBeenCalled()
         })
@@ -63,7 +64,7 @@ describe('Cookie Utility', () => {
             // No cookie present
             mockReq.cookies = {}
             await verifycookie(mockReq, mockRes, mockNext)
-            expect(mockRes.status).toHaveBeenCalledWith(403)
+            expect(mockRes.status).toHaveBeenCalledWith(401)
             expect(mockRes.send).toHaveBeenCalledWith({ error: 'no authorization' })
 
             // Invalid token
@@ -72,26 +73,26 @@ describe('Cookie Utility', () => {
                 throw new Error('Invalid token')
             })
             await verifycookie(mockReq, mockRes, mockNext)
-            expect(mockRes.status).toHaveBeenCalledWith(403)
+            expect(mockRes.status).toHaveBeenCalledWith(401)
             expect(mockRes.send).toHaveBeenCalledWith({ error: 'Invalid token' })
 
             // Invalid userId
             vi.mocked(jwt.verify).mockReturnValue({ userId: 'invalid-uuid' } as any)
             await verifycookie(mockReq, mockRes, mockNext)
-            expect(mockRes.status).toHaveBeenCalledWith(403)
+            expect(mockRes.status).toHaveBeenCalledWith(401)
             expect(mockRes.send).toHaveBeenCalledWith({ error: 'invalid token' })
 
             // User not found
             vi.mocked(jwt.verify).mockReturnValue({ userId: mockUserId } as any)
             vi.mocked(db.users.findOne).mockResolvedValue(null)
             await verifycookie(mockReq, mockRes, mockNext)
-            expect(mockRes.status).toHaveBeenCalledWith(403)
+            expect(mockRes.status).toHaveBeenCalledWith(401)
             expect(mockRes.send).toHaveBeenCalledWith({ error: 'invalid user' })
 
             // Database error
             vi.mocked(db.users.findOne).mockRejectedValue(new Error('Database connection failed'))
             await verifycookie(mockReq, mockRes, mockNext)
-            expect(mockRes.status).toHaveBeenCalledWith(403)
+            expect(mockRes.status).toHaveBeenCalledWith(401)
             expect(mockRes.send).toHaveBeenCalledWith({ error: 'Database connection failed' })
         })
     })
