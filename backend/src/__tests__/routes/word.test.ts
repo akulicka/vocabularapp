@@ -7,22 +7,40 @@ import * as tagService from '@services/tag.js'
 import { verifycookie } from '@util'
 import { CreateWordRequest, UpdateWordRequest, PARTS_OF_SPEECH } from '@types'
 
+const adminUser = {
+    userId: 'test-user-id',
+    email: 'test@example.com',
+    verified: true,
+    isAdmin: true,
+}
+
+const setUser = (user: typeof adminUser) => {
+    vi.mocked(verifycookie).mockImplementation(async (req: any, _res: any, next: any) => {
+        req.query = { ...req.query, user }
+        next()
+    })
+}
+
 // Mock dependencies
 vi.mock('@services/word.js')
 vi.mock('@services/tag.js')
-vi.mock('@util')
-
-// Mock cookie verification middleware
-vi.mocked(verifycookie).mockImplementation(async (req: any, res: any, next: any) => {
-    req.query = {
-        ...req.query,
-        user: {
-            userId: 'test-user-id',
-            email: 'test@example.com',
-            verified: true,
-        },
+vi.mock('@util', async () => {
+    const actual = await vi.importActual<typeof import('@util')>('@util')
+    return {
+        ...actual,
+        verifycookie: vi.fn(async (req: any, _res: any, next: any) => {
+            req.query = {
+                ...req.query,
+                user: {
+                    userId: 'test-user-id',
+                    email: 'test@example.com',
+                    verified: true,
+                    isAdmin: true,
+                },
+            }
+            next()
+        }),
     }
-    next()
 })
 
 describe('Word Routes', () => {
@@ -35,6 +53,7 @@ describe('Word Routes', () => {
         app.use(express.json())
         app.use('/api/words', wordRouter)
         vi.clearAllMocks()
+        setUser(adminUser)
     })
 
     describe('GET /api/words', () => {
@@ -343,6 +362,40 @@ describe('Word Routes', () => {
             const response = await request(app).get('/api/words/tags').expect(500)
 
             expect(response.text).toBe('Database error')
+        })
+    })
+
+    describe('non-admin user', () => {
+        const reader = { ...adminUser, isAdmin: false }
+
+        beforeEach(() => {
+            setUser(reader)
+        })
+
+        it('should allow reading words and tags', async () => {
+            vi.mocked(wordService.getAllWords).mockResolvedValue([])
+            vi.mocked(tagService.getAllTags).mockResolvedValue([])
+            vi.mocked(tagService.getTagById).mockResolvedValue({ tagId: mockTagId, tagName: 'tag' })
+
+            await request(app).get('/api/words').expect(200)
+            await request(app).get('/api/words/tags').expect(200)
+            await request(app).get('/api/words/tag').query({ tagId: mockTagId }).expect(200)
+        })
+
+        it('should forbid word and tag writes', async () => {
+            await request(app).post('/api/words').send({}).expect(403)
+            await request(app).put('/api/words').send({}).expect(403)
+            await request(app).delete('/api/words').query({ wordId: mockWordId }).expect(403)
+            await request(app).post('/api/words/tag').send({}).expect(403)
+            await request(app).put('/api/words/tag').send({}).expect(403)
+            await request(app).delete('/api/words/tag').query({ tagId: mockTagId }).expect(403)
+
+            expect(wordService.createWord).not.toHaveBeenCalled()
+            expect(wordService.updateWord).not.toHaveBeenCalled()
+            expect(wordService.deleteWord).not.toHaveBeenCalled()
+            expect(tagService.createTag).not.toHaveBeenCalled()
+            expect(tagService.updateTag).not.toHaveBeenCalled()
+            expect(tagService.deleteTag).not.toHaveBeenCalled()
         })
     })
 })

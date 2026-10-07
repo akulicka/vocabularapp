@@ -33,10 +33,14 @@ function App() {
                 return response
             },
             function (err: ApiError) {
-                if (err.status === 403) {
+                if (err.status === 401) {
                     error('Session Expired')
                     logout()
                     return Promise.reject(new Error('Session Expired'))
+                }
+                if (err.status === 403) {
+                    error('Not allowed')
+                    return Promise.reject(new Error('Not allowed'))
                 }
                 return Promise.reject(new Error(err.message))
             },

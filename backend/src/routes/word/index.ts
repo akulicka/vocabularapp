@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 
-import { verifycookie } from '@util'
+import { requireAdmin, verifycookie } from '@util'
 import { validateBody, validateQuery } from '@/util/validation.js'
 import { CreateWordRequest, UpdateWordRequest, CreateTagRequest, UpdateTagRequest } from '@vocabularapp/shared-types/types'
 import { AuthenticatedRequest } from '@types'
@@ -27,7 +27,7 @@ word_router.get('/', [verifycookie], async (req: AuthenticatedRequest, res: Resp
     }
 })
 
-word_router.post('/', [verifycookie, validateBody(CreateWordRequestSchema)], async (req: Request<{}, any, CreateWordRequest> & AuthenticatedRequest, res: Response) => {
+word_router.post('/', [verifycookie, requireAdmin, validateBody(CreateWordRequestSchema)], async (req: Request<{}, any, CreateWordRequest> & AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const result = await wordService.createWord(req.body, userId)
@@ -38,7 +38,7 @@ word_router.post('/', [verifycookie, validateBody(CreateWordRequestSchema)], asy
     }
 })
 
-word_router.put('/', [verifycookie, validateBody(UpdateWordRequestSchema)], async (req: Request<{}, any, UpdateWordRequest> & AuthenticatedRequest, res: Response) => {
+word_router.put('/', [verifycookie, requireAdmin, validateBody(UpdateWordRequestSchema)], async (req: Request<{}, any, UpdateWordRequest> & AuthenticatedRequest, res: Response) => {
     try {
         const { wordId } = req.body
         const result = await wordService.updateWord(wordId, req.body)
@@ -49,7 +49,7 @@ word_router.put('/', [verifycookie, validateBody(UpdateWordRequestSchema)], asyn
     }
 })
 
-word_router.delete('/', [verifycookie], async (req: WordQueryRequest, res: Response) => {
+word_router.delete('/', [verifycookie, requireAdmin], async (req: WordQueryRequest, res: Response) => {
     try {
         const { wordId } = req.query
         if (!wordId) throw new Error('wordId is required')
@@ -61,7 +61,7 @@ word_router.delete('/', [verifycookie], async (req: WordQueryRequest, res: Respo
     }
 })
 
-word_router.post('/tag', [verifycookie, validateBody(CreateTagRequestSchema)], async (req: Request<{}, any, CreateTagRequest> & AuthenticatedRequest, res: Response) => {
+word_router.post('/tag', [verifycookie, requireAdmin, validateBody(CreateTagRequestSchema)], async (req: Request<{}, any, CreateTagRequest> & AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { tagName } = req.body
@@ -73,7 +73,7 @@ word_router.post('/tag', [verifycookie, validateBody(CreateTagRequestSchema)], a
     }
 })
 
-word_router.delete('/tag', [verifycookie], async (req: WordQueryRequest, res: Response) => {
+word_router.delete('/tag', [verifycookie, requireAdmin], async (req: WordQueryRequest, res: Response) => {
     // TODO - on frontend, need to refresh word tags - delete will not be reflected for other words in dictionary until refresh
     try {
         const { tagId } = req.query
@@ -86,7 +86,7 @@ word_router.delete('/tag', [verifycookie], async (req: WordQueryRequest, res: Re
     }
 })
 
-word_router.put('/tag', [verifycookie, validateBody(UpdateTagRequestSchema)], async (req: Request<{}, any, UpdateTagRequest> & AuthenticatedRequest, res: Response) => {
+word_router.put('/tag', [verifycookie, requireAdmin, validateBody(UpdateTagRequestSchema)], async (req: Request<{}, any, UpdateTagRequest> & AuthenticatedRequest, res: Response) => {
     try {
         const { tagId, tagName } = req.body
         const tag = await tagService.updateTag(tagId, tagName)

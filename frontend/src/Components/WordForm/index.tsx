@@ -57,6 +57,7 @@ interface WordFormDialogProps {
     updateWords: (word: WordDTO) => void
     open: boolean
     onClose: () => void
+    canEdit?: boolean
 }
 
 function NounForm({ nounProps, setNounProps }: NounFormProps) {
@@ -152,7 +153,7 @@ function WordForm({ wordProps, setWordProps, changeSpeechPart }: WordFormProps) 
     )
 }
 
-function WordFormDialog({ word, updateWords, open, onClose }: WordFormDialogProps) {
+function WordFormDialog({ word, updateWords, open, onClose, canEdit = false }: WordFormDialogProps) {
     const INITIAL_NOUN_PROPS = useMemo(() => {
         return {
             nounType: word?.noun?.nounType || TYPES_OF_NOUN.DEFINITE_NOUN,
@@ -249,7 +250,7 @@ function WordFormDialog({ word, updateWords, open, onClose }: WordFormDialogProp
                 <WordForm wordProps={wordProps} setWordProps={setWordProps} changeSpeechPart={changeSpeechPart} />
                 {wordProps.wordSpeechPart === PARTS_OF_SPEECH.NOUN && <NounForm nounProps={nounProps} setNounProps={setNounProps} />}
                 {wordProps.wordSpeechPart === PARTS_OF_SPEECH.VERB && <VerbForm verbProps={verbProps} setVerbProps={setVerbProps} />}
-                <TagList selectedTags={tags} setSelectedTags={setTags} />
+                <TagList selectedTags={tags} setSelectedTags={setTags} canEdit={canEdit} />
             </Stack>
         </Dialog>
     )

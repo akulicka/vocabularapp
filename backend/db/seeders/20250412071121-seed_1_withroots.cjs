@@ -21,10 +21,11 @@ module.exports = {
                         username: 'system',
                         userId: '00000000-0000-0000-0000-000000000000',
                         email: 'system@admin.com',
-                        password: '$argon2id$v=19$m=65536,t=3,p=4$qHC4lw+Rp8VX+j2S52UFkQ$dha7aS5pIi3c922NX/LRQBxLK89tCqLC6iJqDn6oZf0',
+                        password: '$argon2id$v=19$m=65536,t=3,p=4$ZZB1Zc5cOUUg/4n9HHZ43A$6vtOYndwmEklXxRGwSBr+VfmbJS+AV63oAs6E+kdsoU',
                         createdAt: '1900-04-11 06:33:54',
                         updatedAt: '1900-04-11 06:33:54',
-                        verified: 0,
+                        verified: 1,
+                        isAdmin: true,
                         profile_image: null,
                     },
                 ],
@@ -6974,7 +6975,7 @@ module.exports = {
             await queryInterface.sequelize.query('DELETE FROM tagwords', { transaction })
             await queryInterface.sequelize.query('DELETE FROM tags', { transaction })
             await queryInterface.sequelize.query('DELETE FROM words', { transaction })
-            await queryInterface.sequelize.query('DELETE FROM users', { transaction })
+            await queryInterface.sequelize.query("DELETE FROM users WHERE userId = '00000000-0000-0000-0000-000000000000'", { transaction })
             await transaction.commit()
         } catch (err) {
             console.log(err.message)
