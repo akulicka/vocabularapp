@@ -1,96 +1,96 @@
 import { Router, Response } from 'express'
 import { verifycookie } from '@util/cookie.js'
-import { validateBody, validateQuery } from '@/util/validation.js'
-import { StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@vocabularapp/shared-types/schemas'
-import { StartQuizRequest, SubmitQuizRequest } from '@vocabularapp/shared-types/types'
+import { validateBody, validateParams, validateQuery } from '@/util/validation.js'
+import { QuizHistoryQuerySchema, QuizIdParamsSchema, StartQuizRequestSchema, SubmitAnswerRequestSchema } from '@vocabularapp/shared-types/schemas'
+import { StartQuizRequest, SubmitAnswerRequest } from '@vocabularapp/shared-types/types'
 import { AuthenticatedRequest } from '@types'
-import { startQuiz, submitQuiz, getQuizResult, getQuizHistory, cleanupExpiredQuizTokens } from '@/services/quiz.js'
+import { completeExpiredQuizzes, finishQuiz, getQuiz, getQuizHistory, QuizError, startQuiz, submitAnswer } from '@/services/quiz.js'
 
 const quiz_router = Router()
 
-// Run cleanup every 5 minutes
 setInterval(
     async () => {
         try {
-            await cleanupExpiredQuizTokens()
-            console.log('Quiz token cleanup completed')
+            await completeExpiredQuizzes()
+            console.log('Expired quiz cleanup completed')
         } catch (err: unknown) {
-            console.log('Error cleaning up expired quiz tokens:', err instanceof Error ? err.message : 'Unknown error')
+            console.log('Error completing expired quizzes:', err instanceof Error ? err.message : 'Unknown error')
         }
     },
     5 * 60 * 1000,
 )
+
+function sendQuizError(res: Response, err: unknown, label: string): void {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    console.log(label, message)
+    const status = err instanceof QuizError ? err.status : 500
+    res.status(status).send({ error: message })
+}
 
 // POST /quiz/start - Start a new quiz with selected tags
 quiz_router.post('/start', [verifycookie, validateBody(StartQuizRequestSchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const request: StartQuizRequest = req.body
-
-        const quizData = await startQuiz(userId, request)
-        res.send(quizData)
+        const quiz = await startQuiz(userId, request)
+        res.send(quiz)
     } catch (err: unknown) {
-        console.log('Quiz start error:', err instanceof Error ? err.message : 'Unknown error')
-        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        sendQuizError(res, err, 'Quiz start error:')
     }
 })
 
-// POST /quiz/submit - Submit quiz answers and get results
-quiz_router.post('/submit', [verifycookie, validateBody(SubmitQuizRequestSchema)], async (req: AuthenticatedRequest, res: Response) => {
+// POST /quiz/:quizId/answers - Grade and store one answer
+quiz_router.post('/:quizId/answers', [verifycookie, validateParams(QuizIdParamsSchema), validateBody(SubmitAnswerRequestSchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
-        const request: SubmitQuizRequest = req.body
-
-        const result = await submitQuiz(userId, request)
-
-        // Add additional fields for response
-        const response = {
-            ...result,
-            score: Math.round((result.correctAnswers / result.totalQuestions) * 100),
-            timeSpent: request.timeSpent,
-        }
-
-        res.send(response)
+        const { quizId } = req.params
+        const request: SubmitAnswerRequest = req.body
+        const graded = await submitAnswer(userId, quizId, request)
+        res.send(graded)
     } catch (err: unknown) {
-        console.log('Quiz submit error:', err instanceof Error ? err.message : 'Unknown error')
-        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        sendQuizError(res, err, 'Quiz answer error:')
     }
 })
 
-// GET /quiz/results/:resultId - Get specific quiz result
-quiz_router.get('/results/:resultId', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
+// POST /quiz/:quizId/finish - Close the quiz and return the tally
+quiz_router.post('/:quizId/finish', [verifycookie, validateParams(QuizIdParamsSchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
-        const { resultId } = req.params
-
-        const quizResult = await getQuizResult(resultId, userId)
-
-        if (!quizResult) {
-            return res.status(404).send({ error: 'Quiz result not found' })
-        }
-
-        res.send(quizResult)
-        return
+        const { quizId } = req.params
+        const tally = await finishQuiz(userId, quizId)
+        res.send(tally)
     } catch (err: unknown) {
-        console.log('Quiz results error:', err instanceof Error ? err.message : 'Unknown error')
-        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
-        return
+        sendQuizError(res, err, 'Quiz finish error:')
     }
 })
 
-// GET /quiz/history - Get user's quiz history
+// GET /quiz/history - Finished quizzes for this user
 quiz_router.get('/history', [verifycookie, validateQuery(QuizHistoryQuerySchema)], async (req: AuthenticatedRequest, res: Response) => {
     try {
         const { userId } = req.query.user
         const { page = 1, limit = 10 } = req.query
         const pageNum = typeof page === 'string' ? parseInt(page, 10) : typeof page === 'number' ? page : 1
         const limitNum = typeof limit === 'string' ? parseInt(limit, 10) : typeof limit === 'number' ? limit : 10
-
         const result = await getQuizHistory(userId, pageNum, limitNum)
         res.send(result)
     } catch (err: unknown) {
-        console.log('Quiz history error:', err instanceof Error ? err.message : 'Unknown error')
-        res.status(500).send({ error: err instanceof Error ? err.message : 'Unknown error' })
+        sendQuizError(res, err, 'Quiz history error:')
+    }
+})
+
+// GET /quiz/:quizId - One quiz and its saved answers
+quiz_router.get('/:quizId', [verifycookie, validateParams(QuizIdParamsSchema)], async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        const { userId } = req.query.user
+        const { quizId } = req.params
+        const quiz = await getQuiz(userId, quizId)
+        if (!quiz) {
+            res.status(404).send({ error: 'Quiz not found' })
+            return
+        }
+        res.send(quiz)
+    } catch (err: unknown) {
+        sendQuizError(res, err, 'Quiz read error:')
     }
 })
 

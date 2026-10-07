@@ -1,74 +1,78 @@
 import { z } from 'zod'
 
-export interface QuizQuestion {
+export interface QuizPrompt {
     wordId: string
     english: string
-    arabic: string
-    root: string | null
-    partOfSpeech: string | null
-    noun?: any
-    verb?: any
 }
 
-export interface QuizData {
+export interface StartedQuiz {
     quizId: string
-    questions: QuizQuestion[]
-    selectedTags: string[]
-    totalQuestions: number
-    startedAt: Date
+    endsAt: Date
+    words: QuizPrompt[]
 }
 
-export interface QuizAnswer {
+export interface GradedAnswer {
+    isCorrect: boolean
+    userAnswer: string
+    root: string | null
+    arabic: string
+}
+
+export interface QuizTally {
+    quizId: string
+    poolSize: number
+    answered: number
+    correctAnswers: number
+}
+
+export interface QuizHistoryItem extends QuizTally {
+    selectedTags: string[] | null
+    completedAt: Date
+    endsAt: Date
+}
+
+export interface QuizHistoryResponse {
+    quizzes: QuizHistoryItem[]
+    pagination: {
+        total: number
+        page: number
+        limit: number
+        totalPages: number
+    }
+}
+
+export interface QuizAnswerDetail {
     wordId: string
     userAnswer: string
     isCorrect: boolean
-    skipped?: boolean
-}
-
-export interface WordResult {
-    wordId: string
     english: string
     arabic: string
     root: string | null
-    correct: boolean
-    userAnswer: string
-    correctAnswer: string | null
-    partOfSpeech: string | null
-    skipped: boolean
-    error?: string
 }
 
-export interface QuizResult {
-    resultId: string
+export interface QuizDetail {
+    quizId: string
     userId: string
-    selectedTags: string[]
-    totalQuestions: number
-    correctAnswers: number
-    completedAt: Date
-    wordResults: WordResult[]
-    createdAt?: Date
-    updatedAt?: Date
+    selectedTags: string[] | null
+    wordIds: string[]
+    endsAt: Date
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    answers: QuizAnswerDetail[]
 }
 
-// Zod schemas for request validation
 export const StartQuizRequestSchema = z.object({
     selectedTags: z.array(z.string().uuid('Invalid tag ID')).min(1, 'At least one tag must be selected'),
 })
 
-export const SubmitQuizRequestSchema = z.object({
+export const SubmitAnswerRequestSchema = z.object({
+    wordId: z.string().uuid('Invalid word ID'),
+    userAnswer: z.string().max(255, 'Answer is too long'),
+})
+
+export const QuizIdParamsSchema = z.object({
     quizId: z.string().uuid('Invalid quiz ID'),
-    answers: z
-        .array(
-            z.object({
-                wordId: z.string().uuid('Invalid word ID'),
-                userAnswer: z.string(),
-                isCorrect: z.boolean(),
-                skipped: z.boolean().optional(),
-            }),
-        )
-        .min(1, 'At least one answer is required'),
-    timeSpent: z.number().min(0, 'Time spent cannot be negative'),
-    selectedTags: z.array(z.string().uuid('Invalid tag ID')),
 })
 
 export const QuizHistoryQuerySchema = z.object({
@@ -76,7 +80,7 @@ export const QuizHistoryQuerySchema = z.object({
     limit: z.coerce.number().int().min(1, 'Limit must be at least 1').max(100, 'Limit cannot exceed 100').optional(),
 })
 
-// Generate types from schemas
 export type StartQuizRequest = z.infer<typeof StartQuizRequestSchema>
-export type SubmitQuizRequest = z.infer<typeof SubmitQuizRequestSchema>
+export type SubmitAnswerRequest = z.infer<typeof SubmitAnswerRequestSchema>
+export type QuizIdParams = z.infer<typeof QuizIdParamsSchema>
 export type QuizHistoryQuery = z.infer<typeof QuizHistoryQuerySchema>

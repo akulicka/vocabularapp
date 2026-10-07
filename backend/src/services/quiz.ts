@@ -1,232 +1,255 @@
 import { v4 as uuidv4 } from 'uuid'
+import { Op, QueryTypes, UniqueConstraintError } from 'sequelize'
 import db from '@db/models/index.js'
-import { QuizData, QuizQuestion, QuizAnswer, WordResult, QuizResult, StartQuizRequest, SubmitQuizRequest, VERIFY_TOKEN_CLASS, QUIZ_TOKEN_CLASS, TokenUser } from '@types'
-import { Op } from 'sequelize'
+import { GradedAnswer, QuizDetail, QuizHistoryResponse, QuizTally, StartQuizRequest, StartedQuiz, SubmitAnswerRequest } from '@types'
+import { withTransaction } from '@util/transaction.js'
 
-export async function createQuizToken(userId: string): Promise<string> {
-    const tokenId = uuidv4()
-    const token = await db.tokens.build({
-        tokenId,
-        userId,
-        tokenClass: QUIZ_TOKEN_CLASS,
-    })
-    await token.save()
-    return tokenId
+const QUIZ_DURATION_MS = 2 * 60 * 1000
+const QUIZ_WORD_LIMIT = 10
+
+export class QuizError extends Error {
+    status: number
+
+    constructor(message: string, status: number) {
+        super(message)
+        this.name = 'QuizError'
+        this.status = status
+    }
 }
 
-export async function validateQuizToken(tokenId: string, userId: string): Promise<boolean> {
-    const QUIZ_TIMEOUT_MINUTES = 10
-    const cutoffTime = new Date(Date.now() - QUIZ_TIMEOUT_MINUTES * 60 * 1000)
+function readWordIds(value: unknown): string[] {
+    if (!Array.isArray(value)) return []
+    return value.filter((id): id is string => typeof id === 'string')
+}
 
-    const token = await db.tokens.findOne({
-        where: {
-            tokenId,
-            userId,
-            tokenClass: QUIZ_TOKEN_CLASS,
-            createdAt: {
-                [Op.gt]: cutoffTime,
+function readCounts(row: { answered?: number | string | null; correctAnswers?: number | string | null } | undefined): { answered: number; correctAnswers: number } {
+    return {
+        answered: Number(row?.answered ?? 0),
+        correctAnswers: Number(row?.correctAnswers ?? 0),
+    }
+}
+
+async function answerCounts(quizIds: string[]): Promise<Map<string, { answered: number; correctAnswers: number }>> {
+    const counts = new Map<string, { answered: number; correctAnswers: number }>()
+    if (quizIds.length === 0) return counts
+
+    const rows = await db.sequelize.query<{ quizId: string; answered: number | string; correctAnswers: number | string | null }>(
+        `SELECT quizId, COUNT(wordId) AS answered, SUM(isCorrect) AS correctAnswers
+         FROM answers
+         WHERE quizId IN (:quizIds)
+         GROUP BY quizId`,
+        { replacements: { quizIds }, type: QueryTypes.SELECT },
+    )
+
+    for (const row of rows) {
+        counts.set(row.quizId, readCounts(row))
+    }
+    return counts
+}
+
+async function pickWords(selectedTags: string[]): Promise<{ wordId: string; english: string }[]> {
+    const words = await db.words.findAll({
+        attributes: ['wordId', 'english'],
+        include: [
+            {
+                model: db.tags,
+                attributes: [],
+                through: { attributes: [] },
+                where: { tagId: selectedTags },
+                required: true,
             },
-        },
+        ],
+        group: ['words.wordId', 'words.english'],
+        order: db.sequelize.random(),
+        limit: QUIZ_WORD_LIMIT,
+        subQuery: false,
     })
 
-    return !!token
+    return words.map((word) => ({
+        wordId: word.get('wordId'),
+        english: word.get('english'),
+    }))
 }
 
-export async function startQuiz(userId: string, request: StartQuizRequest): Promise<QuizData> {
+export async function startQuiz(userId: string, request: StartQuizRequest): Promise<StartedQuiz> {
     const { selectedTags } = request
 
     if (!selectedTags || selectedTags.length === 0) {
-        throw new Error('At least one tag must be selected')
+        throw new QuizError('At least one tag must be selected', 400)
     }
 
-    // Clean up any existing quiz tokens for this user
-    await db.tokens.destroy({
-        where: { userId, tokenClass: QUIZ_TOKEN_CLASS },
-    })
-
-    // Get words with selected tags
-    const words = await db.words.findAll({
-        include: [
-            { model: db.nouns, required: false },
-            { model: db.verbs, required: false },
-            {
-                model: db.tags,
-                through: { attributes: [] },
-                where: { tagId: selectedTags },
-            },
-        ],
-        limit: 10,
-    })
-
+    const words = await pickWords(selectedTags)
     if (words.length === 0) {
-        throw new Error('No words found for selected tags')
+        throw new QuizError('No words found for selected tags', 400)
     }
-
-    const questions: QuizQuestion[] = words.map((word) => ({
-        wordId: word.get('wordId'),
-        english: word.get('english'),
-        arabic: word.get('arabic'),
-        root: word.get('root'),
-        partOfSpeech: word.get('partOfSpeech'),
-        noun: word.get('noun'),
-        verb: word.get('verb'),
-    }))
 
     const quizId = uuidv4()
+    const endsAt = new Date(Date.now() + QUIZ_DURATION_MS)
 
-    // Create quiz data
-    const quizData = {
-        quizId,
-        questions,
-        selectedTags,
-        totalQuestions: questions.length,
-        startedAt: new Date(),
-    }
-
-    // Store quiz session in tokens table
-    await db.tokens.create({
-        tokenId: quizId,
-        userId,
-        tokenClass: QUIZ_TOKEN_CLASS,
-        payload: quizData,
+    await withTransaction(async (transaction) => {
+        await db.quizzes.update({ completedAt: new Date() }, { where: { userId, completedAt: null }, transaction })
+        await db.quizzes.create(
+            {
+                quizId,
+                userId,
+                selectedTags,
+                wordIds: words.map((word) => word.wordId),
+                endsAt,
+                completedAt: null,
+            },
+            { transaction },
+        )
     })
 
-    return quizData
+    return { quizId, endsAt, words }
 }
 
-export async function submitQuiz(userId: string, request: SubmitQuizRequest): Promise<QuizResult> {
-    const { quizId, answers, timeSpent } = request
+export async function submitAnswer(userId: string, quizId: string, request: SubmitAnswerRequest): Promise<GradedAnswer> {
+    const quiz = await db.quizzes.findOne({ where: { quizId, userId } })
+    if (!quiz) throw new QuizError('Quiz not found', 404)
+    if (quiz.completedAt) throw new QuizError('Quiz is already finished', 409)
+    if (new Date() >= new Date(quiz.endsAt)) throw new QuizError('Quiz has ended', 400)
 
-    // Get quiz token to retrieve selectedTags
-    const token = await db.tokens.findOne({
-        where: {
-            tokenId: quizId,
-            userId,
-            tokenClass: QUIZ_TOKEN_CLASS,
-        },
-    })
-
-    if (!token) {
-        throw new Error('Quiz session not found or expired')
+    const wordIds = readWordIds(quiz.wordIds)
+    if (!wordIds.includes(request.wordId)) {
+        throw new QuizError('Word is not in this quiz', 400)
     }
 
-    const quizData = token.payload as any
-    const selectedTags = quizData?.selectedTags || []
+    const existing = await db.answers.findOne({ where: { quizId, wordId: request.wordId } })
+    if (existing) throw new QuizError('Word already answered', 409)
 
-    // Process answers and calculate results
-    const wordResults: WordResult[] = []
-    let correctAnswers = 0
+    const word = await db.words.findOne({
+        where: { wordId: request.wordId },
+        attributes: ['root', 'arabic'],
+    })
+    if (!word) throw new QuizError('Word not found', 400)
 
-    for (const answer of answers) {
-        const word = await db.words.findOne({ where: { wordId: answer.wordId } })
-        if (!word) {
-            wordResults.push({
-                wordId: answer.wordId,
-                english: '',
-                arabic: '',
-                root: null,
-                correct: false,
-                userAnswer: answer.userAnswer,
-                correctAnswer: null,
-                partOfSpeech: null,
-                skipped: answer.skipped || false,
-                error: 'Word not found',
-            })
-            continue
-        }
+    const userAnswer = request.userAnswer.trim()
+    const root = word.get('root')
+    const arabic = word.get('arabic')
+    const isCorrect = userAnswer.toLowerCase() === (root?.toLowerCase() ?? '')
 
-        // Use the isCorrect field from the frontend instead of recalculating
-        const isCorrect = answer.isCorrect || false
-
-        if (isCorrect) correctAnswers++
-
-        wordResults.push({
-            wordId: answer.wordId,
-            english: word.get('english'),
-            arabic: word.get('arabic'),
-            root: word.get('root'),
-            correct: isCorrect,
-            userAnswer: answer.userAnswer,
-            correctAnswer: word.get('root'),
-            partOfSpeech: word.get('partOfSpeech'),
-            skipped: answer.skipped || false,
+    try {
+        await db.answers.create({
+            quizId,
+            wordId: request.wordId,
+            userAnswer,
+            isCorrect,
         })
+    } catch (err) {
+        if (err instanceof UniqueConstraintError) throw new QuizError('Word already answered', 409)
+        throw err
     }
 
-    const resultId = uuidv4()
+    return { isCorrect, userAnswer, root, arabic }
+}
 
-    // Save quiz result to database
-    const quizResult = await db.quizResults.build({
-        resultId,
-        userId,
-        selectedTags,
-        totalQuestions: answers.length,
-        correctAnswers,
-        completedAt: new Date(),
-        wordResults: JSON.stringify(wordResults),
-    })
+export async function finishQuiz(userId: string, quizId: string): Promise<QuizTally> {
+    const quiz = await db.quizzes.findOne({ where: { quizId, userId } })
+    if (!quiz) throw new QuizError('Quiz not found', 404)
 
-    await quizResult.save()
+    if (!quiz.completedAt) {
+        quiz.completedAt = new Date()
+        await quiz.save()
+    }
 
-    // Clean up the quiz token
-    await token.destroy()
+    const counts = await answerCounts([quizId])
+    const tally = counts.get(quizId) ?? { answered: 0, correctAnswers: 0 }
 
     return {
-        resultId,
-        userId,
-        selectedTags,
-        totalQuestions: answers.length,
-        correctAnswers,
-        completedAt: new Date(),
-        wordResults,
+        quizId,
+        poolSize: readWordIds(quiz.wordIds).length,
+        answered: tally.answered,
+        correctAnswers: tally.correctAnswers,
     }
 }
 
-export async function getQuizResult(resultId: string, userId: string): Promise<QuizResult | null> {
-    const result = await db.quizResults.findOne({
-        where: { resultId, userId },
+export async function getQuiz(userId: string, quizId: string): Promise<QuizDetail | null> {
+    const quiz = await db.quizzes.findOne({
+        where: { quizId, userId },
+        include: [
+            {
+                model: db.answers,
+                as: 'answers',
+                include: [
+                    {
+                        model: db.words,
+                        as: 'word',
+                        attributes: ['english', 'arabic', 'root'],
+                    },
+                ],
+            },
+        ],
     })
+    if (!quiz) return null
 
-    if (!result) return null
+    const data = quiz.get({ plain: true }) as {
+        quizId: string
+        userId: string
+        selectedTags: string[] | null
+        wordIds: unknown
+        endsAt: Date
+        completedAt: Date | null
+        createdAt: Date
+        updatedAt: Date
+        answers?: Array<{
+            wordId: string
+            userAnswer: string
+            isCorrect: boolean
+            word?: { english: string; arabic: string; root: string | null }
+        }>
+    }
 
     return {
-        resultId: result.get('resultId') as string,
-        userId: result.get('userId') as string,
-        selectedTags: result.get('selectedTags') as string[],
-        totalQuestions: result.get('totalQuestions') as number,
-        correctAnswers: result.get('correctAnswers') as number,
-        completedAt: result.get('completedAt') as Date,
-        wordResults: JSON.parse(result.get('wordResults') as string),
-        createdAt: result.get('createdAt') as Date,
-        updatedAt: result.get('updatedAt') as Date,
+        quizId: data.quizId,
+        userId: data.userId,
+        selectedTags: data.selectedTags ?? null,
+        wordIds: readWordIds(data.wordIds),
+        endsAt: data.endsAt,
+        completedAt: data.completedAt,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
+        answers: (data.answers ?? []).map((answer) => ({
+            wordId: answer.wordId,
+            userAnswer: answer.userAnswer,
+            isCorrect: Boolean(answer.isCorrect),
+            english: answer.word?.english ?? '',
+            arabic: answer.word?.arabic ?? '',
+            root: answer.word?.root ?? null,
+        })),
     }
 }
 
-export async function getQuizHistory(userId: string, page: number = 1, limit: number = 10): Promise<{ quizResults: QuizResult[]; pagination: any }> {
+export async function getQuizHistory(userId: string, page: number = 1, limit: number = 10): Promise<QuizHistoryResponse> {
     const offset = (page - 1) * limit
 
-    const { count, rows: results } = await db.quizResults.findAndCountAll({
-        where: { userId },
+    const { count, rows } = await db.quizzes.findAndCountAll({
+        where: {
+            userId,
+            completedAt: { [Op.ne]: null },
+        },
         order: [['completedAt', 'DESC']],
         limit,
         offset,
-        attributes: ['resultId', 'selectedTags', 'totalQuestions', 'correctAnswers', 'completedAt'],
     })
 
-    const quizResults = results.map((result) => ({
-        resultId: result.get('resultId') as string,
-        userId: result.get('userId') as string,
-        selectedTags: result.get('selectedTags') as string[],
-        totalQuestions: result.get('totalQuestions') as number,
-        correctAnswers: result.get('correctAnswers') as number,
-        completedAt: result.get('completedAt') as Date,
-        wordResults: JSON.parse(result.get('wordResults') as string),
-        createdAt: result.get('createdAt') as Date,
-        updatedAt: result.get('updatedAt') as Date,
-    }))
+    const counts = await answerCounts(rows.map((quiz) => quiz.quizId))
+
+    const quizzes = rows.map((quiz) => {
+        const tally = counts.get(quiz.quizId) ?? { answered: 0, correctAnswers: 0 }
+        return {
+            quizId: quiz.quizId,
+            selectedTags: quiz.selectedTags,
+            poolSize: readWordIds(quiz.wordIds).length,
+            answered: tally.answered,
+            correctAnswers: tally.correctAnswers,
+            completedAt: quiz.completedAt as Date,
+            endsAt: quiz.endsAt,
+        }
+    })
 
     return {
-        quizResults,
+        quizzes,
         pagination: {
             total: count,
             page,
@@ -236,16 +259,14 @@ export async function getQuizHistory(userId: string, page: number = 1, limit: nu
     }
 }
 
-export async function cleanupExpiredQuizTokens(): Promise<void> {
-    const QUIZ_TIMEOUT_MINUTES = 10
-    const cutoffTime = new Date(Date.now() - QUIZ_TIMEOUT_MINUTES * 60 * 1000)
-
-    await db.tokens.destroy({
-        where: {
-            tokenClass: QUIZ_TOKEN_CLASS,
-            createdAt: {
-                [Op.lt]: cutoffTime,
+export async function completeExpiredQuizzes(): Promise<void> {
+    await db.quizzes.update(
+        { completedAt: new Date() },
+        {
+            where: {
+                completedAt: null,
+                endsAt: { [Op.lt]: new Date() },
             },
         },
-    })
+    )
 }
