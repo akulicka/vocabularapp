@@ -5,33 +5,35 @@ import QuizFeedback from '@components/QuizModal/QuizFeedback'
 import QuizInput from '@components/QuizModal/QuizInput'
 import QuizTimer from '@components/QuizModal/QuizTimer'
 import { FeedbackData } from '@components/QuizModal/QuizFeedback'
-import { useFinishQuiz, useStartQuiz, useSubmitAnswer } from '@api/quiz'
+import { useFinishQuiz, useSubmitAnswer } from '@api/quiz'
 import { error } from '@util/notify'
-import { QuizTally } from '@vocabularapp/shared-types/types'
+import { QuizTally, StartedQuiz } from '@vocabularapp/shared-types/types'
 
 interface QuizModalProps {
-    open: boolean
+    quiz: StartedQuiz
     onClose: () => void
-    selectedTags: string[]
     onQuizComplete: (tally: QuizTally) => void
 }
 
-function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalProps) {
-    const [quizId, setQuizId] = useState<string | null>(null)
-    const [endsAt, setEndsAt] = useState<Date | string | null>(null)
-    const [englishById, setEnglishById] = useState<Record<string, string>>({})
-    const [queue, setQueue] = useState<string[]>([])
-    const [poolSize, setPoolSize] = useState(0)
-    const [ready, setReady] = useState(false)
+function QuizModal({ quiz, onClose, onQuizComplete }: QuizModalProps) {
+    const [englishById] = useState(() => {
+        const english: Record<string, string> = {}
+        for (const word of quiz.words) {
+            english[word.wordId] = word.english
+        }
+        return english
+    })
+    const [queue, setQueue] = useState(() => quiz.words.map((word) => word.wordId))
     const [currentAnswer, setCurrentAnswer] = useState('')
     const [showFeedback, setShowFeedback] = useState(false)
     const [feedbackData, setFeedbackData] = useState<FeedbackData | null>(null)
-    const [timerActive, setTimerActive] = useState(false)
+    const [timerActive, setTimerActive] = useState(true)
     const finishedRef = useRef(false)
 
-    const startQuizMutation = useStartQuiz()
     const submitAnswerMutation = useSubmitAnswer()
     const finishQuizMutation = useFinishQuiz()
+    const quizId = quiz.quizId
+    const poolSize = quiz.words.length
 
     const currentWordId = queue[0]
     const currentQuestion = currentWordId ? { wordId: currentWordId, english: englishById[currentWordId] ?? '' } : null
@@ -51,46 +53,9 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalPro
     }
 
     useEffect(() => {
-        if (!open || selectedTags.length === 0) {
-            setTimerActive(false)
-            setReady(false)
-            return
-        }
-
-        let ignore = false
-        const startQuiz = async () => {
-            try {
-                const result = await startQuizMutation.mutateAsync(selectedTags)
-                if (ignore) return
-                const english: Record<string, string> = {}
-                for (const word of result.words) {
-                    english[word.wordId] = word.english
-                }
-                finishedRef.current = false
-                setQuizId(result.quizId)
-                setEndsAt(result.endsAt)
-                setEnglishById(english)
-                setQueue(result.words.map((word) => word.wordId))
-                setPoolSize(result.words.length)
-                setReady(true)
-                setTimerActive(true)
-            } catch (err) {
-                if (ignore) return
-                error('Failed to start quiz: ' + (err instanceof Error ? err.message : 'Unknown error'))
-                onClose()
-            }
-        }
-        startQuiz()
-
-        return () => {
-            ignore = true
-        }
-    }, [open, selectedTags])
-
-    useEffect(() => {
-        if (!ready || queue.length > 0) return
+        if (queue.length > 0) return
         void finish()
-    }, [ready, queue.length])
+    }, [queue.length])
 
     const handleAnswerSubmit = async () => {
         if (!currentAnswer.trim() || !currentWordId || !quizId || showFeedback || submitAnswerMutation.isPending) return
@@ -135,13 +100,13 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalPro
         }
     }
 
-    if (!quizId || !endsAt || !currentQuestion) {
+    if (!currentQuestion) {
         return null
     }
 
     return (
         <Dialog
-            open={open}
+            open
             onClose={() => onClose()}
             maxWidth="md"
             fullWidth
@@ -154,7 +119,7 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalPro
             }}
         >
             <DialogTitle>
-                <QuizTimer endsAt={endsAt} isActive={timerActive} answeredCount={answeredCount} totalQuestions={poolSize} onTimeUp={finish} showTimeRemaining={true} showProgress={true} />
+                <QuizTimer endsAt={quiz.endsAt} isActive={timerActive} answeredCount={answeredCount} totalQuestions={poolSize} onTimeUp={finish} showTimeRemaining={true} showProgress={true} />
             </DialogTitle>
 
             <DialogContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>

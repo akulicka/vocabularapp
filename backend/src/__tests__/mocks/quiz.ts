@@ -1,72 +1,45 @@
-import { vi } from 'vitest'
-import { StartQuizRequest, SubmitQuizRequest, QuizData, QuizResult, QuizQuestion, WordResult } from '@types'
+import { GradedAnswer, QuizTally, StartedQuiz, StartQuizRequest, SubmitAnswerRequest } from '@types'
 
-// Common quiz identifiers
-export const mockQuizId = 'test-quiz-id'
-export const mockQuestionId = 'test-question-id'
-export const mockWordId = 'test-word-id'
+export const mockQuizId = '660e8400-e29b-41d4-a716-446655440000'
+export const mockWordId = '770e8400-e29b-41d4-a716-446655440000'
+export const mockTagId = '880e8400-e29b-41d4-a716-446655440000'
 
-// Quiz question mock
-export const createMockQuizQuestion = (overrides: Partial<QuizQuestion> = {}): QuizQuestion => ({
-    questionId: mockQuestionId,
-    wordId: mockWordId,
-    word: 'test',
-    partOfSpeech: 'noun',
-    question: 'What is the meaning of "test"?',
-    options: ['option1', 'option2', 'option3', 'option4'],
-    correctAnswer: 0,
-    ...overrides,
-})
-
-// Word result mock
-export const createMockWordResult = (overrides: Partial<WordResult> = {}): WordResult => ({
-    wordId: mockWordId,
-    word: 'test',
-    correct: true,
-    selectedAnswer: 0,
-    correctAnswer: 0,
-    timeSpent: 30,
-    ...overrides,
-})
-
-// Quiz data mock
-export const createMockQuizData = (overrides: Partial<QuizData> = {}): QuizData => ({
-    quizId: mockQuizId,
-    questions: [createMockQuizQuestion()],
-    selectedTags: ['tag1', 'tag2'],
-    totalQuestions: 1,
-    startedAt: new Date(),
-    ...overrides,
-})
-
-// Quiz result mock
-export const createMockQuizResult = (overrides: Partial<QuizResult> = {}): QuizResult => ({
-    quizId: mockQuizId,
-    userId: 'test-user-id',
-    totalQuestions: 1,
-    correctAnswers: 1,
-    score: 100,
-    completedAt: new Date(),
-    wordResults: [createMockWordResult()],
-    ...overrides,
-})
-
-// Request mocks
 export const createMockStartQuizRequest = (overrides: Partial<StartQuizRequest> = {}): StartQuizRequest => ({
-    selectedTags: ['tag1', 'tag2'],
+    selectedTags: [mockTagId],
     ...overrides,
 })
 
-export const createMockSubmitQuizRequest = (overrides: Partial<SubmitQuizRequest> = {}): SubmitQuizRequest => ({
+export const createMockSubmitAnswerRequest = (overrides: Partial<SubmitAnswerRequest> = {}): SubmitAnswerRequest => ({
+    wordId: mockWordId,
+    userAnswer: 'owl',
+    ...overrides,
+})
+
+export const createMockStartedQuiz = (overrides: Partial<StartedQuiz> = {}): StartedQuiz => ({
     quizId: mockQuizId,
-    answers: [{ wordId: mockWordId, userAnswer: 'answer1', isCorrect: true }],
-    timeSpent: 30,
-    selectedTags: ['tag1'],
+    endsAt: new Date(Date.now() + 120000),
+    words: [{ wordId: mockWordId, english: 'owl' }],
     ...overrides,
 })
 
-// Default request mocks
+export const createMockGradedAnswer = (overrides: Partial<GradedAnswer> = {}): GradedAnswer => ({
+    isCorrect: true,
+    userAnswer: 'owl',
+    root: 'owl',
+    arabic: 'بُوم',
+    ...overrides,
+})
+
+export const createMockQuizTally = (overrides: Partial<QuizTally> = {}): QuizTally => ({
+    quizId: mockQuizId,
+    poolSize: 1,
+    answered: 1,
+    correctAnswers: 1,
+    ...overrides,
+})
+
 export const mockStartQuizRequest = createMockStartQuizRequest()
-export const mockSubmitQuizRequest = createMockSubmitQuizRequest()
-export const mockQuizData = createMockQuizData()
-export const mockQuizResult = createMockQuizResult()
+export const mockSubmitAnswerRequest = createMockSubmitAnswerRequest()
+export const mockStartedQuiz = createMockStartedQuiz()
+export const mockGradedAnswer = createMockGradedAnswer()
+export const mockQuizTally = createMockQuizTally()
