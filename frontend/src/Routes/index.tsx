@@ -20,7 +20,7 @@ function Routes({ user, authorize }: RoutesProps) {
         <Box width="80%" alignItems={'center'} height="100vh" flexGrow={1} alignSelf="center">
             {user ? (
                 <RouterRoutes>
-                    <Route path="/" element={<Dictionary />} />
+                    <Route path="/" element={<Dictionary user={user} />} />
                     <Route path="/quiz" element={<Quiz />} />
                 </RouterRoutes>
             ) : (

@@ -27,9 +27,10 @@ interface TagListProps {
     setSelectedTags: (tags: string[]) => void
     tags?: TagDTO[]
     isLoading?: boolean
+    canEdit?: boolean
 }
 
-function TagList({ selectedTags, setSelectedTags, tags, isLoading }: TagListProps) {
+function TagList({ selectedTags, setSelectedTags, tags, isLoading, canEdit = false }: TagListProps) {
     const [tagName, setTagName] = useState<string>('')
     const [tagBeingEdited, setTagBeingEdited] = useState<TagDTO | null>(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -103,13 +104,15 @@ function TagList({ selectedTags, setSelectedTags, tags, isLoading }: TagListProp
                 <Card sx={{ minHeight: '200px', padding: '3px' }}>
                     <Stack>
                         <Stack direction="row">
-                            <IconButton>
-                                <Add onClick={() => setIsOpen(true)} />
-                            </IconButton>
+                            {canEdit && (
+                                <IconButton>
+                                    <Add onClick={() => setIsOpen(true)} />
+                                </IconButton>
+                            )}
                             <Typography textAlign={'center'} flexGrow={1} variant={'h6'}>
                                 Tags
                             </Typography>
-                            <IconButton onClick={() => setIsEditmode(!isEditMode)}>{isEditMode ? <Cancel /> : <Edit />}</IconButton>
+                            {canEdit && <IconButton onClick={() => setIsEditmode(!isEditMode)}>{isEditMode ? <Cancel /> : <Edit />}</IconButton>}
                         </Stack>
                         <Divider />
                         <Stack direction="row">
@@ -121,7 +124,7 @@ function TagList({ selectedTags, setSelectedTags, tags, isLoading }: TagListProp
                                         map(displayTags, (tag) => (
                                             <Grid2 key={tag.tagId} wrap={'wrap'}>
                                                 <TagChip
-                                                    editMode={isEditMode}
+                                                    editMode={canEdit && isEditMode}
                                                     toggleSelectedTag={toggleSelectedTag}
                                                     isSelected={indexOf(selectedTags, tag.tagId) !== -1}
                                                     tag={tag}
@@ -143,13 +146,17 @@ function TagList({ selectedTags, setSelectedTags, tags, isLoading }: TagListProp
                     </Stack>
                 </Card>
             </Stack>
-            <Dialog title="New Tag" open={isOpen} onSubmit={submitTag} onClose={() => setIsOpen(false)}>
-                <TextField sx={{ flexGrow: '1' }} placeholder="Tag name" onChange={(e) => setTagName(e.target.value)} />
-            </Dialog>
-            <Dialog title={`Edit Tag ${tagBeingEdited?.tagName}`} open={isEditOpen} onSubmit={submitEditTag} onClose={() => setIsEditOpen(false)}>
-                <TextField sx={{ flexGrow: '1' }} placeholder="Tag name" defaultValue={tagBeingEdited?.tagName} onChange={(e) => setTagName(e.target.value)} />
-            </Dialog>
-            <Dialog title={`Delete Tag ${tagBeingEdited?.tagName} ?`} open={isDeleteOpen} onSubmit={submitDeleteTag} onClose={() => setIsDeleteOpen(false)} />
+            {canEdit && (
+                <>
+                    <Dialog title="New Tag" open={isOpen} onSubmit={submitTag} onClose={() => setIsOpen(false)}>
+                        <TextField sx={{ flexGrow: '1' }} placeholder="Tag name" onChange={(e) => setTagName(e.target.value)} />
+                    </Dialog>
+                    <Dialog title={`Edit Tag ${tagBeingEdited?.tagName}`} open={isEditOpen} onSubmit={submitEditTag} onClose={() => setIsEditOpen(false)}>
+                        <TextField sx={{ flexGrow: '1' }} placeholder="Tag name" defaultValue={tagBeingEdited?.tagName} onChange={(e) => setTagName(e.target.value)} />
+                    </Dialog>
+                    <Dialog title={`Delete Tag ${tagBeingEdited?.tagName} ?`} open={isDeleteOpen} onSubmit={submitDeleteTag} onClose={() => setIsDeleteOpen(false)} />
+                </>
+            )}
         </>
     )
 }

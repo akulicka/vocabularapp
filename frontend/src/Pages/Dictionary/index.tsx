@@ -16,8 +16,13 @@ import Dialog from '@components/Dialog/index.jsx'
 import { api } from '@api/types'
 import WordFormDialog from '@components/WordForm/index.jsx'
 import { type WordDTO } from '@vocabularapp/shared-types/types/word'
+import { AuthenticatedUser } from '@vocabularapp/shared-types/types/auth'
 
-function Dictionary() {
+interface DictionaryProps {
+    user: AuthenticatedUser
+}
+
+function Dictionary({ user }: DictionaryProps) {
     const [isEditMode, setIsEditmode] = useState<boolean>(false)
     const [isFormOpen, setIsFormOpen] = useState<boolean>(false)
     const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false)
@@ -109,23 +114,25 @@ function Dictionary() {
                                 </Grid2>
                             ))}
                         </Grid2>
-                        <Stack>
-                            <IconButton
-                                onClick={() => {
-                                    setWordBeingEdited(undefined)
-                                    setIsFormOpen(true)
-                                }}
-                            >
-                                <Add />
-                            </IconButton>
-                            <IconButton onClick={() => setIsEditmode(!isEditMode)}>
-                                <Edit />
-                            </IconButton>
-                        </Stack>
+                        {user.isAdmin && (
+                            <Stack>
+                                <IconButton
+                                    onClick={() => {
+                                        setWordBeingEdited(undefined)
+                                        setIsFormOpen(true)
+                                    }}
+                                >
+                                    <Add />
+                                </IconButton>
+                                <IconButton onClick={() => setIsEditmode(!isEditMode)}>
+                                    <Edit />
+                                </IconButton>
+                            </Stack>
+                        )}
                     </Stack>
                 </Stack>
             </Card>
-            {isFormOpen && <WordFormDialog word={wordBeingEdited} open={isFormOpen} onClose={() => setIsFormOpen(false)} updateWords={updateWords} />}
+            {isFormOpen && <WordFormDialog word={wordBeingEdited} open={isFormOpen} onClose={() => setIsFormOpen(false)} updateWords={updateWords} canEdit={user.isAdmin} />}
             <Dialog title={`Delete Word ${wordBeingEdited?.english} ?`} open={isDeleteOpen} onSubmit={deleteWord} onClose={() => setIsDeleteOpen(false)} />
         </>
     )

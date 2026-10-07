@@ -17,6 +17,7 @@ vi.mock('@util/cookie.js', () => ({
                 email: 'test@example.com',
                 username: 'testuser',
                 verified: true,
+                isAdmin: true,
             },
         }
         next()
@@ -76,6 +77,7 @@ describe('User Routes', () => {
                     email: 'test@example.com',
                     username: 'testuser',
                     verified: true,
+                    isAdmin: true,
                 },
             })
         })
@@ -173,6 +175,7 @@ describe('User Routes', () => {
                 email: 'custom@example.com',
                 username: 'customuser',
                 verified: false,
+                isAdmin: false,
             }
 
             // Override the global mock for this test

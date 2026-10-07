@@ -4,6 +4,7 @@ export interface AuthenticatedUser {
     userId: string
     email: string
     verified: boolean
+    isAdmin: boolean
 }
 
 export interface AuthResponse {

@@ -57,7 +57,7 @@ function Quiz() {
                     Quiz
                 </Typography>
 
-                <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags} tags={tags} isLoading={tagsLoading} />
+                <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags} tags={tags} isLoading={tagsLoading} canEdit={false} />
 
                 <Button variant="contained" disabled={modalOpen} onClick={kickOff}>
                     Start
