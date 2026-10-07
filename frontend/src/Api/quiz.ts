@@ -1,21 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import request from './request'
 import { validate } from './validation'
 
-// Import types and schemas from shared
-import {
-    QuizData,
-    QuizResult,
-    // StartQuizRequest,
-    // SubmitQuizRequest,
-    QuizHistoryQuery,
-} from '@vocabularapp/shared-types/types'
-import { StartQuizRequestSchema, SubmitQuizRequestSchema, QuizHistoryQuerySchema } from '@vocabularapp/shared-types/schemas'
+import { GradedAnswer, QuizHistoryQuery, QuizHistoryResponse, QuizTally, StartedQuiz, SubmitAnswerRequest } from '@vocabularapp/shared-types/types'
+import { QuizHistoryQuerySchema, StartQuizRequestSchema, SubmitAnswerRequestSchema } from '@vocabularapp/shared-types/schemas'
 
-// Quiz API functions with validation
 export const quizApi = {
-    startQuiz: async (selectedTags: unknown): Promise<QuizData> => {
-        // Validate input data before sending
+    startQuiz: async (selectedTags: unknown): Promise<StartedQuiz> => {
         const validation = validate(StartQuizRequestSchema, { selectedTags })
         if (!validation.isValid) {
             throw new Error(validation.errors?.[0] || 'Validation failed')
@@ -24,33 +15,21 @@ export const quizApi = {
         return response.data
     },
 
-    submitQuiz: async (quizData: unknown): Promise<QuizResult> => {
-        // Validate input data before sending
-        const validation = validate(SubmitQuizRequestSchema, quizData)
+    submitAnswer: async (quizId: string, answer: unknown): Promise<GradedAnswer> => {
+        const validation = validate(SubmitAnswerRequestSchema, answer)
         if (!validation.isValid) {
             throw new Error(validation.errors?.[0] || 'Validation failed')
         }
-        const response = await request.post('/quiz/submit', validation.data)
+        const response = await request.post(`/quiz/${quizId}/answers`, validation.data)
         return response.data
     },
 
-    getQuizResults: async (resultId: string): Promise<QuizResult> => {
-        const response = await request.get(`/quiz/results/${resultId}`)
+    finishQuiz: async (quizId: string): Promise<QuizTally> => {
+        const response = await request.post(`/quiz/${quizId}/finish`)
         return response.data
     },
 
-    getUserQuizHistory: async (
-        query?: QuizHistoryQuery,
-    ): Promise<{
-        quizResults: QuizResult[]
-        pagination: {
-            total: number
-            page: number
-            limit: number
-            totalPages: number
-        }
-    }> => {
-        // Validate query parameters if provided
+    getUserQuizHistory: async (query?: QuizHistoryQuery): Promise<QuizHistoryResponse> => {
         if (query) {
             const validation = validate(QuizHistoryQuerySchema, query)
             if (!validation.isValid) {
@@ -65,51 +44,37 @@ export const quizApi = {
     },
 }
 
-// React Query hooks with proper typing
 export const useStartQuiz = () => {
     const queryClient = useQueryClient()
 
-    return useMutation<QuizData, Error, unknown>({
+    return useMutation<StartedQuiz, Error, unknown>({
         mutationFn: quizApi.startQuiz,
         onSuccess: (data) => {
-            // Cache the quiz data
             queryClient.setQueryData(['quiz', data.quizId], data)
         },
     })
 }
 
-export const useSubmitQuiz = () => {
+export const useSubmitAnswer = () => {
+    return useMutation<GradedAnswer, Error, { quizId: string } & SubmitAnswerRequest>({
+        mutationFn: ({ quizId, wordId, userAnswer }) => quizApi.submitAnswer(quizId, { wordId, userAnswer }),
+    })
+}
+
+export const useFinishQuiz = () => {
     const queryClient = useQueryClient()
 
-    return useMutation<QuizResult, Error, unknown>({
-        mutationFn: quizApi.submitQuiz,
+    return useMutation<QuizTally, Error, string>({
+        mutationFn: quizApi.finishQuiz,
         onSuccess: (data) => {
-            // Invalidate and refetch quiz history
             queryClient.invalidateQueries({ queryKey: ['quiz', 'history'] })
-            // Cache the result
-            queryClient.setQueryData(['quiz', 'result', data.resultId], data)
+            queryClient.setQueryData(['quiz', data.quizId], data)
         },
     })
 }
 
-export const useQuizResults = (resultId: string | undefined) => {
-    return useQuery<QuizResult>({
-        queryKey: ['quiz', 'result', resultId],
-        queryFn: () => quizApi.getQuizResults(resultId!),
-        enabled: !!resultId,
-    })
-}
-
 export const useQuizHistory = (query?: QuizHistoryQuery) => {
-    return useQuery<{
-        quizResults: QuizResult[]
-        pagination: {
-            total: number
-            page: number
-            limit: number
-            totalPages: number
-        }
-    }>({
+    return useQuery<QuizHistoryResponse>({
         queryKey: ['quiz', 'history', query],
         queryFn: () => quizApi.getUserQuizHistory(query),
     })

@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material'
-import { QuizQuestion as QuizQuestionType } from '@vocabularapp/shared-types/types'
+import { QuizPrompt } from '@vocabularapp/shared-types/types'
 
 interface QuizQuestionProps {
-    currentQuestion: QuizQuestionType
+    currentQuestion: QuizPrompt
 }
 
 function QuizQuestion({ currentQuestion }: QuizQuestionProps) {

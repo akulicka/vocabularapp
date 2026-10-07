@@ -1,184 +1,144 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Dialog, DialogContent, DialogTitle, Box, Button, Stack } from '@mui/material'
-// import { forwardRef } from 'react'
-// import { Slide } from '@mui/material'
 import QuizQuestion from '@components/QuizModal/QuizQuestion'
 import QuizFeedback from '@components/QuizModal/QuizFeedback'
 import QuizInput from '@components/QuizModal/QuizInput'
 import QuizTimer from '@components/QuizModal/QuizTimer'
 import { FeedbackData } from '@components/QuizModal/QuizFeedback'
-import { useStartQuiz } from '@api/quiz'
-import { QuizData, QuizAnswer /*, QuizQuestion as QuizQuestionType */ } from '@vocabularapp/shared-types/types'
-// Custom transition for word sliding
-// const WordTransition = forwardRef<HTMLDivElement, any>(function Transition(props, ref) {
-//     return <Slide direction="left" ref={ref} {...props}>{props.children}</Slide>
-// })
+import { useFinishQuiz, useStartQuiz, useSubmitAnswer } from '@api/quiz'
+import { error } from '@util/notify'
+import { QuizTally } from '@vocabularapp/shared-types/types'
 
 interface QuizModalProps {
     open: boolean
     onClose: () => void
     selectedTags: string[]
-    onQuizComplete: (answers: QuizAnswer[], quizData: QuizData) => void
+    onQuizComplete: (tally: QuizTally) => void
 }
 
 function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalProps) {
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-    const [answers, setAnswers] = useState<Record<string, QuizAnswer>>({}) // wordId -> QuizAnswer
+    const [quizId, setQuizId] = useState<string | null>(null)
+    const [endsAt, setEndsAt] = useState<Date | string | null>(null)
+    const [englishById, setEnglishById] = useState<Record<string, string>>({})
+    const [queue, setQueue] = useState<string[]>([])
+    const [poolSize, setPoolSize] = useState(0)
+    const [ready, setReady] = useState(false)
     const [currentAnswer, setCurrentAnswer] = useState('')
     const [showFeedback, setShowFeedback] = useState(false)
     const [feedbackData, setFeedbackData] = useState<FeedbackData | null>(null)
     const [timerActive, setTimerActive] = useState(false)
-    const [quizData, setQuizData] = useState<QuizData | null>(null)
+    const finishedRef = useRef(false)
 
-    // TanStack Query hooks
     const startQuizMutation = useStartQuiz()
+    const submitAnswerMutation = useSubmitAnswer()
+    const finishQuizMutation = useFinishQuiz()
 
-    const currentQuestion = quizData?.questions?.[currentQuestionIndex]
+    const currentWordId = queue[0]
+    const currentQuestion = currentWordId ? { wordId: currentWordId, english: englishById[currentWordId] ?? '' } : null
+    const answeredCount = poolSize - queue.length + (showFeedback ? 1 : 0)
 
-    useEffect(() => {
-        console.log('answers', answers)
-    }, [answers])
-
-    useEffect(() => {
-        console.log('quizData', quizData)
-    }, [quizData])
-
-    useEffect(() => {
-        console.log('currentQuestion', currentQuestion)
-    }, [currentQuestion])
-
-    useEffect(() => {
-        console.log('currentAnswer', currentAnswer)
-    }, [currentAnswer])
-
-    useEffect(() => {
-        console.log('showFeedback', showFeedback)
-    }, [showFeedback])
+    const finish = async () => {
+        if (finishedRef.current || !quizId) return
+        finishedRef.current = true
+        setTimerActive(false)
+        try {
+            const tally = await finishQuizMutation.mutateAsync(quizId)
+            onQuizComplete(tally)
+        } catch (err) {
+            error('Failed to finish quiz: ' + (err instanceof Error ? err.message : 'Unknown error'))
+            onClose()
+        }
+    }
 
     useEffect(() => {
-        console.log('feedbackData', feedbackData)
-    }, [feedbackData])
-
-    // Start quiz and timer when modal opens
-    useEffect(() => {
-        if (open && selectedTags && selectedTags.length > 0) {
-            // Start the quiz
-            const startQuiz = async () => {
-                try {
-                    const result = await startQuizMutation.mutateAsync(selectedTags)
-                    setQuizData(result)
-                    setTimerActive(true)
-                } catch (err) {
-                    console.error('Failed to start quiz:', err)
-                    onClose() // Close modal on error
-                }
-            }
-            startQuiz()
-        } else {
+        if (!open || selectedTags.length === 0) {
             setTimerActive(false)
-            setQuizData(null)
+            setReady(false)
+            return
+        }
+
+        let ignore = false
+        const startQuiz = async () => {
+            try {
+                const result = await startQuizMutation.mutateAsync(selectedTags)
+                if (ignore) return
+                const english: Record<string, string> = {}
+                for (const word of result.words) {
+                    english[word.wordId] = word.english
+                }
+                finishedRef.current = false
+                setQuizId(result.quizId)
+                setEndsAt(result.endsAt)
+                setEnglishById(english)
+                setQueue(result.words.map((word) => word.wordId))
+                setPoolSize(result.words.length)
+                setReady(true)
+                setTimerActive(true)
+            } catch (err) {
+                if (ignore) return
+                error('Failed to start quiz: ' + (err instanceof Error ? err.message : 'Unknown error'))
+                onClose()
+            }
+        }
+        startQuiz()
+
+        return () => {
+            ignore = true
         }
     }, [open, selectedTags])
 
-    // Simple helper - get answer for current question
-    // const getCurrentAnswer = (): QuizAnswer | undefined => answers[currentQuestion?.wordId]
+    useEffect(() => {
+        if (!ready || queue.length > 0) return
+        void finish()
+    }, [ready, queue.length])
 
-    // Check if quiz is complete
-    const isQuizComplete = (): boolean => {
-        return quizData?.questions?.every((q) => answers[q.wordId]) ?? false
-    }
+    const handleAnswerSubmit = async () => {
+        if (!currentAnswer.trim() || !currentWordId || !quizId || showFeedback || submitAnswerMutation.isPending) return
 
-    // Get next question to show
-    const getNextQuestion = (): number | null => {
-        // First, find incorrect answers to repeat
-        // for (const question of quizData.questions) {
-        //     const answer = answers[question.wordId]
-        //     if (answer && !answer.isCorrect && !answer.skipped) {
-        //         return quizData.questions.findIndex(q => q.wordId === question.wordId)
-        //     }
-        // }
-
-        // Then, find unanswered questions
-        if (quizData?.questions) {
-            for (let i = 0; i < quizData.questions.length; i++) {
-                if (!answers[quizData.questions[i].wordId]) {
-                    return i
-                }
-            }
-        }
-
-        return null // Quiz complete
-    }
-
-    const handleAnswerSubmit = () => {
-        if (!currentAnswer.trim() || !currentQuestion) return
-
-        const isCorrect = currentAnswer.trim().toLowerCase() === (currentQuestion.root?.toLowerCase() ?? '')
-
-        setAnswers((prev) => ({
-            ...prev,
-            [currentQuestion.wordId]: {
-                wordId: currentQuestion.wordId,
+        try {
+            const graded = await submitAnswerMutation.mutateAsync({
+                quizId,
+                wordId: currentWordId,
                 userAnswer: currentAnswer.trim(),
-                isCorrect,
-                skipped: false,
-            },
-        }))
-
-        // Show feedback
-        setFeedbackData({
-            isCorrect,
-            userAnswer: currentAnswer.trim(),
-            correctAnswer: currentQuestion.root ?? '',
-            arabicWithTashkeel: currentQuestion.arabic,
-        })
-        setShowFeedback(true)
+            })
+            setFeedbackData({
+                isCorrect: graded.isCorrect,
+                userAnswer: graded.userAnswer,
+                correctAnswer: graded.root ?? '',
+                arabicWithTashkeel: graded.arabic,
+            })
+            setShowFeedback(true)
+        } catch (err) {
+            error('Failed to submit answer: ' + (err instanceof Error ? err.message : 'Unknown error'))
+        }
     }
 
     const handleSkipQuestion = () => {
-        if (!currentQuestion) return
-
-        setAnswers((prev) => ({
-            ...prev,
-            [currentQuestion.wordId]: {
-                wordId: currentQuestion.wordId,
-                userAnswer: '',
-                isCorrect: false,
-                skipped: true,
-            },
-        }))
-        handleNextQuestion()
+        if (!currentWordId || showFeedback) return
+        setCurrentAnswer('')
+        setQueue((prev) => {
+            if (prev.length <= 1) return prev
+            return [...prev.slice(1), prev[0]]
+        })
     }
 
     const handleNextQuestion = () => {
         setShowFeedback(false)
         setFeedbackData(null)
         setCurrentAnswer('')
-
-        if (isQuizComplete() && quizData) {
-            // Convert answers object to array format for backend
-            const answersArray = Object.values(answers)
-
-            setTimerActive(false)
-            onQuizComplete(answersArray, quizData)
-            return
-        }
-
-        const nextIndex = getNextQuestion()
-        if (nextIndex !== null) {
-            setCurrentQuestionIndex(nextIndex)
-        }
+        setQueue((prev) => prev.slice(1))
     }
 
     const handleKeyPress = (event: { key: string }) => {
         if (event.key === 'Enter') {
-            handleAnswerSubmit()
+            void handleAnswerSubmit()
         }
     }
 
-    if (!quizData || !currentQuestion) {
+    if (!quizId || !endsAt || !currentQuestion) {
         return null
     }
+
     return (
         <Dialog
             open={open}
@@ -194,39 +154,19 @@ function QuizModal({ open, onClose, selectedTags, onQuizComplete }: QuizModalPro
             }}
         >
             <DialogTitle>
-                <QuizTimer
-                    duration={120000}
-                    isActive={timerActive}
-                    answeredCount={Object.keys(answers).length}
-                    totalQuestions={quizData.totalQuestions}
-                    onTimeUp={() => {
-                        // Auto-submit when time expires
-                        if (quizData) {
-                            const answersArray = Object.values(answers)
-                            onQuizComplete(answersArray, quizData)
-                        }
-                    }}
-                    showTimeRemaining={true}
-                    showProgress={true}
-                />
+                <QuizTimer endsAt={endsAt} isActive={timerActive} answeredCount={answeredCount} totalQuestions={poolSize} onTimeUp={finish} showTimeRemaining={true} showProgress={true} />
             </DialogTitle>
 
             <DialogContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    {/* Word Display */}
                     <QuizQuestion currentQuestion={currentQuestion} />
-
-                    {/* Feedback Display */}
                     <QuizFeedback showFeedback={showFeedback} feedbackData={feedbackData} onNext={handleNextQuestion} />
-
-                    {/* Input Field */}
                     <QuizInput currentAnswer={currentAnswer} setCurrentAnswer={setCurrentAnswer} onKeyPress={handleKeyPress} disabled={showFeedback} />
                 </Box>
 
-                {/* Action Buttons - Only show when not showing feedback */}
                 {!showFeedback && (
                     <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 3 }}>
-                        <Button variant="contained" onClick={handleAnswerSubmit} disabled={!currentAnswer.trim()} size="large">
+                        <Button variant="contained" onClick={() => void handleAnswerSubmit()} disabled={!currentAnswer.trim() || submitAnswerMutation.isPending} size="large">
                             Submit Answer
                         </Button>
                         <Button variant="outlined" onClick={handleSkipQuestion} size="large">
