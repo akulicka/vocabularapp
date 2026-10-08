@@ -3,11 +3,21 @@ import request from 'supertest'
 import express from 'express'
 import multer from 'multer'
 import userRouter from '@routes/user/index.js'
+import db from '@db/models/index.js'
+import { getDashboard } from '@services/dashboard.js'
 import { downloadProfileImage, uploadProfileImage, uploadMultipleFiles } from '@services/user.js'
 import { verifycookie } from '@util/cookie.js'
 
 // Mock dependencies at module level
 vi.mock('@services/user.js')
+vi.mock('@services/dashboard.js', () => ({
+    getDashboard: vi.fn(),
+}))
+vi.mock('@db/models/index.js', () => ({
+    default: {
+        users: { findOne: vi.fn() },
+    },
+}))
 vi.mock('@util/cookie.js', () => ({
     verifycookie: vi.fn(async (req: any, res: any, next: any) => {
         req.query = {
@@ -90,6 +100,29 @@ describe('User Routes', () => {
             const response = await request(app).get('/api/user').expect(403)
 
             expect(response.body).toEqual({ error: 'Unauthorized' })
+        })
+    })
+
+    describe('GET /api/user/dashboard', () => {
+        it('returns the service payload for the cookie user', async () => {
+            const createdAt = new Date('2024-05-01T00:00:00.000Z')
+            const stats = {
+                summary: { quizCount: 2, correct: 7, attempts: 10, wordsStudied: 4 },
+                quizzes: [{ quizId: 'q1', completedAt: '2026-03-02T00:00:00.000Z', correctAnswers: 1, poolSize: 2 }],
+                words: [{ wordId: 'w1', arabic: 'بُوم', english: 'owl', correct: 1, attempts: 2 }],
+                tags: [{ tagId: 't1', tagName: 'animals', correct: 1, attempts: 2 }],
+            }
+            vi.mocked(db.users.findOne).mockResolvedValue({ username: 'learner', createdAt } as any)
+            vi.mocked(getDashboard).mockResolvedValue(stats)
+
+            const response = await request(app).get('/api/user/dashboard').expect(200)
+
+            expect(db.users.findOne).toHaveBeenCalledWith({ where: { userId: 'test-user-id' } })
+            expect(getDashboard).toHaveBeenCalledWith('test-user-id')
+            expect(response.body).toEqual({
+                user: { username: 'learner', createdAt: createdAt.toISOString() },
+                ...stats,
+            })
         })
     })
 
