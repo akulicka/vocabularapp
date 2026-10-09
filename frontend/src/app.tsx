@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { flushSync } from 'react-dom'
 import { ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router'
 import { useCookies } from 'react-cookie'
@@ -63,14 +64,17 @@ function App() {
 
     const logout = async () => {
         await request.post('logout')
-        setUser(null)
+        flushSync(() => {
+            setUser(null)
+        })
+        queryClient.clear()
         // setAuth(false)
         navigate('/')
     }
     const authorize = (user: AuthenticatedUser) => {
         setUser(user)
         // setAuth(true)
-        navigate(`/quiz`)
+        navigate('/dashboard')
     }
 
     return (

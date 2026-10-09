@@ -128,6 +128,7 @@ function AppBar({ logout, user, ...props }: AppBarProps) {
                         setAnchor(undefined)
                     }}
                 >
+                    <MUIMenuItem onClick={() => navigate('/dashboard')}>Dashboard</MUIMenuItem>
                     <MUIMenuItem onClick={() => navigate('/')}>Dictionary</MUIMenuItem>
                     <MUIMenuItem onClick={() => navigate('/quiz')}> Quiz </MUIMenuItem>
                 </MUIMenu>
