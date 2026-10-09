@@ -10,12 +10,13 @@ import { error } from '@util/notify'
 import { QuizTally, StartedQuiz } from '@vocabularapp/shared-types/types'
 
 interface QuizModalProps {
+    userId: string
     quiz: StartedQuiz
     onClose: () => void
     onQuizComplete: (tally: QuizTally) => void
 }
 
-function QuizModal({ quiz, onClose, onQuizComplete }: QuizModalProps) {
+function QuizModal({ userId, quiz, onClose, onQuizComplete }: QuizModalProps) {
     const [englishById] = useState(() => {
         const english: Record<string, string> = {}
         for (const word of quiz.words) {
@@ -31,7 +32,7 @@ function QuizModal({ quiz, onClose, onQuizComplete }: QuizModalProps) {
     const finishedRef = useRef(false)
 
     const submitAnswerMutation = useSubmitAnswer()
-    const finishQuizMutation = useFinishQuiz()
+    const finishQuizMutation = useFinishQuiz(userId)
     const quizId = quiz.quizId
     const poolSize = quiz.words.length
 

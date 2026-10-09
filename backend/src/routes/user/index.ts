@@ -1,8 +1,10 @@
 import { Router, Request, Response } from 'express'
 import multer from 'multer'
 
+import db from '@db/models/index.js'
 import { AuthenticatedRequest, FileUploadRequest, FilesUploadRequest } from '@types'
 import { verifycookie } from '@util/cookie.js'
+import { getDashboard } from '@services/dashboard.js'
 import { downloadProfileImage, uploadProfileImage, uploadMultipleFiles } from '@services/user.js'
 
 const upload = multer()
@@ -13,6 +15,27 @@ user_router.get('/', [verifycookie], async (req: AuthenticatedRequest, res: Resp
         const { userId, email, verified, isAdmin } = req.query.user
         const username = (req.query.user as any).username
         res.send({ user: { userId, email, username, verified, isAdmin } })
+    } catch (err) {
+        console.log('err', err instanceof Error ? err.message : 'Unknown error')
+        res.sendStatus(500)
+    }
+})
+
+user_router.get('/dashboard', [verifycookie], async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        const { userId } = req.query.user
+        const user = await db.users.findOne({ where: { userId } })
+        if (!user) throw new Error('User not found')
+
+        const createdAt = (user as any).createdAt as Date | string
+        const stats = await getDashboard(userId)
+        res.send({
+            user: {
+                username: (user as any).username as string,
+                createdAt: createdAt instanceof Date ? createdAt.toISOString() : new Date(createdAt).toISOString(),
+            },
+            ...stats,
+        })
     } catch (err) {
         console.log('err', err instanceof Error ? err.message : 'Unknown error')
         res.sendStatus(500)

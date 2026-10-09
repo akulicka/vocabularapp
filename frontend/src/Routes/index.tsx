@@ -1,6 +1,7 @@
 import { Routes as RouterRoutes, Route } from 'react-router'
 import Box from '@mui/material/Box'
 
+import Dashboard from '../Pages/Dashboard'
 import Dictionary from '../Pages/Dictionary'
 import Login from '../Pages/Login'
 import Quiz from '../Pages/Quiz'
@@ -21,7 +22,8 @@ function Routes({ user, authorize }: RoutesProps) {
             {user ? (
                 <RouterRoutes>
                     <Route path="/" element={<Dictionary user={user} />} />
-                    <Route path="/quiz" element={<Quiz />} />
+                    <Route path="/dashboard" element={<Dashboard userId={user.userId} />} />
+                    <Route path="/quiz" element={<Quiz userId={user.userId} />} />
                 </RouterRoutes>
             ) : (
                 <RouterRoutes>
