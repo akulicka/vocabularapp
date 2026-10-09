@@ -10,12 +10,12 @@ import { useTags } from '@api/words'
 import QuizModal from '@components/QuizModal'
 import { type QuizTally, type StartedQuiz } from '@vocabularapp/shared-types/types/quiz'
 
-function Quiz() {
+function Quiz({ userId }: { userId: string }) {
     const [selectedTags, setSelectedTags] = useState<string[]>([])
     const [quiz, setQuiz] = useState<StartedQuiz | null>(null)
 
     const { data: tags, isLoading: tagsLoading } = useTags()
-    const startQuizMutation = useStartQuiz()
+    const startQuizMutation = useStartQuiz(userId)
 
     const kickOff = async () => {
         if (selectedTags.length === 0) {
@@ -54,7 +54,7 @@ function Quiz() {
                 </Button>
             </Stack>
 
-            {quiz && <QuizModal quiz={quiz} onClose={handleModalClose} onQuizComplete={handleQuizComplete} />}
+            {quiz && <QuizModal userId={userId} quiz={quiz} onClose={handleModalClose} onQuizComplete={handleQuizComplete} />}
         </>
     )
 }
